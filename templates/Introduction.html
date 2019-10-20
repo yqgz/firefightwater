@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>项目列表-消防系统计算平台</title>
+	<link rel="stylesheet" type="text/css" href="../static/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+
+    <link rel="stylesheet" href="../static/css/jexcel.css" type="text/css" />
+	<!--<link rel="stylesheet" href="../static/css/jquery.jexcel.css" type="text/css" />-->
+	<style type="text/css">
+		#my{
+            width: 600px;
+			margin: 50px auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="jq22-container">
+		<header class="jq22-header">
+			<h1>消防系统计算平台 </h1>
+            <p></p>
+			<div class="jq22-demo center">
+                <a href="project.html" >项目列表</a>
+                <a href="Introduction.html" class="current">概况</a>
+                <a href="SystemWater.html">消防系统用水量</a>
+                <a href="WaterPool.html">消防水池及水箱容积</a>
+                <a href="Outdoor.html">室外消火栓系统</a>
+                <a href="Indoor.html">室内消火栓系统</a>
+                <a href="Auto.html">自动喷水灭火系统</a>
+                <a href="Transfer.html">消防转输系统</a>
+                <a href="Sprinkle.html">水喷雾灭火系统</a>
+                <a href="Gas.html">气体灭火系统</a>
+                <a href="Extinguisher.html">灭火器配置</a>
+                <a href="Cooling.html">防护冷却系统</a>
+			</div>
+		</header>
+		<div id="my">
+ <form  method="post">
+    <label>项目名称：</label>
+    <input type="text" id="pname" name="pname"/><br>
+     <label>项目编号：</label>
+    <input type="text" id="pnum" name="pnum"/><br>
+     <label>项目概况：</label>
+    <input type="text" id="ptext" name="ptext"/><br>
+     <label>设计人：</label>
+    <input type="text" id="designer" name="designer"/><br>
+     <label>校对人：</label>
+    <input type="text" id="proof" name="proof"/><br>
+     <label>专业负责人：</label>
+    <input type="text" id="chief" name="chief"/><br>
+     <label>审批人：</label>
+    <input type="text" id="approver" name="approver"/><br>
+     <label>版本号：</label>
+    <input type="text" id="ver" name="ver"/><br>
+     <h3>选择项目模块：</h3>
+     <input type="checkbox" value="SystemWater" id="SystemWater" onclick="return false;" checked="checked" />
+     <label>消防系统用水量</label><br>
+     <input type="checkbox" value="WaterPool" id="WaterPool" onclick="return false;" checked="checked" />
+     <label>消防水池及水箱容积</label><br>
+     <input type="checkbox" value="Outdoor" id="Outdoor" onclick="return false;" checked="checked" />
+     <label>室外消火栓系统</label><br>
+     <input type="checkbox" value="Indoor" id="Indoor" onclick="return false;" checked="checked" />
+     <label>室内消火栓系统</label><br>
+     <input type="checkbox" value="Auto" id="Auto" onclick="return false;" checked="checked" />
+     <label>自动喷水灭火系统</label><br>
+     <input type="checkbox" value="Transfer" id="Transfer" onclick="return false;" checked="checked" />
+     <label>消防转输系统</label><br>
+     <input type="checkbox" value="Sprinkle" id="Sprinkle" onclick="return false;" checked="checked" />
+     <label>水喷雾灭火系统</label><br>
+     <input type="checkbox" value="Gas" id="Gas" onclick="return false;" checked="checked" />
+     <label>气体灭火系统</label><br>
+     <input type="checkbox" value="Extinguisher" id="Extinguisher" onclick="return false;" checked="checked" />
+     <label>灭火器配置</label><br>
+     <input type="checkbox" value="Cooling" id="Cooling" />
+     <label>防护冷却系统</label><br>
+     <input type="submit" value="保存">
+ </form>
+        </div>
+	</div>
+
+
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="../static/js/jexcel.js"></script>
+	<!--<script type="text/javascript" src="../static/js/jquery.jexcel.js"></script>-->
+
+</body>
+</html>
