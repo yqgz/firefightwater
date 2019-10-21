@@ -22,19 +22,20 @@ SECRET_KEY = 'mu&*2s8=$zf5gws1z#g@)t4kh=+&02i!dasop#58&paq_9&#dp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['firefightwater.zgj.com', '127.0.0.1']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'firefightwater.apps.FireFightWaterConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'firefightwater',
+
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,14 @@ DATABASES = {
           'driver': 'SQL Server Native Client 11.0',
         }
      }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',  # 或者使用 mysql.connector.django
+    #     'NAME': 'firefightwater',
+    #     'USER': 'xiaoming',
+    #     'PASSWORD': 'xiaoming',
+    #     'HOST':'mysql',
+    #     'PORT':'3306',
+    # }
 }
 
 
