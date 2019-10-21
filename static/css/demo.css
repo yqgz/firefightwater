@@ -60,7 +60,7 @@ pre{
 .bgcolor-20{ background: #494A5F;color: #D5D6E2;}
 /* Header */
 .jq22-header{
-	padding: 1em 190px 1em;
+	padding: 10px 100px 10px;
 	letter-spacing: -1px;
 	text-align: center;
 	background:#222222;
@@ -71,6 +71,7 @@ pre{
 	font-size: 2em;
 	line-height: 1;
 	margin-bottom: 0;
+	margin-top:15px
 }
 .jq22-header h1 span {
 	display: block;
@@ -81,7 +82,7 @@ pre{
 }
 /*nav*/
 .jq22-demo a{color: #fff;text-decoration: none;}
-.jq22-demo{width: 100%;padding-bottom: 1.2em;}
+.jq22-demo{width: 100%;padding-bottom: 1em;}
 .jq22-demo a{display: inline-block;margin: 0.5em;padding: 0.6em 1em;border: 3px solid #fff;font-weight: 700;}
 .jq22-demo a:hover{opacity: 0.6;}
 .jq22-demo a.current{background:#1d7db1;color: #fff; }
@@ -238,4 +239,18 @@ pre{
 	.related a h3 {
 		font-size: 0.6em;
 	}
+}
+.content{
+	padding:20px 10% 20px
+}
+.btn-primary{
+	background-color:#1d7db1;
+	border-style: none;
+	padding: 5px 10px;
+}
+.form-group{
+	margin-top: 10px;
+}
+.form-group label{
+	margin-top: 5px;
 }
