@@ -6,9 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>项目列表-消防系统计算平台</title>
 	<link rel="stylesheet" type="text/css" href="../static/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../static/css/demo.css">
 
-    <link rel="stylesheet" href="../static/css/jexcel.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/jexcel.css" />
 	<!--<link rel="stylesheet" href="../static/css/jquery.jexcel.css" type="text/css" />-->
 	<style type="text/css">
 		#my{
@@ -37,46 +38,178 @@
                 <a href="Cooling.html">防护冷却系统</a>
 			</div>
 		</header>
-		<div id="my">
- <form  method="post">
-    <label>项目名称：</label>
-    <input type="text" id="pname" name="pname"/><br>
-     <label>项目编号：</label>
-    <input type="text" id="pnum" name="pnum"/><br>
-     <label>项目概况：</label>
-    <input type="text" id="ptext" name="ptext"/><br>
-     <label>设计人：</label>
-    <input type="text" id="designer" name="designer"/><br>
-     <label>校对人：</label>
-    <input type="text" id="proof" name="proof"/><br>
-     <label>专业负责人：</label>
-    <input type="text" id="chief" name="chief"/><br>
-     <label>审批人：</label>
-    <input type="text" id="approver" name="approver"/><br>
-     <label>版本号：</label>
-    <input type="text" id="ver" name="ver"/><br>
+		<div class="content" >
+ <form method="post">
+     <div class="row">
+         <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-3" style="text-align: right"><label>项目名称：</label></div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="pname" name="pname"/>
+                    </div>
+                </div>
+            </div>
+     </div>
+     <div class="row">
+         <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-3" style="text-align: right"><label>项目编号：</label></div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="pnum" name="pnum"/>
+                    </div>
+                </div>
+            </div>
+     </div>
+     <div class="row">
+         <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-3" style="text-align: right"><label>项目概况：</label></div>
+                    <div class="col-lg-8">
+                        <textarea type="text" class="form-control" id="ptext" name="ptext" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+     </div>
+     <div class="row">
+         <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-3" style="text-align: right"><label>设计人：</label></div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="designer" name="designer"/>
+                    </div>
+                </div>
+            </div>
+     </div>
+     <div class="row">
+         <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-3" style="text-align: right"><label>校对人：</label></div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="proofreader" name="proofreader"/>
+                    </div>
+                </div>
+            </div>
+     </div>
+     <div class="row">
+         <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-3" style="text-align: right"><label>专业负责人：</label></div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="chief" name="chief"/>
+                    </div>
+                </div>
+            </div>
+     </div>
+     <div class="row">
+         <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-3" style="text-align: right"><label>审批人：</label></div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="approver" name="approver"/>
+                    </div>
+                </div>
+            </div>
+     </div>
+     <div class="row">
+         <div class="col-lg-12">
+                <div class="form-group">
+                    <div class="col-lg-3" style="text-align: right"><label>版本号：</label></div>
+                    <div class="col-lg-8">
+                        <input type="text" class="form-control" id="version" name="version"/>
+                    </div>
+                </div>
+            </div>
+     </div>
      <h3>选择项目模块：</h3>
-     <input type="checkbox" value="SystemWater" name="SystemWater" id="SystemWater" onclick="return false;" checked="checked" />
-     <label>消防系统用水量</label><br>
-     <input type="checkbox" value="WaterPool" name="WaterPool" id="WaterPool" onclick="return false;" checked="checked" />
-     <label>消防水池及水箱容积</label><br>
-     <input type="checkbox" value="Outdoor" name="Outdoor" id="Outdoor" onclick="return false;" checked="checked" />
-     <label>室外消火栓系统</label><br>
-     <input type="checkbox" value="Indoor" name="Indoor" id="Indoor" onclick="return false;" checked="checked" />
-     <label>室内消火栓系统</label><br>
-     <input type="checkbox" value="Auto" name="Auto" id="Auto" onclick="return false;" checked="checked" />
-     <label>自动喷水灭火系统</label><br>
-     <input type="checkbox" value="Transfer" name="Transfer" id="Transfer" onclick="return false;" checked="checked" />
-     <label>消防转输系统</label><br>
-     <input type="checkbox" value="Sprinkle" name="Sprinkle" id="Sprinkle" onclick="return false;" checked="checked" />
-     <label>水喷雾灭火系统</label><br>
-     <input type="checkbox" value="Gas" name="Gas" id="Gas" onclick="return false;" checked="checked" />
-     <label>气体灭火系统</label><br>
-     <input type="checkbox" value="Extinguisher" name="Extinguisher" id="Extinguisher" onclick="return false;" checked="checked" />
-     <label>灭火器配置</label><br>
-     <input type="checkbox" value="Cooling" name="Cooling" id="Cooling" />
-     <label>防护冷却系统</label><br>
-     <input type="submit" value="保存">
+     <div class="row" style="margin-bottom:10px">
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="SystemWater" id="SystemWater" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="消防系统用水量">
+                </div>
+            </div>
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="WaterPool" id="WaterPool" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="消防水池及水箱容积">
+                </div>
+            </div>
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="Outdoor" id="Outdoor" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="室外消火栓系统">
+                </div>
+            </div>
+     </div>
+     <div class="row" style="margin-bottom:10px">
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="Indoor" id="Indoor" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="室内消火栓系统">
+                </div>
+            </div>
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="Auto" id="Auto" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="自动喷水灭火系统">
+                </div>
+            </div>
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="Transfer" id="Transfer" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="消防转输系统">
+                </div>
+            </div>
+     </div>
+     <div class="row" style="margin-bottom:10px">
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="Sprinkle" id="Sprinkle" >
+                    </span>
+                    <input type="text" class="form-control" disabled value="水喷雾灭火系统">
+                </div>
+            </div>
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="Gas" id="Gas">
+                    </span>
+                    <input type="text" class="form-control" disabled value="气体灭火系统">
+                </div>
+            </div>
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="Extinguisher" id="Extinguisher" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="灭火器配置">
+                </div>
+            </div>
+     </div>
+     <div class="row" style="margin-bottom:10px">
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="Cooling" id="Cooling" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="防护冷却系统">
+                </div>
+            </div>
+     </div>
+     <input type="submit" class="btn-primary" value="保存">
  </form>
         </div>
 	</div>

@@ -1,0 +1,36 @@
+﻿body {
+    font-family:'Microsoft YaHei'
+}
+/*a,a:hover,a:focus{color:black;}*/
+header {
+    height: 50px;
+    background-color:#343a40;
+}
+.logo{height:30px;margin:10px;float:left !important;}
+.navbar-brand{
+    line-height:50px;
+    padding:0 15px;
+}
+.navbar-link {
+    color: white !important;
+}
+.navbar-brand span {
+    color: white;
+    margin-left: 10px;
+    letter-spacing: 3px
+}
+.navbar-nav {
+    line-height: 50px;
+    margin-right:10px;
+}
+.label a {
+    color: #fff;
+}
+
+    .label a:focus, .label a:hover {
+        text-decoration: none;
+        color: white
+    }
+.vertical-align-middle{
+    vertical-align: middle;
+}
