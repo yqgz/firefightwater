@@ -1,4 +1,4 @@
 .idea/
 firefightwater.ini
-firefightwater/__pycache__/
+*.pyc
 local/
