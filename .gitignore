@@ -2,3 +2,4 @@
 firefightwater.ini
 *.pyc
 local/
+firefightwater/settings.py
