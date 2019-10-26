@@ -20,34 +20,20 @@
 <body>
 	<div class="jq22-container">
 		<header class="jq22-header">
-			<h1>消防系统计算平台 </h1>
+			<h1>我的项目 </h1>
             <p></p>
 			<div class="jq22-demo center">
-                <a href="project.html" class="current">项目列表</a>
-                <a href="Introduction.html">概况</a>
-                <a href="SystemWater.html">消防系统用水量</a>
-                <a href="WaterPool.html">消防水池及水箱容积</a>
-                <a href="Outdoor.html">室外消火栓系统</a>
-                <a href="Indoor.html">室内消火栓系统</a>
-                <a href="Auto.html">自动喷水灭火系统</a>
-                <a href="Transfer.html">消防转输系统</a>
-                <a href="Sprinkle.html">水喷雾灭火系统</a>
-                <a href="Gas.html">气体灭火系统</a>
-                <a href="Extinguisher.html">灭火器配置</a>
-                <a href="Cooling.html">防护冷却系统</a>
+                {% if list %}
+                    <div>
+                    {% for var in list %}
+                        <div><a href="{% url 'introduction' var.id%}">{{ var.project_name }}</a> </div>
+                    {% endfor %}
+                    </div>
+                {% else %}
+
+                {% endif %}
 			</div>
 		</header>
-		<div id="my">
-            {% if list %}
-    <div>
-    {% for var in list %}
-        <div><a href="{% url 'myexcel:detail' var.id %}">{{ var.project_name }}, {{ var.project_text }},{{ var.pub_date }}</a> </div>
-    {% endfor %}
-    </div>
-{% else %}
-
-{% endif %}
-        </div>
 	</div>
 
 

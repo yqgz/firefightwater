@@ -13,10 +13,11 @@ def project(request):
 
 
 @login_required(redirect_field_name='', login_url='/admin/login/')
-def table(request, pk, md):
-    tables = ProjectTable.objects.filter(project=pk, module=md).all()
+def introduction(request, pk):
+    tables = ProjectTable.objects.filter(project=pk).all()
+
     # ？不显示页面，只获取对应的表格列表？
-    return render(request, 'tables.html', {'list': tables})
+    return render(request, 'introduction.html', {'list': tables})
 
 
 @login_required(redirect_field_name='', login_url='/admin/login/')

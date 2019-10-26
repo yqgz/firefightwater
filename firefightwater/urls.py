@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from firefightwater import views
 
+# app_name = 'firefightwater'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('project/', views.project, name='project'),
+    path('introduction/<int:pk>/', views.introduction, name='introduction'),
 
     # path('<int:pk>/<int:md>/Auto/', views.Auto, name='Auto'),
     # path('<int:pk>/Cooling/', views.excel, name='Cooling'),
