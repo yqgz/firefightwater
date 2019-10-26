@@ -1,0 +1,132 @@
+<html lang="zh">
+<meta charset="UTF-8">
+<script src="https://bossanova.uk/jexcel/v3/jexcel.js"></script>
+<link rel="stylesheet" href="https://bossanova.uk/jexcel/v3/jexcel.css" type="text/css" />
+<script src="https://bossanova.uk/jsuites/v2/jsuites.js"></script>
+<link rel="stylesheet" href="https://bossanova.uk/jsuites/v2/jsuites.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+
+<body>
+<div class="jq22-container">
+    <header class="jq22-header">
+                <h1>消防系统计算平台 </h1>
+                <p></p>
+                <div class="jq22-demo center">
+                    <a href="project.html" class="current">项目列表</a>
+                    <a href="Introduction.html">概况</a>
+                    <a href="SystemWater.html">消防系统用水量</a>
+                    <a href="WaterPool.html">消防水池及水箱容积</a>
+                    <a href="Outdoor.html">室外消火栓系统</a>
+                    <a href="Indoor.html">室内消火栓系统</a>
+                    <a href="Auto.html">自动喷水灭火系统</a>
+                    <a href="Transfer.html">消防转输系统</a>
+                    <a href="Sprinkle.html">水喷雾灭火系统</a>
+                    <a href="Gas.html">气体灭火系统</a>
+                    <a href="Extinguisher.html">灭火器配置</a>
+                    <a href="Cooling.html">防护冷却系统</a>
+                </div>
+            </header>
+
+    <div id="demo1" class="table">
+                    <table  border="1">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th width="15%">q(B)×t(B)×3600/1000</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>系统名称</th>
+                            <th>建筑类别</th>
+                            <th>最小设计流量(L/s)</th>
+                            <th>设计流量(L/s)</th>
+                            <th>灭火持续时间(h)</th>
+                            <th>是否计入一次灭火设计流量</th>
+                            <th>用水量(m³)</th>
+                            <th>是否计入消防水池容积</th>
+                            <th>备注</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>q(B)</th>
+                            <th>t(B)</th>
+                            <th></th>
+                            <th>V(B)</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>室外消火栓系统</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+    <div class="table">
+    <div id="spreadsheet" ></div>
+    <div>
+    <input type='button' value='新建' onclick="" /></div></div>
+</div>
+
+
+<script>
+var data = [
+    ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, 36, false,'这里是选择依据'],
+];
+
+table = jexcel(document.getElementById('spreadsheet'), {
+    data:data,
+    columns: [
+        { type: 'text', title:'系统名称', width:'100' },
+        { type: 'text', title:'建筑类别',width:'100'  },
+        { type: 'text', title:'最小设计流量(L/s)',width:'100'  },
+        { type: 'text', title:'设计流量(L/s)',width:'100'  },
+        { type: 'text', title:'灭火持续时间(h)',width:'100'  },
+        { type: 'checkbox', title:'是否计入一次灭火设计流量',width:'200'   },
+        { type: 'text', title:'用水量(m³)', width:'100' },
+        { type: 'checkbox', title:'是否计入消防水池容积', width:'180' },
+        { type: 'text', title:'备注', width:'100' },
+    ],
+    nestedHeaders:[
+            [
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'q(B)×t(B)×3600/1000', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+        ],
+        [
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'q(B)', colspan:'1' },
+            { title:'t(B)', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'V(B)', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' }
+        ],
+    ],
+    wordWrap:true
+});
+</script>
+
+</body>
+</html>
