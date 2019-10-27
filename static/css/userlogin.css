@@ -1,5 +1,6 @@
 body{
     background-image:url('/static/admin/img/night.jpg');
+    /*background-color: #66afe9;*/
 }
 .login #header {
     height: auto;
