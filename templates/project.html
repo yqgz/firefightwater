@@ -20,20 +20,32 @@
 <body>
 	<div class="jq22-container">
 		<header class="jq22-header">
-			<h1>我的项目 </h1>
+			<h1>消防系统计算平台 </h1>
             <p></p>
 			<div class="jq22-demo center">
-                {% if list %}
-                    <div>
-                    {% for var in list %}
-                        <div><a href="{% url 'introduction' var.id%}">{{ var.project_name }}</a> </div>
+                <a href="project.html" class="current">项目列表</a>
+                <a href="Introduction.html">概况</a>
+                {% if module_list %}
+                    {% for var in module_list %}
+                    <a href="#">{{ var.module_name }}</a>
                     {% endfor %}
-                    </div>
                 {% else %}
 
                 {% endif %}
 			</div>
 		</header>
+        <div class="jq22-demo center">
+            {% if project_list %}
+                <div>
+                {% for var in project_list %}
+                    <div><a style="color: #000;" href="{% url 'introduction' var.id%}">{{ var.project_name }}</a> </div>
+                {% endfor %}
+                </div>
+            {% else %}
+
+            {% endif %}
+            <div><a style="color: #000;" href="{% url 'project_add' %}">创建项目</a> </div>
+        </div>
 	</div>
 
 

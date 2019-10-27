@@ -16,6 +16,9 @@
             width: 600px;
 			margin: 50px auto;
 		}
+        .col-lg-3{
+             text-align: right;
+        }
 	</style>
 </head>
 <body>
@@ -35,18 +38,20 @@
 
                 {% endif %}
 
-
 			</div>
 		</header>
 		<div class="content" >
  <form action="{% url 'project_add' %}" method="post">
      {% csrf_token %}
+     {% if msg %}
+         <div class="row"><label style="color: #ba2121;">{{ msg }}</label></div>
+     {% endif %}
      <div class="row">
          <div class="col-lg-12">
                 <div class="form-group">
-                    <div class="col-lg-3" style="text-align: right"><label>项目名称：</label></div>
+                    <div class="col-lg-3"><label>项目名称*：</label></div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="project_name" name="project_name" value=""/>
+                        <input type="text" class="form-control" id="project_name" name="project_name" value="{{ p.project_name }}" placeholder="请输入项目名称"/>
                     </div>
                 </div>
             </div>
@@ -54,9 +59,9 @@
      <div class="row">
          <div class="col-lg-12">
                 <div class="form-group">
-                    <div class="col-lg-3" style="text-align: right"><label>项目编号：</label></div>
+                    <div class="col-lg-3"><label>项目编号*：</label></div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="pnum" name="pnum"/>
+                        <input type="text" class="form-control" id="project_num" name="project_num" value="{{ p.project_num }}"  placeholder="请输入项目编号"/>
                     </div>
                 </div>
             </div>
@@ -64,9 +69,9 @@
      <div class="row">
          <div class="col-lg-12">
                 <div class="form-group">
-                    <div class="col-lg-3" style="text-align: right"><label>项目概况：</label></div>
+                    <div class="col-lg-3"><label>项目概况*：</label></div>
                     <div class="col-lg-8">
-                        <textarea type="text" class="form-control" id="ptext" name="ptext" rows="5"></textarea>
+                        <textarea type="text" class="form-control" id="project_text" name="project_text" value="{{ p.project_text }}" rows="5"  placeholder="请输入项目概况"></textarea>
                     </div>
                 </div>
             </div>
@@ -74,9 +79,9 @@
      <div class="row">
          <div class="col-lg-12">
                 <div class="form-group">
-                    <div class="col-lg-3" style="text-align: right"><label>设计人：</label></div>
+                    <div class="col-lg-3"><label>设计人*：</label></div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="designer" name="designer"/>
+                        <input type="text" class="form-control" id="designer" name="designer" value="{{ p.designer }}" placeholder="请输入项目设计人"/>
                     </div>
                 </div>
             </div>
@@ -84,9 +89,9 @@
      <div class="row">
          <div class="col-lg-12">
                 <div class="form-group">
-                    <div class="col-lg-3" style="text-align: right"><label>校对人：</label></div>
+                    <div class="col-lg-3"><label>校对人*：</label></div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="proofreader" name="proofreader"/>
+                        <input type="text" class="form-control" id="proofreader" name="proofreader" value="{{ p.proofreader }}" placeholder="请输入项目校对人"/>
                     </div>
                 </div>
             </div>
@@ -94,9 +99,9 @@
      <div class="row">
          <div class="col-lg-12">
                 <div class="form-group">
-                    <div class="col-lg-3" style="text-align: right"><label>专业负责人：</label></div>
+                    <div class="col-lg-3"><label>专业负责人*：</label></div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="chief" name="chief"/>
+                        <input type="text" class="form-control" id="chief" name="chief" value="{{ p.chief }}" placeholder="请输入专业负责人"/>
                     </div>
                 </div>
             </div>
@@ -104,9 +109,9 @@
      <div class="row">
          <div class="col-lg-12">
                 <div class="form-group">
-                    <div class="col-lg-3" style="text-align: right"><label>审批人：</label></div>
+                    <div class="col-lg-3"><label>审批人*：</label></div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="approver" name="approver"/>
+                        <input type="text" class="form-control" id="approver" name="approver" value="{{ p.approver }}" placeholder="请输入审批人"/>
                     </div>
                 </div>
             </div>
@@ -114,40 +119,40 @@
      <div class="row">
          <div class="col-lg-12">
                 <div class="form-group">
-                    <div class="col-lg-3" style="text-align: right"><label>版本号：</label></div>
+                    <div class="col-lg-3"><label>版本号*：</label></div>
                     <div class="col-lg-8">
-                        <input type="text" class="form-control" id="version" name="version"/>
+                        <input type="text" class="form-control" id="version" name="version" value="{{ p.version }}" placeholder="请输入版本号"/>
                     </div>
                 </div>
             </div>
      </div>
-     <h3>选择项目模块：</h3>
-     <div class="row" style="margin-bottom:10px">
-            <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="checkbox" name="SystemWater" id="SystemWater" onclick="return false;" checked="checked">
-                    </span>
-                    <input type="text" class="form-control" disabled value="消防系统用水量">
-                </div>
+    <h3>选择项目模块：</h3>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-lg-4">
+            <div class="input-group">
+             <span class="input-group-addon">
+                 <input type="checkbox" name="SystemWater" id="SystemWater" onclick="return false;" checked="checked">
+             </span>
+             <input type="text" class="form-control" disabled value="消防系统用水量">
             </div>
-         <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="checkbox" name="WaterPool" id="WaterPool" onclick="return false;" checked="checked">
-                    </span>
-                    <input type="text" class="form-control" disabled value="消防水池及水箱容积">
-                </div>
+        </div>
+        <div class="col-lg-4">
+             <div class="input-group">
+                 <span class="input-group-addon">
+                     <input type="checkbox" name="WaterPool" id="WaterPool" onclick="return false;" checked="checked">
+                 </span>
+                 <input type="text" class="form-control" disabled value="消防水池及水箱容积">
+             </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <input type="checkbox" name="Outdoor" id="Outdoor" onclick="return false;" checked="checked">
+                </span>
+                <input type="text" class="form-control" disabled value="室外消火栓系统">
             </div>
-         <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="checkbox" name="Outdoor" id="Outdoor" onclick="return false;" checked="checked">
-                    </span>
-                    <input type="text" class="form-control" disabled value="室外消火栓系统">
-                </div>
-            </div>
-     </div>
+        </div>
+    </div>
      <div class="row" style="margin-bottom:10px">
          <div class="col-lg-4">
                 <div class="input-group">
@@ -156,7 +161,7 @@
                     </span>
                     <input type="text" class="form-control" disabled value="室内消火栓系统">
                 </div>
-            </div>
+         </div>
          <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -164,7 +169,7 @@
                     </span>
                     <input type="text" class="form-control" disabled value="自动喷水灭火系统">
                 </div>
-            </div>
+         </div>
          <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -172,7 +177,7 @@
                     </span>
                     <input type="text" class="form-control" disabled value="消防转输系统">
                 </div>
-            </div>
+         </div>
      </div>
      <div class="row" style="margin-bottom:10px">
          <div class="col-lg-4">
@@ -182,7 +187,7 @@
                     </span>
                     <input type="text" class="form-control" disabled value="水喷雾灭火系统">
                 </div>
-            </div>
+         </div>
          <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -190,7 +195,7 @@
                     </span>
                     <input type="text" class="form-control" disabled value="气体灭火系统">
                 </div>
-            </div>
+         </div>
          <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -198,7 +203,7 @@
                     </span>
                     <input type="text" class="form-control" disabled value="灭火器配置">
                 </div>
-            </div>
+         </div>
      </div>
      <div class="row" style="margin-bottom:10px">
          <div class="col-lg-4">

@@ -21,7 +21,8 @@ from firefightwater import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('project/', views.project, name='project'),
-    path('introduction/<int:pk>/', views.introduction, name='introduction'),
+    path('project_add/', views.project_add, name='project_add'),
+    path('introduction/<int:pk>/', views.project_add, name='introduction'),
 
     # path('<int:pk>/<int:md>/Auto/', views.Auto, name='Auto'),
     # path('<int:pk>/Cooling/', views.excel, name='Cooling'),
