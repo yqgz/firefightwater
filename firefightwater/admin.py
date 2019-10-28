@@ -27,7 +27,7 @@ class ColumnAdmin(admin.ModelAdmin):
 
 
 class ModuleTableAdmin(admin.ModelAdmin):
-    list_display = ('module', 'table')  # list
+    list_display = ('module', 'table', 'have')  # list
 
 
 class ProjectTableAdmin(admin.ModelAdmin):

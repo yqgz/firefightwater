@@ -22,8 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('project/', views.project, name='project'),
     path('project_add/', views.project_add, name='project_add'),
-    path('introduction/<int:pk>/', views.project_add, name='introduction'),
-    path('login/', views.login, name='introduction'),
+    path('module/<int:pk>/<int:md>/', views.module, name='module'),
+    path('excel/<int:pk>/', views.excel, name='excel'),
+    path('login/', views.login, name='login'),
 
     # path('<int:pk>/<int:md>/Auto/', views.Auto, name='Auto'),
     # path('<int:pk>/Cooling/', views.excel, name='Cooling'),

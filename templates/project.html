@@ -23,8 +23,8 @@
 			<h1>消防系统计算平台 </h1>
             <p></p>
 			<div class="jq22-demo center">
-                <a href="project.html" class="current">项目列表</a>
-                <a href="Introduction.html">概况</a>
+                <a href="#" class="current">项目列表</a>
+                <a href="#">概况</a>
                 {% if module_list %}
                     {% for var in module_list %}
                     <a href="#">{{ var.module_name }}</a>
@@ -38,20 +38,15 @@
             {% if project_list %}
                 <div>
                 {% for var in project_list %}
-                    <div><a style="color: #000;" href="{% url 'introduction' var.id%}">{{ var.project_name }}</a> | {{ var.project_text | slice:"100" }} | {{ var.user.username }} | {{ var.pub_date }} </div>
+                    <div><a style="color: #000;" href="{% url 'project_add' %}?pk={{ var.id }}">{{ var.project_name }}</a> | {{ var.project_text | slice:"100" }} | {{ var.user.username }} | {{ var.pub_date }} </div>
                 {% endfor %}
                 </div>
             {% else %}
 
             {% endif %}
-            <div><a style="color: #000;" href="{% url 'project_add' %}">创建项目</a> </div>
+            <div><a style="color: #000;" href="{% url 'project_add' %}?pk=">创建项目</a> </div>
         </div>
 	</div>
-
-
-	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script type="text/javascript" src="../static/js/jexcel.js"></script>
-	<!--<script type="text/javascript" src="../static/js/jquery.jexcel.js"></script>-->
 
 </body>
 </html>

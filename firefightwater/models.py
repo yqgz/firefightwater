@@ -42,7 +42,13 @@ class Module(models.Model):
 class ModuleTable(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE, db_index=True)
     table = models.ForeignKey(Table, on_delete=models.CASCADE, db_index=True)
-
+    YES = '是'
+    NO = '否'
+    CHOICES = (
+        (YES, '是'),
+        (NO, '否'),
+    )
+    have = models.CharField(max_length=2, choices=CHOICES, default=NO)
 
 class ProjectTable(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, db_index=True)

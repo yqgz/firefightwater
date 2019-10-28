@@ -1,0 +1,194 @@
+<html lang="zh">
+<meta charset="UTF-8">
+<script src="https://bossanova.uk/jexcel/v3/jexcel.js"></script>
+<link rel="stylesheet" href="https://bossanova.uk/jexcel/v3/jexcel.css" type="text/css" />
+<script src="https://bossanova.uk/jsuites/v2/jsuites.js"></script>
+<link rel="stylesheet" href="https://bossanova.uk/jsuites/v2/jsuites.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+
+<body>
+<div class="jq22-container">
+    <header class="jq22-header">
+                <h1>消防系统计算平台 </h1>
+                <p></p>
+                <div class="jq22-demo center">
+                <a href="{% url 'project' %}" >项目列表</a>
+                <a href="{% url 'project_add' %}?pk={{ p.id }}">概况</a>
+                {% if module_list %}
+                    {% for var in module_list %}
+                        <a href="{% url 'module' p.id var.id %}" {% ifequal var.id cur.0.id %}class="current"{% endifequal %}>{{ var.module_name }}</a>
+                    {% endfor %}
+                {% else %}
+
+                {% endif %}
+			</div>
+            </header>
+
+    <div id="demo1" class="table">
+                    <table  border="1">
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th width="15%">q(B)×t(B)×3600/1000</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>系统名称</th>
+                            <th>建筑类别</th>
+                            <th>最小设计流量(L/s)</th>
+                            <th>设计流量(L/s)</th>
+                            <th>灭火持续时间(h)</th>
+                            <th>是否计入一次灭火设计流量</th>
+                            <th>用水量(m³)</th>
+                            <th>是否计入消防水池容积</th>
+                            <th>备注</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>q(B)</th>
+                            <th>t(B)</th>
+                            <th></th>
+                            <th>V(B)</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>室外消火栓系统</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+    <div class="table">
+        <h3>消防系统用水量</h3>
+    <div id="spreadsheet" ></div>
+    <div>
+    <input type='button' value='新建' onclick="" /></div></div>
+</div>
+
+
+<script>
+var data = [
+    ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, 36, false,'这里是选择依据'],
+    ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, 36, true,'填写选择依据'],
+];
+
+table = jexcel(document.getElementById('spreadsheet'), {
+    data:data,
+    columns: [
+        { type: 'text', title:'系统名称', width:'100' },
+        { type: 'text', title:'建筑类别',width:'100'  },
+        { type: 'text', title:'最小设计流量(L/s)',width:'100'  },
+        { type: 'text', title:'设计流量(L/s)',width:'100'  },
+        { type: 'text', title:'灭火持续时间(h)',width:'100'  },
+        { type: 'checkbox', title:'是否计入一次灭火设计流量',width:'200'   },
+        { type: 'text', title:'用水量(m³)', width:'100' },
+        { type: 'checkbox', title:'是否计入消防水池容积', width:'180' },
+        { type: 'text', title:'备注', width:'100' },
+    ],
+    nestedHeaders:[
+            [
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'q(B)×t(B)×3600/1000', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+        ],
+        [
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'q(B)', colspan:'1' },
+            { title:'t(B)', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'V(B)', colspan:'1' },
+            { title:'', colspan:'1' },
+            { title:'', colspan:'1' }
+        ],
+    ],
+    wordWrap:true,
+    allowComments: true,
+    contextMenu: function(obj, x, y, e) {
+         var items = [];
+         if (y == null) {
+             // Sorting
+             if (obj.options.columnSorting == true) {
+                 // Line
+                 items.push({ type:'line' });
+
+                 items.push({
+                     title:obj.options.text.orderAscending,
+                     onclick:function() {
+                         obj.orderBy(x, 0);
+                     }
+                 });
+                 items.push({
+                     title:obj.options.text.orderDescending,
+                     onclick:function() {
+                         obj.orderBy(x, 1);
+                     }
+                 });
+             }
+         } else {
+             // Insert new row
+             if (obj.options.allowInsertRow == true) {
+                 items.push({
+                     title:obj.options.text.insertANewRowAfter,
+                     onclick:function() {
+                         obj.insertRow(1, parseInt(y));
+                     }
+                 });
+             }
+
+             if (obj.options.allowDeleteRow == true) {
+                 items.push({
+                     title:obj.options.text.deleteSelectedRows,
+                     onclick:function() {
+                         obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                     }
+                 });
+             }
+
+             /*if (x) {
+                 if (obj.options.allowComments == true) {
+                     items.push({ type:'line' });
+
+                     var title = obj.records[y][x].getAttribute('title') || '';
+
+                     items.push({
+                         title: title ? obj.options.text.editComments : obj.options.text.addComments,
+                         onclick:function() {
+                             obj.setComments([ x, y ], prompt(obj.options.text.comments, title));
+                         }
+                     });
+                 }
+             }*/
+         }
+         return items;
+     },
+     text:{
+            insertANewRowAfter:"插入一行",
+            deleteSelectedRows:"删除选中行"
+     }
+});
+</script>
+
+</body>
+</html>

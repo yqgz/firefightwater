@@ -15,30 +15,27 @@ def project(request):
 
 
 @login_required(redirect_field_name='', login_url='/admin/login/')
-def project_add(request,pk=''):
+def project_add(request):
+    pk = ''
     msg = ''
-    p = Project(
-                project_name='',
-                project_num='',
-                project_text='',
-                designer='',
-                proofreader='',
-                chief='',
-                approver='',
-                version='',
-                )
+    context = {}
     if request.POST:
+
         module_list = Module.objects.all()
-        p = Project(user=request.user,
-                    project_name=request.POST['project_name'],
-                    project_num=request.POST['project_num'],
-                    project_text=request.POST['project_text'],
-                    designer=request.POST['designer'],
-                    proofreader=request.POST['proofreader'],
-                    chief=request.POST['chief'],
-                    approver=request.POST['approver'],
-                    version=request.POST['version'],
-                    )
+        pk = request.POST['pk']
+        if pk=='':
+            p = Project(user=request.user,
+                project_name=request.POST['project_name'],
+                project_num=request.POST['project_num'],
+                project_text=request.POST['project_text'],
+                designer=request.POST['designer'],
+                proofreader=request.POST['proofreader'],
+                chief=request.POST['chief'],
+                approver=request.POST['approver'],
+                version=request.POST['version'],
+                )
+        else:
+            p = Project.objects.get(id=pk, user=request.user)
         if request.POST['project_name']=='':
             msg = '项目名称不能为空'
         if request.POST['project_num']=='':
@@ -57,38 +54,69 @@ def project_add(request,pk=''):
             msg = '版本号不能为空'
         if msg == '':
             p.save()
+            post = request.POST
+            ProjectTable.objects.filter(project=p.id).delete()
             for var in module_list:
-                if request.POST[var.module_name] == 'on':
-                    ProjectTable.objects.filter(module=var.id,project=p.id).delete()
-                    tables = ModuleTable.objects.filter(module=var.id)
+                if var.module_en_name in post.keys() and post[var.module_en_name] == 'on':
+                    if var.id==3 and 'hydrant' in post.keys() and post['hydrant'] == 'on':
+                        tables = ModuleTable.objects.filter(module=var.id,have='是')
+                    elif var.id==3:
+                        tables = ModuleTable.objects.filter(module=var.id, have='否')
+                    else:
+                        tables = ModuleTable.objects.filter(module=var.id)
                     for t in tables:
-                        ProjectTable.objects.create(project=p.id,table=t.table_id,module=t.module_id)
-            return redirect('introduction', pk=p.id)
+                        ProjectTable.objects.create(project=p, table=t.table, module=t.module)
+
+            return redirect('module', pk=p.id, md=1)
     else:
-        if pk != '':
-            p = Project.objects.get(id=pk)
-            
+        pk = request.GET['pk']
         module_list = Module.objects.all()
-    context = {'module_list': module_list, 'p':p, 'msg':msg}
+        if pk != '':
+            p = Project.objects.get(id=pk, user=request.user)
+            select_module = p.projecttable_set
+            selects = []
+            for m in module_list:
+                m.select = False
+                have = select_module.filter(module=m)
+                if have :
+                    m.select = True
+                    m.have = False
+                    ModuleTables = ModuleTable.objects.filter(module=have[0].module,table=have[0].table)
+                    if ModuleTables[0].have=='是':
+                        m.have = 1
+            # context['select_module'] = selects
+        else:
+            p = Project(
+                project_name='',
+                project_num='',
+                project_text='',
+                designer='',
+                proofreader='',
+                chief='',
+                approver='',
+                version='',
+            )
+    context['module_list'] = module_list
+    context['p'] = p
+    context['msg'] = msg
     return render(request, 'project_add.html', context)
 
+@login_required(redirect_field_name='', login_url='/admin/login/')
+def module(request, pk, md):
+    module_list = Module.objects.all()
+    cur = module_list.filter(id=md)
+    p = Project.objects.get(id=pk, user=request.user)
+    tables = ProjectTable.objects.filter(project=pk,module=md)
+    context = {'module_list': module_list, 'p': p, 'cur':cur, 'tables':tables}
+    return render(request, 'module.html', context, )
 
 @login_required(redirect_field_name='', login_url='/admin/login/')
-def introduction(request, pk):
-    if pk == 0:
-        module_list = Module.objects.all()
-        context = {'module_list': module_list}
-    else:
-        projects = ProjectTable.objects.filter(project = pk)
-        # module_list = projects.module_set()
-        context = {'project': projects}
-    return render(request, 'introduction.html', context)
-
-
-@login_required(redirect_field_name='', login_url='/admin/login/')
-def excel(request, pk, md):
+def excel(request, pk):
+    module_list = Module.objects.all()
+    pt = ProjectTable.objects.filter(id=pk)
+    cur = module_list.filter()
     context = {}
-    project_table = ProjectTable.objects.get(pk=pk, md=md)
+    project_table = ProjectTable.objects.get(id=pk)
     if request.POST:
         data = request.POST['data']
         value = Value(value=json.dumps(data), project_table=project_table)
