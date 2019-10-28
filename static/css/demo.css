@@ -60,7 +60,9 @@ pre{
 .bgcolor-20{ background: #494A5F;color: #D5D6E2;}
 /* Header */
 .jq22-header{
-	padding: 10px 100px 10px;
+	padding-bottom:10px;
+    padding-right: 100px;
+    padding-left: 100px;
 	letter-spacing: -1px;
 	text-align: center;
 	background:#222222;
@@ -82,9 +84,11 @@ pre{
 }
 /*nav*/
 .jq22-demo a{color: #fff;text-decoration: none;}
-.jq22-demo{width: 100%;padding-bottom: 1em;}
+.jq22-demo{width: 100%;
+	padding-top: 1em;
+	padding-bottom: 1em;}
 .jq22-demo a{display: inline-block;margin: 0.5em;padding: 0.6em 1em;border: 3px solid #fff;font-weight: 700;}
-.jq22-demo a:hover{opacity: 0.6;}
+.jq22-demo a:hover{color: #fff;opacity: 0.6;}
 .jq22-demo a.current{background:#1d7db1;color: #fff; }
 /* Top Navigation Style */
 .jq22-links {
@@ -256,4 +260,27 @@ pre{
 }
 .table{
 	padding:20px 10px 20px
+}
+h1{
+    margin-top: 10px;
+}
+.headertitle{
+	padding: 10px 2% 10px;
+	letter-spacing: -1px;
+	text-align: left;
+	background:#222222;
+}
+.headertitle h1 {
+	color: #D5D6E2;
+	font-weight: 600;
+	font-size: 2em;
+	line-height: 1;
+	margin-bottom: 0;
+	margin-top:10px;
+    width:250px
+}
+.username{
+    color: #fff;
+    text-align: right;
+    margin-top:10px;
 }
