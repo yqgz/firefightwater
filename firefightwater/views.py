@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
-from .models import Project, ProjectTable, Table, Column, Value, Module
+from .models import Project, ProjectTable, Table, Column, Value, Module, ModuleTable
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from firefightwater.common.response import json_response
 import json
 
@@ -56,10 +57,17 @@ def project_add(request,pk=''):
             msg = '版本号不能为空'
         if msg == '':
             p.save()
-
+            for var in module_list:
+                if request.POST[var.module_name] == 'on':
+                    ProjectTable.objects.filter(module=var.id,project=p.id).delete()
+                    tables = ModuleTable.objects.filter(module=var.id)
+                    for t in tables:
+                        ProjectTable.objects.create(project=p.id,table=t.table_id,module=t.module_id)
             return redirect('introduction', pk=p.id)
     else:
-        p = Project.objects.filter(id=pk)
+        if pk != '':
+            p = Project.objects.get(id=pk)
+            
         module_list = Module.objects.all()
     context = {'module_list': module_list, 'p':p, 'msg':msg}
     return render(request, 'project_add.html', context)
@@ -100,3 +108,12 @@ def excel(request, pk, md):
     context['columns'] = json.dumps(c)
     context['data'] = data
     return render(request, 'excel.html', context)
+
+def login(request):
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = User(username=username, password=password)
+        if user:
+            return redirect('/project/')
+    return render(request, 'login_demo.html')

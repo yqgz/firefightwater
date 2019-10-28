@@ -38,7 +38,7 @@
             {% if project_list %}
                 <div>
                 {% for var in project_list %}
-                    <div><a style="color: #000;" href="{% url 'introduction' var.id%}">{{ var.project_name }}</a> </div>
+                    <div><a style="color: #000;" href="{% url 'introduction' var.id%}">{{ var.project_name }}</a> | {{ var.project_text | slice:"100" }} | {{ var.user.username }} | {{ var.pub_date }} </div>
                 {% endfor %}
                 </div>
             {% else %}

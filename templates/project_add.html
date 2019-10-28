@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <div class="col-lg-3"><label>项目概况*：</label></div>
                     <div class="col-lg-8">
-                        <textarea type="text" class="form-control" id="project_text" name="project_text" value="{{ p.project_text }}" rows="5"  placeholder="请输入项目概况"></textarea>
+                        <textarea type="text" class="form-control" id="project_text" name="project_text" rows="5"  placeholder="请输入项目概况">{{ p.project_text }}</textarea>
                     </div>
                 </div>
             </div>
@@ -131,77 +131,58 @@
         <div class="col-lg-4">
             <div class="input-group">
              <span class="input-group-addon">
-                 <input type="checkbox" name="SystemWater" id="SystemWater" onclick="return false;" checked="checked">
+                 <input type="checkbox" name="{{ module_list.0.module_en_name }}" id="{{ module_list.0.module_en_name }}" onclick="return false;" checked="checked">
              </span>
-             <input type="text" class="form-control" disabled value="消防系统用水量">
+             <input type="text" class="form-control" disabled value="{{ module_list.0.module_name }}">
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
              <div class="input-group">
                  <span class="input-group-addon">
-                     <input type="checkbox" name="WaterPool" id="WaterPool" onclick="return false;" checked="checked">
+                     <input type="checkbox" name="{{ module_list.1.module_en_name }}" id="{{ module_list.1.module_en_name }}" >
                  </span>
-                 <input type="text" class="form-control" disabled value="消防水池及水箱容积">
+                 <input type="text" class="form-control" disabled value="{{ module_list.1.module_name }}">
              </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <div class="input-group">
                 <span class="input-group-addon">
-                    <input type="checkbox" name="Outdoor" id="Outdoor" onclick="return false;" checked="checked">
+                    <input type="checkbox" name="{{ module_list.2.module_en_name }}" id="{{ module_list.2.module_en_name }}" onclick="return false;" checked="checked">
                 </span>
-                <input type="text" class="form-control" disabled value="室外消火栓系统">
+                <input type="text" class="form-control" disabled value="{{ module_list.2.module_name }}">
             </div>
         </div>
+        <div class="col-lg-2">
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <input type="checkbox" name="hydrant" id="hydrant" >
+                </span>
+                <input type="text" class="form-control" disabled value="消火栓">
+            </div></div>
     </div>
      <div class="row" style="margin-bottom:10px">
          <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="Indoor" id="Indoor" onclick="return false;" checked="checked">
+                        <input type="checkbox" name="{{ module_list.3.module_en_name }}" id="{{ module_list.3.module_en_name }}" onclick="return false;" checked="checked">
                     </span>
-                    <input type="text" class="form-control" disabled value="室内消火栓系统">
+                    <input type="text" class="form-control" disabled value="{{ module_list.3.module_name }}">
                 </div>
          </div>
          <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="Auto" id="Auto" onclick="return false;" checked="checked">
+                        <input type="checkbox" name="{{ module_list.4.module_en_name }}" id="{{ module_list.4.module_en_name }}" onclick="return false;" checked="checked">
                     </span>
-                    <input type="text" class="form-control" disabled value="自动喷水灭火系统">
+                    <input type="text" class="form-control" disabled value="{{ module_list.4.module_name }}">
                 </div>
          </div>
          <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="Transfer" id="Transfer" onclick="return false;" checked="checked">
+                        <input type="checkbox" name="{{ module_list.5.module_en_name }}" id="{{ module_list.5.module_en_name }}" onclick="return false;" checked="checked">
                     </span>
-                    <input type="text" class="form-control" disabled value="消防转输系统">
-                </div>
-         </div>
-     </div>
-     <div class="row" style="margin-bottom:10px">
-         <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="checkbox" name="Sprinkle" id="Sprinkle" >
-                    </span>
-                    <input type="text" class="form-control" disabled value="水喷雾灭火系统">
-                </div>
-         </div>
-         <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="checkbox" name="Gas" id="Gas">
-                    </span>
-                    <input type="text" class="form-control" disabled value="气体灭火系统">
-                </div>
-         </div>
-         <div class="col-lg-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <input type="checkbox" name="Extinguisher" id="Extinguisher" onclick="return false;" checked="checked">
-                    </span>
-                    <input type="text" class="form-control" disabled value="灭火器配置">
+                    <input type="text" class="form-control" disabled value="{{ module_list.5.module_name }}">
                 </div>
          </div>
      </div>
@@ -209,9 +190,35 @@
          <div class="col-lg-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <input type="checkbox" name="Cooling" id="Cooling" onclick="return false;" checked="checked">
+                        <input type="checkbox" name="{{ module_list.6.module_en_name }}" id="{{ module_list.6.module_en_name }}" >
                     </span>
-                    <input type="text" class="form-control" disabled value="防护冷却系统">
+                    <input type="text" class="form-control" disabled value="{{ module_list.6.module_name }}">
+                </div>
+         </div>
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="{{ module_list.7.module_en_name }}" id="{{ module_list.7.module_en_name }}">
+                    </span>
+                    <input type="text" class="form-control" disabled value="{{ module_list.7.module_name }}">
+                </div>
+         </div>
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="{{ module_list.8.module_en_name }}" id="{{ module_list.8.module_en_name }}" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="{{ module_list.8.module_name }}">
+                </div>
+         </div>
+     </div>
+     <div class="row" style="margin-bottom:10px">
+         <div class="col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <input type="checkbox" name="{{ module_list.9.module_en_name }}" id="{{ module_list.9.module_en_name }}" onclick="return false;" checked="checked">
+                    </span>
+                    <input type="text" class="form-control" disabled value="{{ module_list.9.module_name }}">
                 </div>
             </div>
      </div>
