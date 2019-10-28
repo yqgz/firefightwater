@@ -12,9 +12,17 @@
 </head>
 <body>
 	<div class="jq22-container">
-		<header class="jq22-header">
-			<h1>消防系统计算平台 </h1>
-            <p></p>
+    <header>
+        <nav class="jq22-demo headertitle">
+        <h1 class="navbar-header">消防系统计算平台 </h1>
+        <div class="container-fluid">
+            <div class="nav-item dropdown">
+                <div class="username">admin</div>
+            </div>
+        </div>
+        </nav>
+    </header>
+		<div class="jq22-header">
 			<div class="jq22-demo center">
                 <a href="project.html" class="current">项目列表</a>
                 <a href="Introduction.html">概况</a>
@@ -26,10 +34,10 @@
 
                 {% endif %}
 			</div>
-		</header>
+		</div>
+        <div class="content">
         <div class="jq22-demo center">
         <div>
-            <!--<a style="color: #000;" href="{% url 'project_add' %}">创建项目</a>-->
             <button class="btn-primary"onclick="javascrtpt:window.location.href='{% url 'project_add' %}'">创建项目</button>
         </div>
             {% if project_list %}
@@ -44,6 +52,7 @@
 
         </div>
 	</div>
+    </div>
 
 
 	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
