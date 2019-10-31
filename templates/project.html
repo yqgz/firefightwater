@@ -34,8 +34,8 @@
     </header>
 		<div class="jq22-header">
 			<div class="jq22-demo center">
-                <a href="#" class="current">项目列表</a>
-                <a href="#">概况</a>
+                <a href="{% url 'project' %}" class="current">项目列表</a>
+                <a href="{% url 'project_add' %}">概况</a>
                 {% if module_list %}
                     {% for var in module_list %}
                     <a href="#">{{ var.module_name }}</a>
