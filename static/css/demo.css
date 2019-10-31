@@ -311,7 +311,30 @@ jq22-demo .container-fluid .nav-item a{
 	padding: 2px 10px;
 	clear:both;
 	font-weight: 300;
-	color:#76838f;
+	color:#4f4f4f;
 	white-space: nowrap;
 	border-radius: 2px;
+}
+.jq22-demo .project{
+	border:1px solid #4f4f4f;
+	border-radius:5px;
+	text-align: left;
+	margin: 10px 5px;
+    padding: 0 10px;
+	background-color: rgba(255, 211, 123, 0.4);
+
+}
+.jq22-demo .project a{
+	margin:0;
+	border:none;
+	padding: 10px 0;
+}
+.project-btn{
+	text-align: left;
+	margin-left: 5px;
+}
+.project-dtl{
+	font-size: 14px;
+	padding-bottom: 5px;
+	color: #4f4f4f;
 }

@@ -146,4 +146,6 @@ def login(request):
         user = User(username=username, password=password)
         if user:
             return redirect('/project/')
+        else:
+            return json_response('请输入用户名和密码！')
     return render(request, 'login.html')
