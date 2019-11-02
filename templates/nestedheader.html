@@ -1,11 +1,12 @@
 <html lang="zh">
 <meta charset="UTF-8">
-<script src="https://bossanova.uk/jexcel/v3/jexcel.js"></script>
-<link rel="stylesheet" href="https://bossanova.uk/jexcel/v3/jexcel.css" type="text/css" />
-<script src="https://bossanova.uk/jsuites/v2/jsuites.js"></script>
 <link rel="stylesheet" href="https://bossanova.uk/jsuites/v2/jsuites.css" type="text/css" />
 <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+<link rel="stylesheet" href="../static/css/jexcel.css" type="text/css" />
+<script src="../static/js/jexcel.js"></script>
+<script src="https://bossanova.uk/jsuites/v2/jsuites.js"></script>
+
 
 <body>
 <div class="jq22-container">
@@ -27,57 +28,9 @@
                     <a href="Cooling.html">防护冷却系统</a>
                 </div>
             </header>
-<!--
-    <div id="demo1" class="table">
-                    <table  border="1">
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th width="15%">q(B)×t(B)×3600/1000</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <th>系统名称</th>
-                            <th>建筑类别</th>
-                            <th>最小设计流量(L/s)</th>
-                            <th>设计流量(L/s)</th>
-                            <th>灭火持续时间(h)</th>
-                            <th>是否计入一次灭火设计流量</th>
-                            <th>用水量(m³)</th>
-                            <th>是否计入消防水池容积</th>
-                            <th>备注</th>
-                        </tr>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th>q(B)</th>
-                            <th>t(B)</th>
-                            <th></th>
-                            <th>V(B)</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        <tr>
-                            <td>室外消火栓系统</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>-->
+
     <div class="table">
-        <h3>消防系统用水量</h3>
+        <h3 style="margin-top: 10px">消防系统用水量</h3>
     <div id="spreadsheet" ></div>
     <div>
     <input type='button' class="btn-primary" value='新增' onclick="" />
@@ -87,9 +40,12 @@
 
 
 <script>
+    //公式计算
 var data = [
-    ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, 36, false,'这里是选择依据'],
-    ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, 36, true,'填写选择依据'],
+    ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false,'这里是选择依据'],
+    ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true,'填写选择依据'],
+    ['合计', '', , '=SUM(D1:D2)',, , '=SUM(G1:G2)','' ,],
+    ['最大值', '', , '=MAX(D1:D2)',, , '=MAX(G1:G2)','' ,],
 ];
 
 table = jexcel(document.getElementById('spreadsheet'), {
@@ -113,7 +69,7 @@ table = jexcel(document.getElementById('spreadsheet'), {
             { title:'', colspan:'1' },
             { title:'', colspan:'1' },
             { title:'', colspan:'1' },
-            { title:'q(B)×t(B)×3600/1000', colspan:'1' },
+            { title:'q(B)*t(B)*3600/1000', colspan:'1' ,alt:'q(B)*t(B)*3600/1000'},
             { title:'', colspan:'1' },
             { title:'', colspan:'1' },
         ],
@@ -137,7 +93,7 @@ table = jexcel(document.getElementById('spreadsheet'), {
              // Sorting
              if (obj.options.columnSorting == true) {
                  // Line
-                 items.push({ type:'line' });
+                 //items.push({ type:'line' });
 
                  items.push({
                      title:obj.options.text.orderAscending,
@@ -191,7 +147,9 @@ table = jexcel(document.getElementById('spreadsheet'), {
      },
      text:{
             insertANewRowAfter:"插入一行",
-            deleteSelectedRows:"删除选中行"
+            deleteSelectedRows:"删除选中行",
+            orderAscending:"升序排列",
+            orderDescending:"降序排列"
      }
 });
 </script>

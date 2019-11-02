@@ -1013,6 +1013,7 @@ var jexcel = (function(el, options) {
             td.setAttribute('data-column', column.join(','));
             td.setAttribute('colspan', nestedInformation[i].colspan);
             td.setAttribute('align', nestedInformation[i].align);
+            td.setAttribute('title',nestedInformation[i].title);
             td.innerHTML = nestedInformation[i].title;
             tr.appendChild(td);
         }

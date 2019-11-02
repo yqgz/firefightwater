@@ -42,7 +42,7 @@ pre{
 	font-size: 0.85em;
 	line-height: 1.6;
 	box-sizing: border-box;
-	-webkit-font-smoothing: auto;
+	-webkit-font-smoothing: antialiased;
 	font-family: 'Consolas',"Microsoft YaHei", 'Courier New', Courier, monospace;
 }
 .bgcolor-1 { background: #f0efee; }
@@ -60,9 +60,7 @@ pre{
 .bgcolor-20{ background: #494A5F;color: #D5D6E2;}
 /* Header */
 .jq22-header{
-	padding-bottom:10px;
-    padding-right: 100px;
-    padding-left: 100px;
+	padding:10px 100px 10px;
 	letter-spacing: -1px;
 	text-align: center;
 	background:#222222;
@@ -259,13 +257,14 @@ pre{
 	margin-top: 5px;
 }
 .table{
-	padding:20px 10px 20px
+	padding:10px 10px 20px 10px;
+
 }
-h1{
+h1 h3{
     margin-top: 10px;
 }
 .headertitle{
-	padding: 10px 2% 10px;
+	padding: 10px 2% 0 2%;
 	letter-spacing: -1px;
 	text-align: left;
 	background:#222222;
@@ -281,6 +280,61 @@ h1{
 }
 .username{
     color: #fff;
-    text-align: right;
-    margin-top:10px;
+	margin-top:10px;
+}
+td{
+	white-space: pre-wrap;
+}
+.nav-item{
+	text-align: right;
+	padding-top: 10px;
+}
+.container-fluid{
+	margin-right: 10px;
+	width:100px;
+}
+jq22-demo .container-fluid .nav-item a{
+	border: none;
+}
+.dropdown-menu{
+	/*display: block;*/
+	min-width: 70px;
+	right:0;
+	margin: 0;
+}
+.show > .dropdown-menu{
+	display: block;
+}
+.dropdown-item{
+	display: block;
+	width:calc(100% - 10px);
+	padding: 2px 10px;
+	clear:both;
+	font-weight: 300;
+	color:#4f4f4f;
+	white-space: nowrap;
+	border-radius: 2px;
+}
+.jq22-demo .project{
+	border:1px solid #4f4f4f;
+	border-radius:5px;
+	text-align: left;
+	margin: 10px 5px;
+    padding: 0 10px;
+	background-color: rgba(255, 211, 123, 0.4);
+
+}
+.jq22-demo .project a{
+	margin:0;
+	border:none;
+	padding: 10px 0;
+}
+.project-btn{
+	text-align: left;
+	margin-left: 5px;
+}
+.project-dtl{
+	font-size: 14px;
+	padding-bottom: 5px;
+	color: #4f4f4f;
 }

@@ -75,7 +75,9 @@
     top: 0;
     z-index:2000;
 }
-
+.jexcel > thead > tr > td{
+    white-space: pre-wrap;
+}
 .with-toolbar .jexcel > thead > tr > td
 {
     top:42px;
