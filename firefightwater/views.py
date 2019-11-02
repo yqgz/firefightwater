@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from .models import Project, ProjectTable, Table, Column, Value, Module, ModuleTable
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib import auth
+from .forms import *
 from firefightwater.common.response import json_response
 import json
 
 
-@login_required(redirect_field_name='', login_url='/admin/login/')
+@login_required(redirect_field_name='', login_url='/login/')
 def project(request):
     project_list = Project.objects.filter(user=request.user)
     module_list = Module.objects.all()
@@ -14,7 +15,7 @@ def project(request):
     return render(request, 'project.html', context)
 
 
-@login_required(redirect_field_name='', login_url='/admin/login/')
+@login_required(redirect_field_name='', login_url='/login/')
 def project_add(request):
     pk = ''
     msg = ''
@@ -101,7 +102,7 @@ def project_add(request):
     context['msg'] = msg
     return render(request, 'project_add.html', context)
 
-@login_required(redirect_field_name='', login_url='/admin/login/')
+@login_required(redirect_field_name='', login_url='/login/')
 def module(request, pk, md):
     module_list = Module.objects.all()
     cur = module_list.filter(id=md)
@@ -110,7 +111,7 @@ def module(request, pk, md):
     context = {'module_list': module_list, 'p': p, 'cur':cur, 'tables':tables}
     return render(request, 'module.html', context, )
 
-@login_required(redirect_field_name='', login_url='/admin/login/')
+@login_required(redirect_field_name='', login_url='/login/')
 def excel(request, pk):
     module_list = Module.objects.all()
     pt = ProjectTable.objects.filter(id=pk)
@@ -139,9 +140,15 @@ def excel(request, pk):
 
 def login(request):
     if request.POST:
-        username = request.POST['username']
-        password = request.POST['password']
-        user = User(username=username, password=password)
-        if user:
-            return redirect('/project/')
-    return render(request, 'login_demo.html')
+        form = loginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                request.session['username'] = username
+                return redirect('/project/')
+    else:
+        form = loginForm()
+    return render(request, 'login_demo.html', {'form': form})
