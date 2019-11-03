@@ -23,26 +23,10 @@
 			<h1>消防系统计算平台 </h1>
             <p></p>
 			<div class="jq22-demo center">
-
-
                 <a href="{% url 'project' %}" >项目列表</a>
                 <a href="#" class="current">概况</a>
                 {% if select_module %}
-                    {{ select_module }}
-{#                    {% for var in select_module %}#}
-{#                        {% if p.id %}#}
-{#                        <a href="{% url 'module' p.id var.id %}">{{ var.module_name }}</a>#}
-{#                        {% else %}#}
-{#                        <a href="#">{{ var.module_name }}</a>#}
-{#                        {% endif %}#}
-{#                    {% endfor %}#}
-                {% else %}
-
-                <a href="project.html" >项目列表</a>
-                <a href="Introduction.html" class="current">概况</a>
-                {% if module_list %}
-
-                    {% for var in module_list %}
+                    {% for var in select_module %}
                         {% if p.id %}
                         <a href="{% url 'module' p.id var.id %}">{{ var.module_name }}</a>
                         {% else %}
@@ -50,7 +34,6 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-
 			</div>
 		</header>
 		<div class="content" >

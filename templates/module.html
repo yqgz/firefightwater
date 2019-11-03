@@ -24,8 +24,8 @@
 			<div class="jq22-demo center">
                 <a href="{% url 'project' %}" >项目列表</a>
                 <a href="{% url 'project_add' %}?pk={{ p.id }}">概况</a>
-                {% if module_list %}
-                    {% for var in module_list %}
+                {% if select_module %}
+                    {% for var in select_module %}
                         <a href="{% url 'module' p.id var.id %}" {% ifequal var.id cur.0.id %}class="current"{% endifequal %}>{{ var.module_name }}</a>
                     {% endfor %}
                 {% else %}

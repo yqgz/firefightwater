@@ -74,7 +74,6 @@ def project_add(request):
         if pk != '':
             p = Project.objects.get(id=pk, user=request.user)
             select_module = p.projecttable_set
-            selects = []
             for m in module_list:
                 m.select = False
                 have = select_module.filter(module=m)
@@ -84,7 +83,7 @@ def project_add(request):
                     moduletables = ModuleTable.objects.filter(module=have[0].module, table=have[0].table)
                     if moduletables[0].have == '是':
                         m.have = 1
-            # context['select_module'] = selects
+            context['select_module'] = getSelectModule(pk, request.user)
         else:
             p = Project(
                 project_name='',
@@ -101,23 +100,28 @@ def project_add(request):
     context['msg'] = msg
     return render(request, 'project_add.html', context)
 
-<<<<<<< HEAD
-=======
+#获取项目模块
+def getSelectModule(pk, user):
+    module_list = Module.objects.all()
+    p = Project.objects.get(id=pk, user=user)
+    select_module = p.projecttable_set
+    selects = []
+    for m in module_list:
+        have = select_module.filter(module=m)
+        if have and m not in selects:
+            selects.append(m)
+    return selects
 
->>>>>>> 8235994270ae9a90932d8e481a9587163d309d11
 @login_required(redirect_field_name='', login_url='/login/')
 def module(request, pk, md):
     module_list = Module.objects.all()
     cur = module_list.filter(id=md)
     p = Project.objects.get(id=pk, user=request.user)
     tables = ProjectTable.objects.filter(project=pk, module=md)
-    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables}
+    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module':getSelectModule(pk, request.user)}
     return render(request, 'module.html', context, )
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 8235994270ae9a90932d8e481a9587163d309d11
 @login_required(redirect_field_name='', login_url='/login/')
 def excel(request, pk):
     module_list = Module.objects.all()
@@ -160,3 +164,8 @@ def login(request):
     else:
         form = loginForm()
     return render(request, 'login.html', {'form': form})
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect('/login/')

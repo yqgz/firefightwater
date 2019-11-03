@@ -25,6 +25,7 @@ urlpatterns = [
     path('module/<int:pk>/<int:md>/', views.module, name='module'),
     path('excel/<int:pk>/', views.excel, name='excel'),
     path('login/', views.login, name='login'),
+    path('logout/', views.logout, name='logout'),
 
     # path('<int:pk>/<int:md>/Auto/', views.Auto, name='Auto'),
     # path('<int:pk>/Cooling/', views.excel, name='Cooling'),
