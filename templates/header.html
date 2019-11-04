@@ -1,0 +1,13 @@
+<nav class="headertitle">
+    <h1 class="navbar-header">消防系统计算平台 </h1>
+    <div class="container-fluid">
+        <div class="nav-item dropdown">
+            <a data-toggle="dropdown" data-target="#" role="button">
+                <div class="username">{{ request.session.username }}<span class="caret"></span></div>
+            </a>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" href="{% url 'logout' %}" role="menuitem">退出</a>
+            </div>
+        </div>
+    </div>
+</nav>

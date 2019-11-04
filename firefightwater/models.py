@@ -53,6 +53,7 @@ class ModuleTable(models.Model):
     )
     have = models.CharField(max_length=2, choices=CHOICES, default=NO)
 
+
 class ProjectTable(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, db_index=True)
     module = models.ForeignKey(Module, on_delete=models.CASCADE, db_index=True)

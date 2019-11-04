@@ -1,50 +1,32 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>消防系统用水量-消防系统计算平台</title>
-	<link rel="stylesheet" type="text/css" href="/static/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" href="/static/css/demo.css">
-	<link rel="stylesheet" href="/static/css/jquery.jexcel.css" type="text/css" />
-	<style type="text/css">
-		#my{
-            width: 800px;
-			margin: 50px auto;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消防系统用水量-消防系统计算平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/demo.css">
 </head>
 <body>
-	<div class="jq22-container">
-		<header class="jq22-header">
-			<h1>消防系统计算平台 </h1>
+<div class="jq22-container">
+    {% include "header.html" %}
+    <header class="jq22-header">
+        {% include "select_module.html" %}
+    </header>
 
-            <p></p>
-			<div class="jq22-demo center">
-                <a href="{% url 'project' %}" >项目列表</a>
-                <a href="{% url 'project_add' %}?pk={{ p.id }}">概况</a>
-                {% if select_module %}
-                    {% for var in select_module %}
-                        <a href="{% url 'module' p.id var.id %}" {% ifequal var.id cur.0.id %}class="current"{% endifequal %}>{{ var.module_name }}</a>
-                    {% endfor %}
-                {% else %}
+</div>
+<div class="jq22-demo center">
+    {% if tables %}
+        <div>
+            {% for var in tables %}
+                <div><a style="color: #000;" href="{% url 'excel' var.id %}">{{ var.table.table_name }}</a>
+                    | {{ var.table.catalog }} | {{ var.table.subtitle1 }} | {{ var.table.subtitle2 }} </div>
+            {% endfor %}
+        </div>
+    {% else %}
 
-                {% endif %}
-			</div>
-		</header>
-
-	</div>
-    <div class="jq22-demo center">
-            {% if tables %}
-                <div>
-                {% for var in tables %}
-                    <div><a style="color: #000;" href="{% url 'excel' var.id %}">{{ var.table.table_name }}</a> | {{ var.table.catalog }} | {{ var.table.subtitle1 }} | {{ var.table.subtitle2 }} </div>
-                {% endfor %}
-                </div>
-            {% else %}
-
-            {% endif %}
-    </div>
+    {% endif %}
+</div>
 </body>
 </html>

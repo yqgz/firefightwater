@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Project, ProjectTable, Table, Column, Value, Module, ModuleTable
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
+from django.contrib.admin.forms import AdminAuthenticationForm
 from .forms import *
 from firefightwater.common.response import json_response
 import json
@@ -100,7 +101,8 @@ def project_add(request):
     context['msg'] = msg
     return render(request, 'project_add.html', context)
 
-#获取项目模块
+
+# 获取项目模块
 def getSelectModule(pk, user):
     module_list = Module.objects.all()
     p = Project.objects.get(id=pk, user=user)
@@ -112,16 +114,20 @@ def getSelectModule(pk, user):
             selects.append(m)
     return selects
 
+
+# 模型
 @login_required(redirect_field_name='', login_url='/login/')
 def module(request, pk, md):
     module_list = Module.objects.all()
     cur = module_list.filter(id=md)
     p = Project.objects.get(id=pk, user=request.user)
     tables = ProjectTable.objects.filter(project=pk, module=md)
-    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module':getSelectModule(pk, request.user)}
+    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables,
+               'select_module': getSelectModule(pk, request.user)}
     return render(request, 'module.html', context, )
 
 
+# 表格
 @login_required(redirect_field_name='', login_url='/login/')
 def excel(request, pk):
     module_list = Module.objects.all()
@@ -150,6 +156,7 @@ def excel(request, pk):
     return render(request, 'excel.html', context)
 
 
+# 登录
 def login(request):
     if request.POST:
         form = loginForm(request.POST)
@@ -161,11 +168,11 @@ def login(request):
                 auth.login(request, user)
                 request.session['username'] = username
                 return redirect('/project/')
-    else:
-        form = loginForm()
-    return render(request, 'login.html', {'form': form})
+
+    return render(request, 'login.html')
 
 
+# 登出
 def logout(request):
     auth.logout(request)
     return redirect('/login/')

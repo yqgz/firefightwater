@@ -1,0 +1,12 @@
+<header class="jq22-header">
+    <div class="jq22-demo center">
+        <a href="{% url 'project' %}">项目列表</a>
+        <a href="{% url 'project_add' %}?pk={{ p.id }}" {% if not cur %}class="current"{% endif %}>概况</a>
+        {% if select_module %}
+            {% for var in select_module %}
+                <a href="{% url 'module' p.id var.id %}"
+                   {% ifequal var.id cur.0.id %}class="current"{% endifequal %}>{{ var.module_name }}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+</header>
