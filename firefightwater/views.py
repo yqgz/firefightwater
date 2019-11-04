@@ -130,8 +130,13 @@ def module(request, pk, md):
 # 表格
 @login_required(redirect_field_name='', login_url='/login/')
 def excel(request, pk):
-    module_list = Module.objects.all()
     pt = ProjectTable.objects.filter(id=pk)
+    module_list = Module.objects.all()
+    cur = module_list.filter(id=pt)
+    p = Project.objects.get(id=pk, user=request.user)
+    context = {'module_list': module_list, 'p': p, 'cur': cur,
+               'select_module': getSelectModule(pk, request.user)}
+
     cur = module_list.filter()
     context = {}
     project_table = ProjectTable.objects.get(id=pk)
@@ -153,7 +158,7 @@ def excel(request, pk):
         c.append({'title': column.column_name})
     context['columns'] = json.dumps(c)
     context['data'] = data
-    return render(request, 'excel.html', context)
+    return render(request, 'nestedheader.html', context)
 
 
 # 登录
