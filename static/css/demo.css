@@ -245,6 +245,9 @@ pre{
 .content{
 	padding:20px 10% 20px
 }
+.content-table{
+	padding:10px 10px 10px
+}
 .btn-primary{
 	background-color:#1d7db1;
 	border-style: none;
@@ -293,7 +296,7 @@ td{
 	margin-right: 10px;
 	width:100px;
 }
-jq22-demo .container-fluid .nav-item a{
+.jq22-demo .container-fluid .nav-item a{
 	border: none;
 }
 .dropdown-menu{
@@ -337,4 +340,12 @@ jq22-demo .container-fluid .nav-item a{
 	font-size: 14px;
 	padding-bottom: 5px;
 	color: #4f4f4f;
+}
+.h2label{
+	font-size: 1.5em;
+    font-weight: bold;
+}
+.h3label{
+	font-size: 1.17em;
+    font-weight: bold;
 }

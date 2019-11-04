@@ -1,54 +1,64 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>室外消火栓系统-消防系统计算平台</title>
-	<link rel="stylesheet" type="text/css" href="../static/css/normalize.css" />
-	<link rel="stylesheet" type="text/css" href="../static/css/demo.css">
-	<link rel="stylesheet" href="../static/css/jquery.jexcel.css" type="text/css" />
-	<style type="text/css">
-		#my{
-            width: 800px;
-			margin: 50px auto;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>室外消火栓系统-消防系统计算平台</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/demo.css">
+    <link rel="stylesheet" href="../static/css/jquery.jexcel.css" type="text/css" />
+
 </head>
 <body>
-	<div class="jq22-container">
-		<header class="jq22-header">
-			<h1>消防系统计算平台 </h1>
-            <p></p>
-			<div class="jq22-demo center">
-                <a href="project.html">项目列表</a>
-                <a href="index.html">概况</a>
-                <a href="SystemWater.html">消防系统用水量</a>
-                <a href="WaterPool.html">消防水池及水箱容积</a>
-                <a href="Outdoor.html" class="current">室外消火栓系统</a>
-                <a href="Indoor.html">室内消火栓系统</a>
-                <a href="Auto.html">自动喷水灭火系统</a>
-                <a href="Transfer.html">消防转输系统</a>
-                <a href="Sprinkle.html">水喷雾灭火系统</a>
-                <a href="Gas.html">气体灭火系统</a>
-                <a href="Extinguisher.html">灭火器配置</a>
-                <a href="Cooling.html">防护冷却系统</a>
-			</div>
-		</header>
-		<div id="my"></div>
-	</div>
+<div class="jq22-container">
+    <header class="jq22-header">
+        <h1>消防系统计算平台 </h1>
+        <p></p>
 
+    </header>
 
-	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-	<script type="text/javascript" src="../static/js/jquery.jexcel.js"></script>
-	<script type="text/javascript">
-		data = [
-		    ['Google', 1998, 807.80],
-		    ['Apple', 1976, 116.52],
-		    ['Yahoo', 1994, 38.66],
-		];
+</div>
+<div class="content-table">
+    <div style="margin-top: 0.83em;margin-bottom: 0.83em;">
+        <label class="h2label" >1.室外消火栓系统供水泵计算：</label>
+        <label id="pump" name="pump" style="font-size: 1.17em">有水泵</label>
+        <!--显示：有供水泵 or 无供水泵-->
+    </div>
+    <div id="has"><!--有水泵-->
+        <div style="margin-top:1em;margin-bottom: 1em">
+            <label class="h3label">a.室外消火栓系统供水泵流量：</label>
+            <input type="text" id="flow4" name="flow4" style="width:100px"/>
+            <!--显示：表2.1中相应的设计流量值-->
+        </div>
+        <h3>b.室外消火栓系统供水泵扬程</h3>
+        <p>1).管网水头损失的计算</p>
+        <!--表4.1-1-->
 
-		$('#my').jexcel({ data:data, colWidths: [ 300, 80, 100 ] });
-	</script>
+        <p>2).水泵扬程及系统压力的计算</p>
+        <!--表4.1-2-->
+
+        <h3>c.室外消火栓系统供水泵选型</h3>
+        <!--表4.1-3-->
+
+        <h2>2.室外消火栓系统水泵启停压力计算</h2>
+        <!--表4.2-->
+
+        <h2>3.室外消火栓系统稳压泵计算</h2>
+        <!--表4.2-->
+    </div>
+    <div id="no"><!--无水泵-->
+        <h2>4.室外消火栓系统管网计算</h2>
+        <p>1).管网水头损失的计算</p>
+        <!--表4.4-1-->
+
+        <p>2).最不利点消火栓压力的计算</p>
+        <!--表4.4-2-->
+    </div>
+</div>
+
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../static/js/jquery.jexcel.js"></script>
+
 </body>
 </html>
