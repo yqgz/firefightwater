@@ -3,7 +3,7 @@
 {#重写content#}
 {% block content %}
     <div class="content-table">
-        <p>1.{{ tables.0.table.table_name }}</p>
+        <p>1.<a style="color: #000;" href="{% url 'excel' tables.0.id %}">{{ tables.0.table.table_name }}</a></p>
         <!--表2.1-->
 
     </div>
