@@ -2,30 +2,39 @@
 {% block title %}<title>{{ cur.0.module_name }}-消防系统计算平台</title>{% endblock %}
 {% block extrastyle %}
     {% load staticfiles %}
-    <link rel="stylesheet" href="https://bossanova.uk/jsuites/v2/jsuites.css" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/jsuites.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/jexcel.css' %}" type="text/css"/>
     <script src="{% static 'js/jexcel.js' %}"></script>
-    <script src="https://bossanova.uk/jsuites/v2/jsuites.js"></script>
+    <script src="{% static 'js/jsuites.js' %}"></script>
 {% endblock %}
+
+
 
 {% block header %}
-    {% include 'header.html' %}
-    {% include 'select_module.html' %}
+        {% include 'header.html' %}
+        {% include 'select_module.html' %}
 {% endblock %}
-
 {% block content %}
     <div class="table">
         <h3 style="margin-top: 10px">消防系统用水量</h3>
         <div id="spreadsheet"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick=""/>
-            <input type='button' class="btn-primary" value='保存' onclick=""/>
+            <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
         </div>
     </div>
 {% endblock %}
 
-
+{% block extrajs %}
 <script>
+//提交保存
+function submit() {
+    txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))
+    csrf = $("input[name='csrfmiddlewaretoken']").val()
+    $.post("{% url 'excel' 3 %}", {data:txt, csrfmiddlewaretoken:csrf}, function (result) {
+        $("#ret").html(result.data)
+    })
+}
     //公式计算
     var data = [
         ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
@@ -34,7 +43,7 @@
         ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
     ];
 
-    table = jexcel(document.getElementById('spreadsheet'), {
+    table = $('#spreadsheet').jexcel({
         data: data,
         columns: [
             {type: 'text', title: '系统名称', width: '100'},
@@ -139,3 +148,4 @@
         }
     });
 </script>
+{% endblock %}

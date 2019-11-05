@@ -124,7 +124,8 @@ def module(request, pk, md):
     tables = ProjectTable.objects.filter(project=pk, module=md)
     context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables,
                'select_module': getSelectModule(pk, request.user)}
-    return render(request, 'module.html', context, )
+
+    return render(request, cur[0].module_en_name+'.html', context, )
 
 
 # 表格
@@ -132,32 +133,27 @@ def module(request, pk, md):
 def excel(request, pk):
     pt = ProjectTable.objects.filter(id=pk)
     module_list = Module.objects.all()
-    cur = module_list.filter(id=pt)
-    p = Project.objects.get(id=pk, user=request.user)
-    context = {'module_list': module_list, 'p': p, 'cur': cur,
-               'select_module': getSelectModule(pk, request.user)}
+    cur = module_list.filter(id=pt[0].module_id)
+    p = pt[0].project
 
-    cur = module_list.filter()
-    context = {}
-    project_table = ProjectTable.objects.get(id=pk)
     if request.POST:
         data = request.POST['data']
-        value = Value(value=json.dumps(data), project_table=project_table)
+        value = Value(value=json.dumps(data), project_table=pt[0])
         value.save()
         return json_response('保存成功！')
     else:
-        data = Value.objects.filter(project_table=project_table)
+        data = Value.objects.filter(project_table=pt[0])
         if data:
             data = data[0].value
         else:
             data = json.dumps("[[]]")
     c = []
 
-    columns = Column.objects.filter(table=project_table.table)
+    columns = Column.objects.filter(table=pt[0].table)
     for column in columns:
         c.append({'title': column.column_name})
-    context['columns'] = json.dumps(c)
-    context['data'] = data
+    context = {'module_list': module_list, 'p': p, 'cur': cur,
+               'select_module': getSelectModule(pt[0].project_id, request.user), 'data': data, 'columns': json.dumps(c)}
     return render(request, 'nestedheader.html', context)
 
 
