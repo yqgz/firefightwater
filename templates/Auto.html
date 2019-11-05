@@ -1,19 +1,5 @@
 {#继承父页面#}
-{% extends 'base.html' %}
-{#重写title#}
-{% block title %}<title>自动喷水灭火系统-消防系统计算平台</title>{% endblock %}
-{#重写extrastyle 这个页面独有的样式 额外的#}
-{% block extrastyle %}
-    {# 加载静态文件 #}
-    {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'css/jquery.jexcel.css' %}" type="text/css"/>
-{% endblock %}
-{#重写header#}
-{% block header %}
-    {#引用header.html/select_module.html页面#}
-    {% include 'header.html' %}
-    {% include 'select_module.html' %}
-{% endblock %}
+{% extends 'module.html' %}
 {#重写content#}
 {% block content %}
     <div class="content-table">
@@ -40,9 +26,4 @@
         <!--附表2-->
 
     </div>
-{% endblock %}
-{#重写extrajs#}
-{% block extrajs %}
-    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery.jexcel.js' %}"></script>
 {% endblock %}
