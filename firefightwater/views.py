@@ -8,6 +8,19 @@ from firefightwater.common.response import json_response
 import json
 
 
+# 获取项目模块
+def getSelectModule(pk, user):
+    module_list = Module.objects.all()
+    p = Project.objects.get(id=pk, user=user)
+    select_module = p.projecttable_set
+    selects = []
+    for m in module_list:
+        have = select_module.filter(module=m)
+        if have and m not in selects:
+            selects.append(m)
+    return selects
+
+
 @login_required(redirect_field_name='', login_url='/login/')
 def project(request):
     project_list = Project.objects.filter(user=request.user)
@@ -102,19 +115,6 @@ def project_add(request):
     return render(request, 'project_add.html', context)
 
 
-# 获取项目模块
-def getSelectModule(pk, user):
-    module_list = Module.objects.all()
-    p = Project.objects.get(id=pk, user=user)
-    select_module = p.projecttable_set
-    selects = []
-    for m in module_list:
-        have = select_module.filter(module=m)
-        if have and m not in selects:
-            selects.append(m)
-    return selects
-
-
 # 模型
 @login_required(redirect_field_name='', login_url='/login/')
 def module(request, pk, md):
@@ -125,7 +125,7 @@ def module(request, pk, md):
     context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables,
                'select_module': getSelectModule(pk, request.user)}
 
-    return render(request, cur[0].module_en_name+'.html', context, )
+    return render(request, cur[0].module_en_name + '.html', context, )
 
 
 # 表格
