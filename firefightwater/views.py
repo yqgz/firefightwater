@@ -168,7 +168,7 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
                 request.session['username'] = username
-                return redirect('/project/')
+                return redirect('/')
 
     return render(request, 'login.html')
 

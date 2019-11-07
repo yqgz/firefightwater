@@ -20,7 +20,7 @@ from firefightwater import views
 # app_name = 'firefightwater'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('project/', views.project, name='project'),
+    path('', views.project, name='project'),
     path('project_add/', views.project_add, name='project_add'),
     path('module/<int:pk>/<int:md>/', views.module, name='module'),
     path('excel/<int:pk>/', views.excel, name='excel'),
