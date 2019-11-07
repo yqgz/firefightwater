@@ -349,3 +349,9 @@ td{
 	font-size: 1.17em;
 	font-weight: bold;
 }
+.checkblock .col-lg-2{
+padding-left: 0;
+}
+.checkblock .col-lg-3{
+padding-right: 0;
+}
