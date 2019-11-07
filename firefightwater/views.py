@@ -9,7 +9,7 @@ import json
 
 
 # 获取项目模块
-def getSelectModule(pk, user):
+def getselectmodule(pk, user):
     module_list = Module.objects.all()
     p = Project.objects.get(id=pk, user=user)
     select_module = p.projecttable_set
@@ -97,7 +97,7 @@ def project_add(request):
                     moduletables = ModuleTable.objects.filter(module=have[0].module, table=have[0].table)
                     if moduletables[0].have == '是':
                         m.have = 1
-            context['select_module'] = getSelectModule(pk, request.user)
+            context['select_module'] = getselectmodule(pk, request.user)
         else:
             p = Project(
                 project_name='',
@@ -123,7 +123,7 @@ def module(request, pk, md):
     p = Project.objects.get(id=pk, user=request.user)
     tables = ProjectTable.objects.filter(project=pk, module=md)
     context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables,
-               'select_module': getSelectModule(pk, request.user)}
+               'select_module': getselectmodule(pk, request.user)}
 
     return render(request, cur[0].module_en_name + '.html', context, )
 
@@ -153,7 +153,7 @@ def excel(request, pk):
     for column in columns:
         c.append({'title': column.column_name})
     context = {'module_list': module_list, 'p': p, 'cur': cur,
-               'select_module': getSelectModule(pt[0].project_id, request.user), 'data': data, 'columns': json.dumps(c)}
+               'select_module': getselectmodule(pt[0].project_id, request.user), 'data': data, 'columns': json.dumps(c)}
     return render(request, 'nestedheader.html', context)
 
 
@@ -169,7 +169,6 @@ def login(request):
                 auth.login(request, user)
                 request.session['username'] = username
                 return redirect('/')
-
     return render(request, 'login.html')
 
 

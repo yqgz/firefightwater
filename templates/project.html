@@ -6,11 +6,11 @@
 
 {% block header %}
     {% include "header.html" %}
-    <header class="jq22-header">
+    <!--<header class="jq22-header">
         <div class="jq22-demo center">
             <a href="{% url 'project' %}" class="current">项目列表</a>
         </div>
-    </header>
+    </header>-->
 {% endblock %}
 
 {% block content %}
@@ -22,19 +22,17 @@
                 </button>
             </div>
             {% if project_list %}
-                <div>
                 {% for var in project_list %}
                     <div class="project">
                     <a style="color: #000;" href="{% url 'project_add' %}?pk={{ var.id }}">{{ var.project_name }}</a>
                     <div class="project-dtl">{{ var.project_text | slice:"80" }} </div>
                     <div class="project-dtl">{{ var.user.username }} {{ var.pub_date }}</div>
+                    </div>
                 {% endfor %}
-            </div>
             {% else %}
 
             {% endif %}
 
-            </div>
         </div>
     </div>
 {% endblock %}

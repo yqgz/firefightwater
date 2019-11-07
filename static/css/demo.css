@@ -60,7 +60,7 @@ pre{
 .bgcolor-20{ background: #494A5F;color: #D5D6E2;}
 /* Header */
 .jq22-header{
-	padding:10px 100px 10px;
+	padding:0 100px 10px;
 	letter-spacing: -1px;
 	text-align: center;
 	background:#222222;
@@ -83,7 +83,6 @@ pre{
 /*nav*/
 .jq22-demo a{color: #fff;text-decoration: none;}
 .jq22-demo{width: 100%;
-	padding-top: 1em;
 	padding-bottom: 1em;}
 .jq22-demo a{display: inline-block;margin: 0.5em;padding: 0.6em 1em;border: 3px solid #fff;font-weight: 700;}
 .jq22-demo a:hover{color: #fff;opacity: 0.6;}
@@ -203,9 +202,9 @@ pre{
 		padding: 2em 10% 2em;
 	}
 	.jq22-header h1 {
-        font-size:1.4em;
-    }
-    .jq22-links{font-size: 1.4em}
+		font-size:1.4em;
+	}
+	.jq22-links{font-size: 1.4em}
 }
 
 @media screen and (max-width: 960px) {
@@ -213,10 +212,10 @@ pre{
 		padding: 2em 10% 2em;
 	}
 	.jq22-header h1 {
-        font-size:1.2em;
-    }
-    .jq22-links{font-size: 1.2em}
-    .related h3{font-size: 1em;}
+		font-size:1.2em;
+	}
+	.jq22-links{font-size: 1.2em}
+	.related h3{font-size: 1em;}
 	.related a h3 {
 		font-size: 0.8em;
 	}
@@ -224,9 +223,9 @@ pre{
 
 @media screen and (max-width: 766px) {
 	.jq22-header h1 {
-        font-size:1.3em;
-    }
-    .jq22-links{font-size: 1.3em}
+		font-size:1.3em;
+	}
+	.jq22-links{font-size: 1.3em}
 }
 
 @media screen and (max-width: 640px) {
@@ -234,10 +233,10 @@ pre{
 		padding: 2em 10% 2em;
 	}
 	.jq22-header h1 {
-        font-size:1em;
-    }
-    .jq22-links{font-size: 1em}
-    .related h3{font-size: 0.8em;}
+		font-size:1em;
+	}
+	.jq22-links{font-size: 1em}
+	.related h3{font-size: 0.8em;}
 	.related a h3 {
 		font-size: 0.6em;
 	}
@@ -264,10 +263,10 @@ pre{
 
 }
 h1 h3{
-    margin-top: 10px;
+	margin-top: 10px;
 }
 .headertitle{
-	padding: 10px 2% 0 2%;
+	padding: 10px 2% 10px 2%;
 	letter-spacing: -1px;
 	text-align: left;
 	background:#222222;
@@ -279,10 +278,10 @@ h1 h3{
 	line-height: 1;
 	margin-bottom: 0;
 	margin-top:10px;
-    width:250px
+	width:250px
 }
 .username{
-    color: #fff;
+	color: #fff;
 	margin-top:10px;
 }
 td{
@@ -304,6 +303,7 @@ td{
 	min-width: 70px;
 	right:0;
 	margin: 0;
+	transform: translate3d(0px, 45px, 0px)!important;
 }
 .show > .dropdown-menu{
 	display: block;
@@ -323,7 +323,7 @@ td{
 	border-radius:5px;
 	text-align: left;
 	margin: 10px 5px;
-    padding: 0 10px;
+	padding: 0 10px;
 	background-color: rgba(255, 211, 123, 0.4);
 
 }
@@ -343,9 +343,15 @@ td{
 }
 .h2label{
 	font-size: 1.5em;
-    font-weight: bold;
+	font-weight: bold;
 }
 .h3label{
 	font-size: 1.17em;
-    font-weight: bold;
+	font-weight: bold;
+}
+.checkblock .col-lg-2{
+padding-left: 0;
+}
+.checkblock .col-lg-3{
+padding-right: 0;
 }

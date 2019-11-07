@@ -14,213 +14,213 @@
 {% endblock %}
 
 {% block content %}
-<div class="content">
-    <form action="{% url 'project_add' %}" method="post">
-        <input type="hidden" name="pk" value="{% if p.id %}{{ p.id }}{% endif %}">
-        {% csrf_token %}
-        {% if msg %}
-            <div class="row"><label style="color: #ba2121;">{{ msg }}</label></div>
-        {% endif %}
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <div class="col-lg-3"><label>项目名称<span style="color:red">*</span>：</label></div>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="project_name" name="project_name"
-                               value="{{ p.project_name }}" placeholder="请输入项目名称"/>
+    <div class="content">
+        <form action="{% url 'project_add' %}" method="post">
+            <input type="hidden" name="pk" value="{% if p.id %}{{ p.id }}{% endif %}">
+            {% csrf_token %}
+            {% if msg %}
+                <div class="row"><label style="color: #ba2121;">{{ msg }}</label></div>
+            {% endif %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3"><label>项目名称<span style="color:red">*</span>：</label></div>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="project_name" name="project_name"
+                                   value="{{ p.project_name }}" placeholder="请输入项目名称"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <div class="col-lg-3"><label>项目编号<span style="color:red">*</span>：</label></div>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="project_num" name="project_num"
-                               value="{{ p.project_num }}" placeholder="请输入项目编号"/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3"><label>项目编号<span style="color:red">*</span>：</label></div>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="project_num" name="project_num"
+                                   value="{{ p.project_num }}" placeholder="请输入项目编号"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <div class="col-lg-3"><label>项目概况<span style="color:red">*</span>：</label></div>
-                    <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3"><label>项目概况<span style="color:red">*</span>：</label></div>
+                        <div class="col-lg-8">
                         <textarea type="text" class="form-control" id="project_text" name="project_text" rows="5"
                                   placeholder="请输入项目概况">{{ p.project_text }}</textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <div class="col-lg-3"><label>设计人<span style="color:red">*</span>：</label></div>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="designer" name="designer" value="{{ p.designer }}"
-                               placeholder="请输入项目设计人"/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3"><label>设计人<span style="color:red">*</span>：</label></div>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="designer" name="designer" value="{{ p.designer }}"
+                                   placeholder="请输入项目设计人"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <div class="col-lg-3"><label>校对人<span style="color:red">*</span>：</label></div>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="proofreader" name="proofreader"
-                               value="{{ p.proofreader }}" placeholder="请输入项目校对人"/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3"><label>校对人<span style="color:red">*</span>：</label></div>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="proofreader" name="proofreader"
+                                   value="{{ p.proofreader }}" placeholder="请输入项目校对人"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <div class="col-lg-3"><label>专业负责人<span style="color:red">*</span>：</label></div>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="chief" name="chief" value="{{ p.chief }}"
-                               placeholder="请输入专业负责人"/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3"><label>专业负责人<span style="color:red">*</span>：</label></div>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="chief" name="chief" value="{{ p.chief }}"
+                                   placeholder="请输入专业负责人"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <div class="col-lg-3"><label>审批人<span style="color:red">*</span>：</label></div>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="approver" name="approver" value="{{ p.approver }}"
-                               placeholder="请输入审批人"/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3"><label>审批人<span style="color:red">*</span>：</label></div>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="approver" name="approver" value="{{ p.approver }}"
+                                   placeholder="请输入审批人"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <div class="col-lg-3"><label>版本号<span style="color:red">*</span>：</label></div>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" id="version" name="version" value="{{ p.version }}"
-                               placeholder="请输入版本号"/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <div class="col-lg-3"><label>版本号<span style="color:red">*</span>：</label></div>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="version" name="version" value="{{ p.version }}"
+                                   placeholder="请输入版本号"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <h3>选择项目模块：</h3>
-        <div class="row" style="margin-bottom:10px">
-            <div class="col-lg-4">
-                <div class="input-group">
+            <h3>选择项目模块：</h3>
+            <div class="row" style="margin-bottom:10px">
+                <div class="col-lg-4">
+                    <div class="input-group">
 			 <span class="input-group-addon">
 				 <input type="checkbox" name="{{ module_list.0.module_en_name }}"
                         id="{{ module_list.0.module_en_name }}" onclick="return false;" checked="checked">
 			 </span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.0.module_name }}">
+                        <input type="text" class="form-control" disabled value="{{ module_list.0.module_name }}">
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="input-group">
+                <div class="col-lg-3">
+                    <div class="input-group">
 				 <span class="input-group-addon">
 					 <input type="checkbox" name="{{ module_list.1.module_en_name }}"
                             id="{{ module_list.1.module_en_name }}" {% if module_list.1.select %}
                             checked="checked" {% endif %} >
 				 </span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.1.module_name }}">
+                        <input type="text" class="form-control" disabled value="{{ module_list.1.module_name }}">
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="input-group">
+
+                <div class="col-lg-5">
+                    <div class="input-group">
 				<span class="input-group-addon">
 					<input type="checkbox" name="{{ module_list.2.module_en_name }}"
                            id="{{ module_list.2.module_en_name }}" onclick="return false;" checked="checked">
 				</span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.2.module_name }}">
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="input-group">
-				<span class="input-group-addon">
+                        <input type="text" class="form-control" disabled value="{{ module_list.2.module_name }}">
+
+                        <span class="input-group-addon">
 					<input type="checkbox" name="hydrant" id="hydrant" {% if module_list.2.have %}
                            checked="checked" {% endif %}>
 				</span>
-                    <input type="text" class="form-control" disabled value="消火栓">
+                        <input type="text" class="form-control" disabled value="消火栓">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row" style="margin-bottom:10px">
-            <div class="col-lg-4">
-                <div class="input-group">
+
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-lg-4">
+                        <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.3.module_en_name }}"
                                id="{{ module_list.3.module_en_name }}" onclick="return false;" checked="checked">
 					</span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.3.module_name }}">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group">
+                            <input type="text" class="form-control" disabled value="{{ module_list.3.module_name }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.4.module_en_name }}"
                                id="{{ module_list.4.module_en_name }}" onclick="return false;" checked="checked">
 					</span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.4.module_name }}">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group">
+                            <input type="text" class="form-control" disabled value="{{ module_list.4.module_name }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.5.module_en_name }}"
                                id="{{ module_list.5.module_en_name }}" onclick="return false;" checked="checked">
 					</span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.5.module_name }}">
+                            <input type="text" class="form-control" disabled value="{{ module_list.5.module_name }}">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row" style="margin-bottom:10px">
-            <div class="col-lg-4">
-                <div class="input-group">
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-lg-4">
+                        <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.6.module_en_name }}"
                                id="{{ module_list.6.module_en_name }}"  {% if module_list.1.select %}
                                checked="checked" {% endif %} >
 					</span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.6.module_name }}">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group">
+                            <input type="text" class="form-control" disabled value="{{ module_list.6.module_name }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.7.module_en_name }}"
                                id="{{ module_list.7.module_en_name }}" {% if module_list.1.select %}
                                checked="checked" {% endif %} >
 					</span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.7.module_name }}">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="input-group">
+                            <input type="text" class="form-control" disabled value="{{ module_list.7.module_name }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.8.module_en_name }}"
                                id="{{ module_list.8.module_en_name }}" onclick="return false;" checked="checked">
 					</span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.8.module_name }}">
+                            <input type="text" class="form-control" disabled value="{{ module_list.8.module_name }}">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row" style="margin-bottom:10px">
-            <div class="col-lg-4">
-                <div class="input-group">
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-lg-4">
+                        <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.9.module_en_name }}"
                                id="{{ module_list.9.module_en_name }}" onclick="return false;" checked="checked">
 					</span>
-                    <input type="text" class="form-control" disabled value="{{ module_list.9.module_name }}">
+                            <input type="text" class="form-control" disabled value="{{ module_list.9.module_name }}">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <input type="submit" class="btn-primary" value="保存">
-    </form>
-</div>
+
+                <input type="submit" class="btn-primary" value="保存">
+        </form>
+    </div>
 {% endblock %}
