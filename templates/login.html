@@ -13,8 +13,6 @@
 <div class=" login" data-admin-utc-offset="28800">
 <!-- Container -->
 <div id="container" >
-
-
     <!-- Header -->
     <div id="header">
         <div id="branding">
@@ -34,11 +32,9 @@
 <form action="/login/?next=/project/" method="post" id="login-form">
     {% csrf_token %}
     <div class="form-row">
-
         <label class="required" for="id_username">用户名:</label> <input type="text" name="username" autofocus="" required="" id="id_username">
       </div>
   <div class="form-row">
-
     <label class="required" for="id_password">密码:</label> <input type="password" name="password" required="" id="id_password">
     <input type="hidden" name="next" value="/admin/">
   </div>
