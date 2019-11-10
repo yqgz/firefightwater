@@ -3,8 +3,107 @@
 {#重写content#}
 {% block content %}
     <div class="content-table">
-        <p>1.<a style="color: #000;" href="{% url 'excel' tables.0.id %}">{{ tables.0.table.table_name }}</a></p>
+        <p>1.消防系统用水量</p>
         <!--表2.1-->
-
+        <div id="spreadsheet"></div>
+        <div>
+            <input type='button' class="btn-primary" value='新增' onclick=""/>
+            <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
+        </div>
     </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        //提交保存
+        function submit() {
+            txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))
+            csrf = $("input[name='csrfmiddlewaretoken']").val()
+            $.post("{% url 'excel' 3 %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
+                $("#ret").html(result.data)
+            })
+        }
+        //公式计算
+        var data = [
+            ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
+            ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
+            ['合计', '', , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
+            ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
+        ];
+
+        table = $('#spreadsheet').jexcel({
+            data: JSON.parse({{ data|safe }}),
+            columns: {{ columns|safe }},
+            nestedHeaders: [
+                {{ formula|safe }},
+                {{ parameter|safe }},
+            ],
+            wordWrap: true,
+            allowComments: true,
+            contextMenu: function (obj, x, y, e) {
+                var items = [];
+                if (y == null) {
+                    // Sorting
+                    if (obj.options.columnSorting == true) {
+                        // Line
+                        //items.push({ type:'line' });
+
+                        items.push({
+                            title: obj.options.text.orderAscending,
+                            onclick: function () {
+                                obj.orderBy(x, 0);
+                            }
+                        });
+                        items.push({
+                            title: obj.options.text.orderDescending,
+                            onclick: function () {
+                                obj.orderBy(x, 1);
+                            }
+                        });
+                    }
+                } else {
+                    // Insert new row
+                    if (obj.options.allowInsertRow == true) {
+                        items.push({
+                            title: obj.options.text.insertANewRowAfter,
+                            onclick: function () {
+                                obj.insertRow(1, parseInt(y));
+                            }
+                        });
+                    }
+
+                    if (obj.options.allowDeleteRow == true) {
+                        items.push({
+                            title: obj.options.text.deleteSelectedRows,
+                            onclick: function () {
+                                obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                            }
+                        });
+                    }
+
+                    /*if (x) {
+                     if (obj.options.allowComments == true) {
+                     items.push({ type:'line' });
+
+                     var title = obj.records[y][x].getAttribute('title') || '';
+
+                     items.push({
+                     title: title ? obj.options.text.editComments : obj.options.text.addComments,
+                     onclick:function() {
+                     obj.setComments([ x, y ], prompt(obj.options.text.comments, title));
+                     }
+                     });
+                     }
+                     }*/
+                }
+                return items;
+            },
+            text: {
+                insertANewRowAfter: "插入一行",
+                deleteSelectedRows: "删除选中行",
+                orderAscending: "升序排列",
+                orderDescending: "降序排列"
+            }
+        });
+    </script>
 {% endblock %}

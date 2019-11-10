@@ -72,7 +72,24 @@ class Column(models.Model):
     prompt = models.CharField('提示', max_length=100, null=True, blank=True)
     must = models.BooleanField('是否必填', default=True)
     # 填写"SUM"、"MAX"等
-    aggregate = models.CharField('合计方式', max_length=100, null=True, blank=True)
+    SUM = 'SUM'
+    MAX = 'MAX'
+    AVG = 'AVG'
+    ACHOICES = (
+        (SUM, 'SUM'),
+        (MAX, 'MAX'),
+        (AVG, 'AVG'),
+    )
+    aggregate = models.CharField('合计方式', max_length=10, choices=ACHOICES, null=True, blank=True)
+    # 填写
+    TEXT = 'text'
+    CHECKBOX = 'checkbox'
+    ACHOICES = (
+        (TEXT, 'text'),
+        (CHECKBOX, 'checkbox'),
+    )
+    type = models.CharField('类型', max_length=10, choices=ACHOICES, default='text')
+    width = models.IntegerField('列宽度', default=100)
     pub_date = models.DateTimeField('date published', auto_now=True)
 
     def __str__(self):
@@ -81,7 +98,10 @@ class Column(models.Model):
 
 class Value(models.Model):
     project_table = models.ForeignKey(ProjectTable, on_delete=models.CASCADE, db_index=True)
+    column = models.ForeignKey(Column, on_delete=models.CASCADE, db_index=True, null=True, blank=True)
+    line = models.IntegerField('第几行', null=True, blank=True)
     value = models.TextField('值')
+    formula = models.TextField('公式', null=True, blank=True)
     pub_date = models.DateTimeField('date published', auto_now=True)
 
     def __str__(self):

@@ -122,8 +122,29 @@ def module(request, pk, md):
     cur = module_list.filter(id=md)
     p = Project.objects.get(id=pk, user=request.user)
     tables = ProjectTable.objects.filter(project=pk, module=md)
-    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables,
-               'select_module': getselectmodule(pk, request.user)}
+
+    if request.POST:
+        data = request.POST['data']
+        value = Value(value=json.dumps(data), project_table=tables[0])
+        value.save()
+        return json_response('保存成功！')
+    else:
+        data = Value.objects.filter(project_table=tables[0])
+        if data:
+            data = data[0].value
+        else:
+            data = json.dumps("[[]]")
+
+    c = []
+    f = []
+    par = []
+    columns = Column.objects.filter(table=1)
+    for column in columns:
+        c.append({'type': column.type, 'title': column.column_name, 'width': column.width})
+        f.append({'title': column.formula, 'colspan': 1})
+        par.append({'title': column.parameter, 'colspan': 1})
+    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'data': data,
+               'select_module': getselectmodule(pk, request.user), 'columns': json.dumps(c), 'formula': json.dumps(f), 'parameter': json.dumps(par)}
 
     return render(request, cur[0].module_en_name + '.html', context, )
 
