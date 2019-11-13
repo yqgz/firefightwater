@@ -68,7 +68,7 @@ class Column(models.Model):
     parameter = models.CharField('参数名', max_length=10, null=True, blank=True)
     formula = models.CharField('公式', max_length=100, null=True, blank=True)
     dropdown = models.CharField('下拉列表', max_length=10, null=True, blank=True)
-    default = models.CharField('默认值', max_length=100, null=True, blank=True)
+    defaultv = models.CharField('默认值', max_length=100, null=True, blank=True)
     prompt = models.CharField('提示', max_length=100, null=True, blank=True)
     must = models.BooleanField('是否必填', default=True)
     # 填写"SUM"、"MAX"等
@@ -80,7 +80,7 @@ class Column(models.Model):
         (MAX, 'MAX'),
         (AVG, 'AVG'),
     )
-    aggregate = models.CharField('合计方式', max_length=10, choices=ACHOICES, null=True, blank=True)
+    aggregation = models.CharField('合计方式', max_length=10, choices=ACHOICES, null=True, blank=True)
     # 填写
     TEXT = 'text'
     CHECKBOX = 'checkbox'
