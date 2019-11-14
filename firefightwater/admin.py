@@ -23,7 +23,8 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 class ColumnAdmin(admin.ModelAdmin):
-    list_display = ('column_name', 'table', 'parameter', 'formula', 'dropdown', 'default', 'prompt', 'must', 'aggregate', 'type', 'width')  # list
+    list_display = ('column_name', 'table', 'parameter', 'formula', 'dropdown', 'defaultv', 'prompt', 'must',
+                    'aggregation', 'type', 'width')  # list
 
 
 class ModuleTableAdmin(admin.ModelAdmin):
