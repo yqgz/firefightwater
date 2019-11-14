@@ -27,7 +27,6 @@ class Table(models.Model):
     subtitle2 = models.CharField('小标题二', max_length=50, null=True, blank=True)
     # 填写"合计："等文字
     total = models.CharField('合计', max_length=20, null=True, blank=True)
-
     pub_date = models.DateTimeField('date published', auto_now=True)
 
     def __str__(self):
