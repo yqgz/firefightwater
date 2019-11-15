@@ -197,3 +197,7 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('/login/')
+
+
+def nestedheader(request):
+    return render(request, 'nestedheader.html')

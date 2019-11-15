@@ -19,7 +19,7 @@
         <h3 style="margin-top: 10px">消防系统用水量</h3>
         <div id="spreadsheet"></div>
         <div>
-            <input type='button' class="btn-primary" value='新增' onclick=""/>
+            <input type='button' class="btn-primary" value='新增' onclick="addrow()"/>
             <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
         </div>
     </div>
@@ -27,14 +27,6 @@
 
 {% block extrajs %}
     <script>
-        //提交保存
-        function submit() {
-            txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))
-            csrf = $("input[name='csrfmiddlewaretoken']").val()
-            $.post("{% url 'excel' 3 %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
-                $("#ret").html(result.data)
-            })
-        }
         //公式计算
         var data = [
             ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
@@ -43,7 +35,7 @@
             ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
         ];
 
-        table = $('#spreadsheet').jexcel({
+        var table = $('#spreadsheet').jexcel({
             data: data,
             columns: [
                 {type: 'text', title: '系统名称', width: '100'},
@@ -143,9 +135,21 @@
             text: {
                 insertANewRowAfter: "插入一行",
                 deleteSelectedRows: "删除选中行",
-                orderAscending: "升序排列",
-                orderDescending: "降序排列"
             }
         });
+        //在合计行上方添加空行，只有一个合计行时减2
+        function addrow() {
+            var len=$('#spreadsheet')[0].jexcel.rows.length
+            $('#spreadsheet').jexcel('insertRow',1,len-3)
+        }
+
+            //提交保存
+        function submit() {
+            txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))
+            csrf = $("input[name='csrfmiddlewaretoken']").val()
+            $.post("{% url 'excel' 3 %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
+                $("#ret").html(result.data)
+            })
+        }
     </script>
 {% endblock %}
