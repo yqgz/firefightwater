@@ -4,3 +4,5 @@ firefightwater.ini
 local/
 firefightwater/settings.py
 firefightwater/migrations
+firefightwater/__pycache__
+.DS_Store
