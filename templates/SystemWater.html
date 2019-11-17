@@ -7,8 +7,9 @@
         <!--表2.1，id=1-->
         <div id="spreadsheet"></div>
         <div>
-            <input type='button' class="btn-primary" value='新增' onclick=""/>
-            <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
+            <input type='button' class="btn-primary" value='新增' onclick="addrow()"/>
+            <input type='button' class="btn-primary" value='保存' onclick="submit()"/><i id="ret"></i>
+            {% csrf_token %}
         </div>
     </div>
 {% endblock %}
@@ -17,11 +18,19 @@
     <script>
         //提交保存
         function submit() {
+//            这是取公式的方法getValue('A1', true); // will return value from a formula
+//取值getValue('A1') // will return a formula
+
             txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))
             csrf = $("input[name='csrfmiddlewaretoken']").val()
-            $.post("{% url 'excel' 3 %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
+            $.post("{% url 'excel' tables.0.pid %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
                 $("#ret").html(result.data)
             })
+        }
+        //在合计行上方添加空行，只有一个合计行时减2
+        function addrow() {
+            var len=$('#spreadsheet')[0].jexcel.rows.length
+            $('#spreadsheet').jexcel('insertRow',1,len-3)
         }
         //公式计算
         var data = [
@@ -32,15 +41,13 @@
         ];
 
         table = $('#spreadsheet').jexcel({
-            data: JSON.parse({{ data|safe }}),
-            columns: {{ columns|safe }},
-            nestedHeaders: [
-                {{ formula|safe }},
-                {{ parameter|safe }},
-            ],
+            data: {{ tables.0.data|safe }},
+            columns: {{ tables.0.columns|safe }},
+            nestedHeaders: {{ tables.0.nested_header|safe }},
             wordWrap: true,
             allowComments: true,
             contextMenu: function (obj, x, y, e) {
+                console.log(obj)
                 var items = [];
                 if (y == null) {
                     // Sorting

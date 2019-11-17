@@ -21,6 +21,7 @@
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow()"/>
             <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
+            <input type='button' class="btn-primary" value='test' onclick="test()"/>
         </div>
     </div>
 {% endblock %}
@@ -29,13 +30,14 @@
     <script>
         //公式计算
         var data = [
-            ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
+            ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, 'True', '=D1*E1*3600/1000', false, '这里是选择依据'],
             ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
             ['合计', '', , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
             ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
         ];
 
-        var table = $('#spreadsheet').jexcel({
+
+        var my_table = $('#spreadsheet').jexcel({
             data: data,
             columns: [
                 {type: 'text', title: '系统名称', width: '100'},
@@ -74,7 +76,9 @@
             ],
             wordWrap: true,
             allowComments: true,
+            parseFormulas: false,
             contextMenu: function (obj, x, y, e) {
+                console.log(obj)
                 var items = [];
                 if (y == null) {
                     // Sorting
@@ -141,8 +145,14 @@
         function addrow() {
             var len=$('#spreadsheet')[0].jexcel.rows.length
             $('#spreadsheet').jexcel('insertRow',1,len-3)
-        }
 
+        }
+        var testvar = jexcel()
+        function test() {
+            console.log(my_table)
+
+            console.log($('#spreadsheet').jexcel('getValueFromCoords', 1, 9))
+        }
             //提交保存
         function submit() {
             txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))

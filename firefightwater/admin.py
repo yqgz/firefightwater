@@ -9,7 +9,7 @@ class TagInline(admin.TabularInline):
 
 
 class TableAdmin(admin.ModelAdmin):
-    list_display = ('table_name', 'table_en_name', 'catalog')  # list
+    list_display = ('table_name', 'table_en_name', 'catalog', 'total')  # list
 
 
 class ModuleAdmin(admin.ModelAdmin):
@@ -23,7 +23,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 class ColumnAdmin(admin.ModelAdmin):
-    list_display = ('column_name', 'table', 'parameter', 'formula', 'dropdown', 'defaultv', 'prompt', 'must',
+    list_display = ('column_name', 'table', 'parameter', 'formula', 'c_formula', 'dropdown', 'defaultv', 'prompt', 'must',
                     'aggregation', 'type', 'width')  # list
 
 

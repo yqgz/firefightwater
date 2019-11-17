@@ -10,20 +10,24 @@ import json
 
 # 获取项目模块
 def getselectmodule(pk, user):
+    # 获取所有模块列表
     module_list = Module.objects.all()
+    # 获取当前项目
     p = Project.objects.get(id=pk, user=user)
-    select_module = p.projecttable_set
+    select_module = p.projecttable_set # 获取当前所有projecttable_set
     selects = []
     for m in module_list:
         have = select_module.filter(module=m)
         if have and m not in selects:
             selects.append(m)
-    return selects
+    return selects # 返回当前项目选择的module
 
 
 @login_required(redirect_field_name='', login_url='/login/')
 def project(request):
+    # 获取当前用户的所有项目列表
     project_list = Project.objects.filter(user=request.user)
+    # 获取所有模块列表
     module_list = Module.objects.all()
     context = {'project_list': project_list, 'module_list': module_list}
     return render(request, 'project.html', context)
@@ -89,11 +93,11 @@ def project_add(request):
             p = Project.objects.get(id=pk, user=request.user)
             select_module = p.projecttable_set
             for m in module_list:
-                m.select = False
+                m.select = False # 是否勾选
                 have = select_module.filter(module=m)
                 if have:
                     m.select = True
-                    m.have = False
+                    m.have = False # 是否有水栓
                     moduletables = ModuleTable.objects.filter(module=have[0].module, table=have[0].table)
                     if moduletables[0].have == '是':
                         m.have = 1
@@ -121,30 +125,54 @@ def module(request, pk, md):
     module_list = Module.objects.all()
     cur = module_list.filter(id=md)
     p = Project.objects.get(id=pk, user=request.user)
-    tables = ProjectTable.objects.filter(project=pk, module=md)
 
-    if request.POST:
+    if request.POST:# 保存
         data = request.POST['data']
         value = Value(value=json.dumps(data), project_table=tables[0])
         value.save()
         return json_response('保存成功！')
-    else:
-        data = Value.objects.filter(project_table=tables[0])
+    pts = ProjectTable.objects.filter(project=pk, module=md)
+    tables = []
+    for pt in pts:# 循环模型里面得每张表
+        table = pt.table
+        data = Value.objects.filter(project_table=pt.id).values()
+        columns = Column.objects.filter(table=table)
+        cols = {}
+        for key,column in enumerate(columns):
+            cols[column.id] = key
+        values = []
         if data:
-            data = data[0].value
+            line = 1
+            vals = []
+            for val in data:# 遍历数据
+                if val['line'] != line:# 换行就保存到values里面
+                    values.append(vals)
+                    vals = []
+                    line = val['line']
+                vals.append(val['value'])
+            values.append(vals) # 保存最后一行
         else:
-            data = json.dumps("[[]]")
-
-    c = []
-    f = []
-    par = []
-    columns = Column.objects.filter(table=1)
-    for column in columns:
-        c.append({'type': column.type, 'title': column.column_name, 'width': column.width})
-        f.append({'title': column.formula, 'colspan': 1})
-        par.append({'title': column.parameter, 'colspan': 1})
-    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'data': data,
-               'select_module': getselectmodule(pk, request.user), 'columns': json.dumps(c), 'formula': json.dumps(f), 'parameter': json.dumps(par)}
+            values = [[]]
+        table.data = values
+        c = [] # 每个表中得列
+        f = [] #
+        par = []
+        nested_header = []
+        for column in columns:
+            c.append({'type': column.type, 'title': column.column_name, 'width': column.width})
+            if column.formula is None:
+                column.formula = ''
+            if column.parameter is None:
+                column.parameter = ''
+            f.append({'title': column.formula, 'colspan': 1})
+            par.append({'title': column.parameter, 'colspan': 1})
+        nested_header.append(f)
+        nested_header.append(par)
+        table.columns = c
+        table.pid = pt.id
+        table.nested_header = nested_header
+        tables.append(table)
+    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module': getselectmodule(pk, request.user)}
 
     return render(request, cur[0].module_en_name + '.html', context, )
 
@@ -153,29 +181,37 @@ def module(request, pk, md):
 @login_required(redirect_field_name='', login_url='/login/')
 def excel(request, pk):
     pt = ProjectTable.objects.filter(id=pk)
-    module_list = Module.objects.all()
-    cur = module_list.filter(id=pt[0].module_id)
-    p = pt[0].project
+    # module_list = Module.objects.all()
+    # cur = module_list.filter(id=pt[0].module_id)
+    # p = pt[0].project '[["dd","","","","","","","",""]]'
 
     if request.POST:
         data = request.POST['data']
-        value = Value(value=json.dumps(data), project_table=pt[0])
-        value.save()
+        true = 'true'# 防止name 'true' is not defined
+        false = 'false'
+        value = eval(data)
+        table = pt[0].table
+        columns = Column.objects.filter(table=table)
+        Value.objects.filter(project_table=pt[0]).delete()
+        for r_key,row in enumerate(value):
+            for c_key,val in enumerate(row):
+                value = Value(project_table=pt[0],value=val,column=columns[c_key],line=r_key+1)
+                value.save()
         return json_response('保存成功！')
-    else:
-        data = Value.objects.filter(project_table=pt[0])
-        if data:
-            data = data[0].value
-        else:
-            data = json.dumps("[[]]")
-    c = []
-
-    columns = Column.objects.filter(table=pt[0].table)
-    for column in columns:
-        c.append({'title': column.column_name})
-    context = {'module_list': module_list, 'p': p, 'cur': cur,
-               'select_module': getselectmodule(pt[0].project_id, request.user), 'data': data, 'columns': json.dumps(c)}
-    return render(request, 'nestedheader.html', context)
+    # else:
+    #     data = Value.objects.filter(project_table=pt[0])
+    #     if data:
+    #         data = data[0].value
+    #     else:
+    #         data = json.dumps("[[]]")
+    # c = []
+    #
+    # columns = Column.objects.filter(table=pt[0].table)
+    # for column in columns:
+    #     c.append({'title': column.column_name})
+    # context = {'module_list': module_list, 'p': p, 'cur': cur,
+    #            'select_module': getselectmodule(pt[0].project_id, request.user), 'data': data, 'columns': json.dumps(c)}
+    # return render(request, 'nestedheader.html', context)
 
 
 # 登录

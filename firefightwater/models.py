@@ -26,7 +26,13 @@ class Table(models.Model):
     subtitle1 = models.CharField('小标题一', max_length=50, null=True, blank=True)
     subtitle2 = models.CharField('小标题二', max_length=50, null=True, blank=True)
     # 填写"合计："等文字
-    total = models.CharField('合计', max_length=20, null=True, blank=True)
+    SUM = '合计'
+    MAX = '最大值'
+    ACHOICES = (
+        (SUM, '合计'),
+        (MAX, '最大值'),
+    )
+    total = models.CharField('合计', max_length=20, choices=ACHOICES, null=True, blank=True)
     pub_date = models.DateTimeField('date published', auto_now=True)
 
     def __str__(self):
@@ -66,6 +72,7 @@ class Column(models.Model):
     column_en_name = models.CharField('英文名', max_length=50)
     parameter = models.CharField('参数名', max_length=10, null=True, blank=True)
     formula = models.CharField('公式', max_length=100, null=True, blank=True)
+    c_formula = models.CharField('计算公式', max_length=100, null=True, blank=True) # 正则提取
     dropdown = models.CharField('下拉列表', max_length=10, null=True, blank=True)
     defaultv = models.CharField('默认值', max_length=100, null=True, blank=True)
     prompt = models.CharField('提示', max_length=100, null=True, blank=True)
@@ -83,10 +90,13 @@ class Column(models.Model):
     # 填写
     TEXT = 'text'
     CHECKBOX = 'checkbox'
+    DROPDOWN = 'dropdown'
     ACHOICES = (
         (TEXT, 'text'),
         (CHECKBOX, 'checkbox'),
+        (DROPDOWN, 'dropdown'),
     )
+
     type = models.CharField('类型', max_length=10, choices=ACHOICES, default='text')
     width = models.IntegerField('列宽度', default=100)
     pub_date = models.DateTimeField('date published', auto_now=True)
@@ -99,8 +109,8 @@ class Value(models.Model):
     project_table = models.ForeignKey(ProjectTable, on_delete=models.CASCADE, db_index=True)
     column = models.ForeignKey(Column, on_delete=models.CASCADE, db_index=True, null=True, blank=True)
     line = models.IntegerField('第几行', null=True, blank=True)
-    value = models.TextField('值')
-    formula = models.TextField('公式', null=True, blank=True)
+    value = models.CharField('值', max_length=255)
+    formula = models.CharField('公式', max_length=200, null=True, blank=True)
     pub_date = models.DateTimeField('date published', auto_now=True)
 
     def __str__(self):
