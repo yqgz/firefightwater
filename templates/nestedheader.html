@@ -30,8 +30,8 @@
     <script>
         //公式计算
         var data = [
-            ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, 'True', '=D1*E1*3600/1000', false, '这里是选择依据'],
-            ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
+            [1, '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
+            [2, '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
             ['合计', '', , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
             ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
         ];
@@ -40,7 +40,8 @@
         var my_table = $('#spreadsheet').jexcel({
             data: data,
             columns: [
-                {type: 'text', title: '系统名称', width: '100'},
+                {type: 'dropdown', source: [ {'id':'1', 'name':'室外消火栓系统'},  {'id':'2', 'name':'室内消火栓系统'},
+                        {'id':'3', 'name':'自动喷水灭火系统'} ],title: '系统名称', width: '100'},
                 {type: 'text', title: '建筑类别', width: '100'},
                 {type: 'text', title: '最小设计流量(L/s)', width: '100'},
                 {type: 'text', title: '设计流量(L/s)', width: '100'},
@@ -58,7 +59,7 @@
                     {title: '', colspan: '1'},
                     {title: '', colspan: '1'},
                     {title: '', colspan: '1'},
-                    {title: 'q(B)*t(B)*3600/1000', colspan: '1', alt: 'q(B)*t(B)*3600/1000'},
+                    {title: 'q(B)*t(B)*3600/1000', colspan: '1'},
                     {title: '', colspan: '1'},
                     {title: '', colspan: '1'},
                 ],
@@ -76,7 +77,8 @@
             ],
             wordWrap: true,
             allowComments: true,
-            parseFormulas: false,
+            parseFormulas: true,
+            columnSorting:false,//禁用排序
             contextMenu: function (obj, x, y, e) {
                 console.log(obj)
                 var items = [];
