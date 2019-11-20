@@ -141,7 +141,7 @@
             var len=$('#spreadsheet')[0].jexcel.rows.length
             $('#spreadsheet').jexcel('insertRow',1,len-3)
             //添加提示信息
-            //$('#spreadsheet').setComments('I'+len,'注明选择依据')
+            $('#spreadsheet').jexcel('setComments','I'+len,'注明选择依据')
 
         }
         var testvar = jexcel()
