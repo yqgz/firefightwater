@@ -758,6 +758,49 @@ var jexcel = (function(el, options) {
 
     /**
      * Get the whole table data
+     *
+     * @param integer row number
+     * @return string value
+     */
+    obj.getDataAndFormula = function(highlighted) {
+        // Control vars
+        var dataset = [];
+        var px = 0;
+        var py = 0;
+
+        // Column and row length
+        var x = obj.options.columns.length
+        var y = obj.options.data.length
+
+        // Go through the columns to get the data
+        for (var j = 0; j < y; j++) {
+            px = 0;
+            for (var i = 0; i < x; i++) {
+                // Cell selected or fullset
+                if (! highlighted || obj.records[j][i].classList.contains('highlight')) {
+                    // Get value
+                    if (! dataset[py]) {
+                        dataset[py] = [];
+                    }
+                    if ((''+obj.options.data[j][i]).substr(0,1) == '=') {
+                        dataset[py][px] = [obj.executeFormula(obj.options.data[j][i],i,j),obj.options.data[j][i]];
+                    } else {
+                        dataset[py][px] = obj.options.data[j][i];
+                    }
+
+                    px++;
+                }
+            }
+            if (px > 0) {
+                py++;
+            }
+       }
+
+       return dataset;
+    }
+
+    /**
+     * Get the whole table data
      * 
      * @param integer row number
      * @return string value

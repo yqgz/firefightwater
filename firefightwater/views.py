@@ -5,6 +5,7 @@ from django.contrib import auth
 from django.contrib.admin.forms import AdminAuthenticationForm
 from .forms import *
 from firefightwater.common.response import json_response
+from .helper import *
 import json
 
 
@@ -141,18 +142,48 @@ def module(request, pk, md):
         for key,column in enumerate(columns):
             cols[column.id] = key
         values = []
+        line = 1
         if data:
-            line = 1
             vals = []
             for val in data:# 遍历数据
                 if val['line'] != line:# 换行就保存到values里面
                     values.append(vals)
                     vals = []
                     line = val['line']
-                vals.append(val['value'])
+                if val['formula'] is not None: # 如果是公式就选择公式
+                    vals.append(val['formula'])
+                else:
+                    vals.append(val['value'])
             values.append(vals) # 保存最后一行
         else:
             values = [[]]
+
+        # 合计行单独添加
+        vals = []
+        have_sum = Value.objects.filter(project_table=pt.id, value='合计') # 防止重复插入合计行
+        have_max = Value.objects.filter(project_table=pt.id, value='最大值') # 防止重复插入最大值行
+        if table.total == '合计' and not have_sum:
+            for key, column in enumerate(columns):
+                if key == 0:
+                    vals.append(table.total)
+                elif column.aggregation:
+                    cell = num2Capital(key)
+                    val = '=SUM(' + cell + '1:' + cell + str(line) + ')'# 公式拼装
+                    vals.append(val)
+                else:
+                    vals.append('')
+            values.append(vals)
+        elif table.total == '最大值' and not have_max:
+            for key, column in enumerate(columns):
+                if key == 0:
+                    vals.append(table.total)
+                elif column.aggregation:
+                    cell = num2Capital(key)
+                    val = '=MAX(' + cell + '1:' + cell + str(line) + ')'# 公式拼装
+                    vals.append(val)
+                else:
+                    vals.append('')
+            values.append(vals)
         table.data = values
         c = [] # 每个表中得列
         f = [] #
@@ -189,13 +220,16 @@ def excel(request, pk):
         data = request.POST['data']
         true = 'true'# 防止name 'true' is not defined
         false = 'false'
-        value = eval(data)
+        data = eval(data)
         table = pt[0].table
         columns = Column.objects.filter(table=table)
         Value.objects.filter(project_table=pt[0]).delete()
-        for r_key,row in enumerate(value):
+        for r_key,row in enumerate(data):
             for c_key,val in enumerate(row):
-                value = Value(project_table=pt[0],value=val,column=columns[c_key],line=r_key+1)
+                if isinstance(val,list):
+                    value = Value(project_table=pt[0], value=val[0], formula=val[1], column=columns[c_key], line=r_key + 1)
+                else:
+                    value = Value(project_table=pt[0],value=val,column=columns[c_key],line=r_key+1)
                 value.save()
         return json_response('保存成功！')
     # else:
