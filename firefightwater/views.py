@@ -225,18 +225,13 @@ def excel(request, pk):
         table = pt[0].table
         columns = Column.objects.filter(table=table)
         Value.objects.filter(project_table=pt[0]).delete()
-<<<<<<< HEAD
+
         for r_key,row in enumerate(data):
             for c_key,val in enumerate(row):
                 if isinstance(val,list):
                     value = Value(project_table=pt[0], value=val[0], formula=val[1], column=columns[c_key], line=r_key + 1)
                 else:
                     value = Value(project_table=pt[0],value=val,column=columns[c_key],line=r_key+1)
-=======
-        for r_key, row in enumerate(value):
-            for c_key, val in enumerate(row):
-                value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key+1)
->>>>>>> 3715176540eb256532dead2bf390228481735d8d
                 value.save()
         return json_response('保存成功！')
     # else:
