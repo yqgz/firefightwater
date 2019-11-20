@@ -32,8 +32,8 @@
         var data = [
             [1, '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
             [2, '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
-            ['合计', '', , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
-            ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
+            ['','合计',  , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
+            ['','最大值',  , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
         ];
 
 
@@ -41,13 +41,13 @@
             data: data,
             columns: [
                 {type: 'dropdown', source: [ {'id':'1', 'name':'室外消火栓系统'},  {'id':'2', 'name':'室内消火栓系统'},
-                        {'id':'3', 'name':'自动喷水灭火系统'} ],title: '系统名称', width: '100'},
+                        {'id':'3', 'name':'自动喷水灭火系统'} ],title: '系统名称', width: '200'},
                 {type: 'text', title: '建筑类别', width: '100'},
                 {type: 'text', title: '最小设计流量(L/s)', width: '100'},
                 {type: 'text', title: '设计流量(L/s)', width: '100'},
                 {type: 'text', title: '灭火持续时间(h)', width: '100'},
                 {type: 'checkbox', title: '是否计入一次灭火设计流量', width: '200'},
-                {type: 'text', title: '用水量(m³)', width: '100'},
+                {type: 'text', title: '用水量(m³)', width: '200'},
                 {type: 'checkbox', title: '是否计入消防水池容积', width: '180'},
                 {type: 'text', title: '备注', width: '100'},
             ],
@@ -75,6 +75,7 @@
                     {title: '', colspan: '1'}
                 ],
             ],
+            mergeCells:{B3:[2,1], B4:[2,1]},//合并单元格
             wordWrap: true,
             allowComments: true,
             parseFormulas: true,
@@ -121,32 +122,26 @@
                         });
                     }
 
-                    /*if (x) {
-                     if (obj.options.allowComments == true) {
-                     items.push({ type:'line' });
 
-                     var title = obj.records[y][x].getAttribute('title') || '';
-
-                     items.push({
-                     title: title ? obj.options.text.editComments : obj.options.text.addComments,
-                     onclick:function() {
-                     obj.setComments([ x, y ], prompt(obj.options.text.comments, title));
-                     }
-                     });
-                     }
-                     }*/
                 }
                 return items;
             },
             text: {
                 insertANewRowAfter: "插入一行",
                 deleteSelectedRows: "删除选中行",
-            }
+            },
+            //设置单元格的readonly
+            updateTable: function(el, cell, x, y, source, value, id) {
+        if (x == 2 && (y == 2 || y==3)) {
+            cell.classList.add('readonly');
+        }}
         });
         //在合计行上方添加空行，只有一个合计行时减2
         function addrow() {
             var len=$('#spreadsheet')[0].jexcel.rows.length
             $('#spreadsheet').jexcel('insertRow',1,len-3)
+            //添加提示信息
+            //$('#spreadsheet').setComments('I'+len,'注明选择依据')
 
         }
         var testvar = jexcel()

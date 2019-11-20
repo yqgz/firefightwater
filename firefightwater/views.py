@@ -119,43 +119,43 @@ def project_add(request):
     return render(request, 'project_add.html', context)
 
 
-# 模型
+# 模块
 @login_required(redirect_field_name='', login_url='/login/')
 def module(request, pk, md):
     module_list = Module.objects.all()
     cur = module_list.filter(id=md)
     p = Project.objects.get(id=pk, user=request.user)
 
-    if request.POST:# 保存
+    if request.POST:  # 保存
         data = request.POST['data']
         value = Value(value=json.dumps(data), project_table=tables[0])
         value.save()
         return json_response('保存成功！')
     pts = ProjectTable.objects.filter(project=pk, module=md)
     tables = []
-    for pt in pts:# 循环模型里面得每张表
+    for pt in pts:  # 循环模块里面的每张表
         table = pt.table
         data = Value.objects.filter(project_table=pt.id).values()
         columns = Column.objects.filter(table=table)
         cols = {}
-        for key,column in enumerate(columns):
+        for key, column in enumerate(columns):
             cols[column.id] = key
         values = []
         if data:
             line = 1
             vals = []
-            for val in data:# 遍历数据
-                if val['line'] != line:# 换行就保存到values里面
+            for val in data:  # 遍历数据
+                if val['line'] != line:  # 换行就保存到values里面
                     values.append(vals)
                     vals = []
                     line = val['line']
                 vals.append(val['value'])
-            values.append(vals) # 保存最后一行
+            values.append(vals)  # 保存最后一行
         else:
             values = [[]]
         table.data = values
-        c = [] # 每个表中得列
-        f = [] #
+        c = []  # 每个表中的列
+        f = []  #
         par = []
         nested_header = []
         for column in columns:
@@ -172,7 +172,8 @@ def module(request, pk, md):
         table.pid = pt.id
         table.nested_header = nested_header
         tables.append(table)
-    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module': getselectmodule(pk, request.user)}
+    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module':
+        getselectmodule(pk, request.user)}
 
     return render(request, cur[0].module_en_name + '.html', context, )
 
@@ -187,15 +188,15 @@ def excel(request, pk):
 
     if request.POST:
         data = request.POST['data']
-        true = 'true'# 防止name 'true' is not defined
+        true = 'true'  # 防止name 'true' is not defined
         false = 'false'
         value = eval(data)
         table = pt[0].table
         columns = Column.objects.filter(table=table)
         Value.objects.filter(project_table=pt[0]).delete()
-        for r_key,row in enumerate(value):
-            for c_key,val in enumerate(row):
-                value = Value(project_table=pt[0],value=val,column=columns[c_key],line=r_key+1)
+        for r_key, row in enumerate(value):
+            for c_key, val in enumerate(row):
+                value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key+1)
                 value.save()
         return json_response('保存成功！')
     # else:
