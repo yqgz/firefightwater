@@ -32,8 +32,9 @@
         var data = [
             [1, '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
             [2, '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
+            //['','','','','','','',''],
             ['','合计',  , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
-            ['','最大值',  , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
+            //['','最大值',  , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
         ];
 
 
@@ -75,10 +76,10 @@
                     {title: '', colspan: '1'}
                 ],
             ],
-            mergeCells:{B3:[2,1], B4:[2,1]},//合并单元格
+            //mergeCells:{B3:[2,1], B4:[2,1]},//合并单元格
             wordWrap: true,
             allowComments: true,
-            parseFormulas: true,
+            parseFormulas: true,//显示公式结果
             columnSorting:false,//禁用排序
             contextMenu: function (obj, x, y, e) {
                 console.log(obj)
@@ -121,8 +122,6 @@
                             }
                         });
                     }
-
-
                 }
                 return items;
             },
@@ -139,15 +138,39 @@
         //在合计行上方添加空行，只有一个合计行时减2
         function addrow() {
             var len=$('#spreadsheet')[0].jexcel.rows.length
-            $('#spreadsheet').jexcel('insertRow',1,len-3)
-            //添加提示信息
-            $('#spreadsheet').jexcel('setComments','I'+len,'注明选择依据')
-
+            var com=['I','注明选择依据'] //提示字段
+            var fo =['G', 'D','*','E','*3600/1000'] //公式字段
+            var tal=['SUM','D','G']  //合计字段
+            $('#spreadsheet').jexcel('insertRow',1,len-2)
+            //添加提示信息，以下两种写法均可
+            //$('#spreadsheet').jexcel('setComments','I1','注明选择依据')
+            //$('#spreadsheet').jexcel('setComments',[8,1],'注明选择依据')
+            $('#spreadsheet').jexcel('setComments',com[0]+String(len),com[1])
+            //添加公式
+            var id=fo[0]+String(len)
+            var formula='='
+            for (let i=1; i<fo.length; i++)
+            {
+                if(fo[i].match(/[A-Z]/)){
+                    formula+=fo[i]+String(len)
+                }
+                else
+                formula+=fo[i]
+            }
+            $('#spreadsheet').jexcel('setValue',id,formula)
+            //添加合计公式
+            if (tal.length>0){
+                for(let i=1;i<tal.length;i++){
+                    formula='='+tal[0]+'('
+                   id=tal[i]+String(len+1)
+                    formula+=tal[i]+1+':'+tal[i]+String(len)+')'
+                $('#spreadsheet').jexcel('setValue',id,formula)
+            }
+            }
         }
-        var testvar = jexcel()
+        //var testvar = jexcel()
         function test() {
             console.log(my_table)
-
             console.log($('#spreadsheet').jexcel('getValueFromCoords', 1, 9))
         }
             //提交保存

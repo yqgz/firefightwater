@@ -15,13 +15,13 @@ def getselectmodule(pk, user):
     module_list = Module.objects.all()
     # 获取当前项目
     p = Project.objects.get(id=pk, user=user)
-    select_module = p.projecttable_set # 获取当前所有projecttable_set
+    select_module = p.projecttable_set  # 获取当前所有projecttable_set
     selects = []
     for m in module_list:
         have = select_module.filter(module=m)
         if have and m not in selects:
             selects.append(m)
-    return selects # 返回当前项目选择的module
+    return selects  # 返回当前项目选择的module
 
 
 @login_required(redirect_field_name='', login_url='/login/')
@@ -258,6 +258,7 @@ def login(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = auth.authenticate(username=username, password=password)
+            request.session.set_expiry(0)
             if user is not None:
                 auth.login(request, user)
                 return redirect('/')
