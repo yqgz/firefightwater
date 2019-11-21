@@ -260,7 +260,6 @@ def login(request):
             user = auth.authenticate(username=username, password=password)
             if user is not None:
                 auth.login(request, user)
-                request.session['username'] = username
                 return redirect('/')
     return render(request, 'login.html')
 
