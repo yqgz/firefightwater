@@ -21,7 +21,7 @@
 //            这是取公式的方法getValue('A1', true); // will return value from a formula
 //取值getValue('A1') // will return a formula
 
-            txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))
+            txt = JSON.stringify($('#spreadsheet').jexcel('getDataAndFormula', false))
             csrf = $("input[name='csrfmiddlewaretoken']").val()
             $.post("{% url 'excel' tables.0.pid %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
                 $("#ret").html(result.data)
