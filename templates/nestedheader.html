@@ -158,7 +158,7 @@
                 formula+=fo[i]
             }
             $('#spreadsheet').jexcel('setValue',id,formula)
-            //添加合计公式
+            //更新合计公式
             if (tal.length>0){
                 for(let i=1;i<tal.length;i++){
                     formula='='+tal[0]+'('
