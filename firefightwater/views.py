@@ -127,11 +127,6 @@ def module(request, pk, md):
     cur = module_list.filter(id=md)
     p = Project.objects.get(id=pk, user=request.user)
 
-    if request.POST:  # 保存
-        data = request.POST['data']
-        value = Value(value=json.dumps(data), project_table=tables[0])
-        value.save()
-        return json_response('保存成功！')
     pts = ProjectTable.objects.filter(project=pk, module=md)
     tables = []
     for pt in pts:  # 循环模块里面的每张表
@@ -233,7 +228,7 @@ def excel(request, pk):
                 else:
                     value = Value(project_table=pt[0],value=val,column=columns[c_key],line=r_key+1)
                 value.save()
-        return json_response('保存成功！')
+        return json_response('success')
     # else:
     #     data = Value.objects.filter(project_table=pt[0])
     #     if data:
