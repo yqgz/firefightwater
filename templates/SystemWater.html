@@ -33,12 +33,12 @@
             $('#spreadsheet').jexcel('insertRow',1,len-3)
         }
         //公式计算
-        var data = [
+        /*var data = [
             ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
             ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
             ['合计', '', , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
             ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
-        ];
+        ];*/
 
         table = $('#spreadsheet').jexcel({
             data: {{ tables.0.data|safe }},
@@ -49,26 +49,7 @@
             contextMenu: function (obj, x, y, e) {
                 console.log(obj)
                 var items = [];
-                if (y == null) {
-                    // Sorting
-                    if (obj.options.columnSorting == true) {
-                        // Line
-                        //items.push({ type:'line' });
-
-                        items.push({
-                            title: obj.options.text.orderAscending,
-                            onclick: function () {
-                                obj.orderBy(x, 0);
-                            }
-                        });
-                        items.push({
-                            title: obj.options.text.orderDescending,
-                            onclick: function () {
-                                obj.orderBy(x, 1);
-                            }
-                        });
-                    }
-                } else {
+                if (y != null)  {
                     // Insert new row
                     if (obj.options.allowInsertRow == true) {
                         items.push({
@@ -87,21 +68,6 @@
                             }
                         });
                     }
-
-                    /*if (x) {
-                     if (obj.options.allowComments == true) {
-                     items.push({ type:'line' });
-
-                     var title = obj.records[y][x].getAttribute('title') || '';
-
-                     items.push({
-                     title: title ? obj.options.text.editComments : obj.options.text.addComments,
-                     onclick:function() {
-                     obj.setComments([ x, y ], prompt(obj.options.text.comments, title));
-                     }
-                     });
-                     }
-                     }*/
                 }
                 return items;
             },

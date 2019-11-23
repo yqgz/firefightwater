@@ -94,11 +94,11 @@ def project_add(request):
             p = Project.objects.get(id=pk, user=request.user)
             select_module = p.projecttable_set
             for m in module_list:
-                m.select = False # 是否勾选
+                m.select = False  # 是否勾选
                 have = select_module.filter(module=m)
                 if have:
                     m.select = True
-                    m.have = False # 是否有水栓
+                    m.have = False  # 是否有水栓
                     moduletables = ModuleTable.objects.filter(module=have[0].module, table=have[0].table)
                     if moduletables[0].have == '是':
                         m.have = 1
@@ -145,25 +145,25 @@ def module(request, pk, md):
                     values.append(vals)
                     vals = []
                     line = val['line']
-                if val['formula'] is not None: # 如果是公式就选择公式
+                if val['formula'] is not None:  # 如果是公式就选择公式
                     vals.append(val['formula'])
                 else:
                     vals.append(val['value'])
-            values.append(vals) # 保存最后一行
+            values.append(vals)  # 保存最后一行
         else:
             values = [[]]
 
         # 合计行单独添加
         vals = []
-        have_sum = Value.objects.filter(project_table=pt.id, value='合计') # 防止重复插入合计行
-        have_max = Value.objects.filter(project_table=pt.id, value='最大值') # 防止重复插入最大值行
+        have_sum = Value.objects.filter(project_table=pt.id, value='合计')  # 防止重复插入合计行
+        have_max = Value.objects.filter(project_table=pt.id, value='最大值')  # 防止重复插入最大值行
         if table.total == '合计' and not have_sum:
             for key, column in enumerate(columns):
                 if key == 0:
                     vals.append(table.total)
                 elif column.aggregation:
                     cell = num2Capital(key)
-                    val = '=SUM(' + cell + '1:' + cell + str(line) + ')'# 公式拼装
+                    val = '=SUM(' + cell + '1:' + cell + str(line) + ')'  # 公式拼装
                     vals.append(val)
                 else:
                     vals.append('')
@@ -174,7 +174,7 @@ def module(request, pk, md):
                     vals.append(table.total)
                 elif column.aggregation:
                     cell = num2Capital(key)
-                    val = '=MAX(' + cell + '1:' + cell + str(line) + ')'# 公式拼装
+                    val = '=MAX(' + cell + '1:' + cell + str(line) + ')'  # 公式拼装
                     vals.append(val)
                 else:
                     vals.append('')
@@ -184,15 +184,19 @@ def module(request, pk, md):
         f = []  #
         par = []
         nested_header = []
+        f_cnt = 0  # 是否有公式的标志
         for column in columns:
             c.append({'type': column.type, 'title': column.column_name, 'width': column.width})
             if column.formula is None:
                 column.formula = ''
+            else:
+                f_cnt = 1
             if column.parameter is None:
                 column.parameter = ''
             f.append({'title': column.formula, 'colspan': 1})
             par.append({'title': column.parameter, 'colspan': 1})
-        nested_header.append(f)
+        if f_cnt == 1:  # 确定有公式再添加
+            nested_header.append(f)
         nested_header.append(par)
         table.columns = c
         table.pid = pt.id
@@ -221,12 +225,13 @@ def excel(request, pk):
         columns = Column.objects.filter(table=table)
         Value.objects.filter(project_table=pt[0]).delete()
 
-        for r_key,row in enumerate(data):
-            for c_key,val in enumerate(row):
-                if isinstance(val,list):
-                    value = Value(project_table=pt[0], value=val[0], formula=val[1], column=columns[c_key], line=r_key + 1)
+        for r_key, row in enumerate(data):
+            for c_key, val in enumerate(row):
+                if isinstance(val, list):
+                    value = Value(project_table=pt[0], value=val[0], formula=val[1], column=columns[c_key],
+                                  line=r_key + 1)
                 else:
-                    value = Value(project_table=pt[0],value=val,column=columns[c_key],line=r_key+1)
+                    value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key+1)
                 value.save()
         return json_response('success')
     # else:
@@ -241,7 +246,8 @@ def excel(request, pk):
     # for column in columns:
     #     c.append({'title': column.column_name})
     # context = {'module_list': module_list, 'p': p, 'cur': cur,
-    #            'select_module': getselectmodule(pt[0].project_id, request.user), 'data': data, 'columns': json.dumps(c)}
+    #            'select_module': getselectmodule(pt[0].project_id, request.user), 'data': data,
+    #            'columns': json.dumps(c)}
     # return render(request, 'nestedheader.html', context)
 
 
