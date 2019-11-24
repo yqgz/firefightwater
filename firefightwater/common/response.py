@@ -15,7 +15,7 @@ def response_as_json(data):
 def json_response(data, code=200):
     data = {
         "code": code,
-        "msg": "成功",
+        "msg": "success",
         "data": data,
     }
     return response_as_json(data)

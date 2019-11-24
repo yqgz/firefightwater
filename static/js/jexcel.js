@@ -4212,7 +4212,9 @@ var jexcel = (function(el, options) {
                         // No longer a formula, remove from the chain
                         Object.keys(obj.formula)[i] = null;
                     }
-                    obj.updateFormulaChain(cell[0], cell[1], records);
+                    if (obj.formula[cellId][i] != cellId) { // 防止死循环导致#ERROR
+                        obj.updateFormulaChain(cell[0], cell[1], records);
+                    }
                 }
             }
         }

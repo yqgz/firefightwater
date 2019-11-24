@@ -151,7 +151,7 @@ def module(request, pk, md):
                     vals.append(val['value'])
             values.append(vals)  # 保存最后一行
         else:
-            values = [[]]
+            values = []
 
         # 合计行单独添加
         vals = []
@@ -180,13 +180,32 @@ def module(request, pk, md):
                     vals.append('')
             values.append(vals)
         table.data = values
+        # 增加tal
+        tal =[]
+        if table.total == '合计':
+            tal.append('SUM')
+            for key, column in enumerate(columns):
+                if column.aggregation:
+                    tal.append(num2Capital(key))
+        elif table.total == '最大值':
+            tal.append('MAX')
+            for key, column in enumerate(columns):
+                if column.aggregation:
+                    tal.append(num2Capital(key))
+        table.tal = tal
         c = []  # 每个表中的列
-        f = []  #
-        par = []
+        f = []  # 显示公式
+        par = [] # 参数名
         nested_header = []
+        com = []  # 注释字段
+        fo = [] # 展示公式
         f_cnt = 0  # 是否有公式的标志
-        for column in columns:
+        for key, column in enumerate(columns):
             c.append({'type': column.type, 'title': column.column_name, 'width': column.width})
+            if column.c_formula is not None:
+                fo.append([num2Capital(key), column.c_formula])
+            if column.prompt is not None:
+                com.append([num2Capital(key), column.prompt])
             if column.formula is None:
                 column.formula = ''
             else:
@@ -201,6 +220,8 @@ def module(request, pk, md):
         table.columns = c
         table.pid = pt.id
         table.nested_header = nested_header
+        table.com = com
+        table.fo = fo
         tables.append(table)
     context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module':
         getselectmodule(pk, request.user)}
@@ -233,7 +254,7 @@ def excel(request, pk):
                 else:
                     value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key+1)
                 value.save()
-        return json_response('success')
+        return json_response('保存成功！')
     # else:
     #     data = Value.objects.filter(project_table=pt[0])
     #     if data:

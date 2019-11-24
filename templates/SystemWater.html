@@ -29,16 +29,42 @@
         }
         //在合计行上方添加空行，只有一个合计行时减2
         function addrow() {
-            var len=$('#spreadsheet')[0].jexcel.rows.length
-            $('#spreadsheet').jexcel('insertRow',1,len-3)
+            var len = $('#spreadsheet')[0].jexcel.rows.length
+            var com = {{ tables.0.com|safe }} //提示字段
+            var fo = {{ tables.0.fo|safe }} //公式字段
+            var tal = {{ tables.0.tal|safe }}  //合计字段
+            $('#spreadsheet').jexcel('insertRow', 1, len - 1, true)
+            //添加提示信息，以下两种写法均可
+            //$('#spreadsheet').jexcel('setComments','I1','注明选择依据')
+            //$('#spreadsheet').jexcel('setComments',[8,1],'注明选择依据')
+            for (i = 0; i < com.length; i++) {
+                $('#spreadsheet').jexcel('setComments', com[i][0] + String(len), com[i][1])
+            }
+
+            //添加公式
+            for (i = 0; i < fo.length; i++) {
+                var id = fo[i][0] + String(len)
+                var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + len)
+                $('#spreadsheet').jexcel('setValue', id, formula)
+            }
+
+            //更新合计公式
+            if (tal.length > 0) {
+                for (i = 1; i < tal.length; i++) {
+                    formula = '=' + tal[0] + '('
+                    id = tal[i] + String(len + 1)
+                    formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                    $('#spreadsheet').jexcel('setValue', id, formula)
+                }
+            }
         }
         //公式计算
         /*var data = [
-            ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
-            ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
-            ['合计', '', , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
-            ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
-        ];*/
+         ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
+         ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
+         ['合计', '', , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
+         ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
+         ];*/
 
         table = $('#spreadsheet').jexcel({
             data: {{ tables.0.data|safe }},
@@ -49,7 +75,7 @@
             contextMenu: function (obj, x, y, e) {
                 console.log(obj)
                 var items = [];
-                if (y != null)  {
+                if (y != null) {
                     // Insert new row
                     if (obj.options.allowInsertRow == true) {
                         items.push({
@@ -76,5 +102,9 @@
                 deleteSelectedRows: "删除选中行",
             }
         });
+
+        if ($('#spreadsheet')[0].jexcel.rows.length<=1) {
+            addrow()//初始化一行
+        }
     </script>
 {% endblock %}
