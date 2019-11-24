@@ -161,10 +161,6 @@ def module(request, pk, md):
             for key, column in enumerate(columns):
                 if key == 0:
                     vals.append(table.total)
-                elif column.aggregation:
-                    cell = num2Capital(key)
-                    val = '=SUM(' + cell + '1:' + cell + str(line) + ')'  # 公式拼装
-                    vals.append(val)
                 else:
                     vals.append('')
             values.append(vals)
@@ -172,10 +168,6 @@ def module(request, pk, md):
             for key, column in enumerate(columns):
                 if key == 0:
                     vals.append(table.total)
-                elif column.aggregation:
-                    cell = num2Capital(key)
-                    val = '=MAX(' + cell + '1:' + cell + str(line) + ')'  # 公式拼装
-                    vals.append(val)
                 else:
                     vals.append('')
             values.append(vals)
