@@ -3328,8 +3328,8 @@ var jexcel = (function(el, options) {
             // Direction
             var insertBefore = insertBefore ? true : false;
 
-            // Current column number
-            var lastRow = obj.options.data.length - 1;
+            // Current row number
+            var lastRow = obj.options.data.length ;
 
             if (rowNumber == undefined || rowNumber >= parseInt(lastRow) || rowNumber < 0) {
                 rowNumber = lastRow;
