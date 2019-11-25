@@ -8,7 +8,7 @@
 <div id="spreadsheet"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow()"/>
-            <input type='button' class="btn-primary" value='保存' onclick="submit()"/><i id="ret"></i>
+            <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
             {% csrf_token %}
         </div>
     </div>
@@ -23,7 +23,12 @@
             txt = JSON.stringify($('#spreadsheet').jexcel('getDataAndFormula', false))
             csrf = $("input[name='csrfmiddlewaretoken']").val()
             $.post("{% url 'excel' tables.0.pid %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
-                $("#ret").html(result.data)
+                $.globalMessenger().post({
+                message: result.data,
+                hideAfter: 6,
+                type: result.msg,
+                //showCloseButton: true
+                });
             })
         }
         //在合计行上方添加空行，只有一个合计行时减2，没有合计行时不带参数
