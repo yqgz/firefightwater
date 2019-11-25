@@ -32,13 +32,18 @@
             });
             })
         }
+        var tal = {{ tables.0.tal|safe }}  //合计字段
         //在合计行上方添加空行，只有一个合计行时减2
         function addrow() {
             var len = $('#spreadsheet')[0].jexcel.rows.length
             var com = {{ tables.0.com|safe }} //提示字段
             var fo = {{ tables.0.fo|safe }} //公式字段
-            var tal = {{ tables.0.tal|safe }}  //合计字段
-            $('#spreadsheet').jexcel('insertRow', 1, len - 1, true)
+            if (tal.length == 0) {//没有合计字段插入到最后
+                $('#spreadsheet').jexcel('insertRow', 1, len, true)
+            } else {
+                $('#spreadsheet').jexcel('insertRow', 1, len - 1, true)
+            }
+
             //添加提示信息，以下两种写法均可
             //$('#spreadsheet').jexcel('setComments','I1','注明选择依据')
             //$('#spreadsheet').jexcel('setComments',[8,1],'注明选择依据')
@@ -71,7 +76,7 @@
          ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
          ];*/
 
-        table = $('#spreadsheet').jexcel({
+        $('#spreadsheet').jexcel({
             data: {{ tables.0.data|safe }},
             columns: {{ tables.0.columns|safe }},
             nestedHeaders: {{ tables.0.nested_header|safe }},
@@ -107,9 +112,12 @@
                 deleteSelectedRows: "删除选中行",
             }
         });
-
-        if ($('#spreadsheet')[0].jexcel.rows.length<=1) {
-            addrow()//初始化一行
+        rows = 0
+        if (tal.length > 0) {
+            rows = 1
+        }
+        if ($('#spreadsheet')[0].jexcel.rows.length<=rows) {
+            addrow(rows)//初始化一行
         }
     </script>
 {% endblock %}
