@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Project, Table, Module, Column, ModuleTable, ProjectTable
+from .models import Project, Table, Module, Column, ModuleTable, ProjectTable, ColumnDropdown, Dropdown
 
 
 class TagInline(admin.TabularInline):
@@ -35,11 +35,21 @@ class ProjectTableAdmin(admin.ModelAdmin):
     list_display = ('project', 'module', 'table')  # list
 
 
+class ColumnDropdownAdmin(admin.ModelAdmin):
+    list_display = ('column', 'dd_name')
+
+
+class DropdownAdmin(admin.ModelAdmin):
+    list_display = ('dd_name', 'name', 'group', 'title')
+
+
 admin.site.register(Table, TableAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Column, ColumnAdmin)
 admin.site.register(ModuleTable, ModuleTableAdmin)
 admin.site.register(ProjectTable, ProjectTableAdmin)
+admin.site.register(ColumnDropdown, ColumnDropdownAdmin)
+admin.site.register(Dropdown, DropdownAdmin)
 admin.site.site_header = '消防系统计算平台'
 admin.site.site_title = '系统管理'
