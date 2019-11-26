@@ -173,7 +173,7 @@ def module(request, pk, md):
             values.append(vals)
         table.data = values
         # 增加tal
-        tal =[]
+        tal = []
         if table.total == '合计':
             tal.append('SUM')
             for key, column in enumerate(columns):
@@ -187,7 +187,7 @@ def module(request, pk, md):
         table.tal = tal
         c = []  # 每个表中的列
         f = []  # 显示公式
-        par = [] # 参数名
+        par = []  # 参数名
         nested_header = []
         com = []  # 注释字段
         fo = [] # 展示公式

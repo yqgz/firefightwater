@@ -26,6 +26,7 @@
             <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
             <input type='button' class="btn-primary" value='test' onclick="test()"/>
         </div>
+    <div id="spreadsheet3"></div>
     </div>
 {% endblock %}
 
@@ -36,17 +37,46 @@
             [1, '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
             [2, '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
             ['','合计',  , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
-            //['','最大值',  , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
         ];
-
 
         var my_table = $('#spreadsheet').jexcel({
             data: data,
             columns: [
-                {type: 'dropdown', source: [ {'id':'1', 'name':'室外消火栓系统 | '},  {'id':'2', 'name':'室内消火栓系统'},
-                        {'id':'3', 'name':'自动喷水灭火系统'} ],title: '系统名称', width: '200'},
+                {type: 'dropdown',
+                    source: [ {'id':'1', 'name':'室外消火栓系统'},
+                        {'id':'2', 'name':'室内消火栓系统'},
+                        {'id':'3', 'name':'自动喷水灭火系统'} ],
+                    title: '系统名称', width: '200'},
                 {type: 'text', title: '建筑类别', width: '100'},
-                {type: 'text', title: '最小设计流量(L/s)', width: '100'},
+                {type: 'dropdown', title: '最小设计流量(L/s)', width: '100',
+                source:[{id:'1',name:'15',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积V<=3000'},
+                    {id:'2',name:'20',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积3000<V<=5000'},
+                    {id:'3',name:'25',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积5000<V<=20000'},
+                    {id:'4',name:'30',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积20000<V<=50000'},
+                    {id:'5',name:'35',group:'一、二级-工业建筑',title:'厂房-甲、乙-建筑体积20000<V<=50000'},
+                    {id:'6',name:'40',group:'一、二级-工业建筑',title:'厂房-丙-建筑体积V>50000'},
+                    {id:'7',name:'15',group:'一、二级-工业建筑',title:'厂房-丁、戊-建筑体积V<=50000'},
+                    {id:'8',name:'20',group:'一、二级-工业建筑',title:'厂房-丁、戊-建筑体积V>50000'},
+                    {id:'9',name:'15',group:'一、二级-工业建筑',title:'仓库-甲、乙、丙-建筑体积V<=3000'},
+                    {id:'10',name:'25',group:'一、二级-工业建筑',title:'仓库-甲、乙、丙-建筑体积3000<V<=20000'},
+                    {id:'11',name:'35',group:'一、二级-工业建筑',title:'仓库-丙-建筑体积20000<V<=50000'},
+                    {id:'12',name:'45',group:'一、二级-工业建筑',title:'仓库-丙-建筑体积V>50000'},
+                    {id:'13',name:'15',group:'一、二级-工业建筑',title:'仓库-丁、戊-建筑体积V<=50000'},
+                    {id:'14',name:'20',group:'一、二级-工业建筑',title:'仓库-丁、戊-建筑体积V>50000'},
+                    {id:'15',name:'15',group:'一、二级-民用建筑',title:'住宅'},
+                    {id:'16',name:'15',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积V<=5000'},
+                    {id:'17',name:'25',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积5000<V<=20000'},
+                    {id:'18',name:'30',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积20000<V<=50000'},
+                    {id:'19',name:'40',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积V>50000'},
+                ],
+                    //options: { type:'picker' },
+               /*source:[
+                { id:'1', name:'Paul Hodel', title:'Admin', group:'Secretary' },
+                { id:'2', name:'Cosme Sergio', title:'Teacher', group:'Docent' },
+                { id:'3', name:'Rose Mary',  title:'Teacher', group:'Docent' },
+                { id:'4', name:'Fernanda',  title:'Admin', group:'Secretary' },
+                { id:'5', name:'Roger', title:'Teacher', group:'Docent' },
+            ],*/},
                 {type: 'text', title: '设计流量(L/s)', width: '100'},
                 {type: 'text', title: '灭火持续时间(h)', width: '100'},
                 {type: 'checkbox', title: '是否计入一次灭火设计流量', width: '200'},
@@ -132,11 +162,12 @@
                 deleteSelectedRows: "删除选中行",
             },
             //设置单元格的readonly
-            updateTable: function(el, cell, x, y, source, value, id) {
+            /*updateTable: function(el, cell, x, y, source, value, id) {
         if (x == 2 && (y == 2 || y==3)) {
             cell.classList.add('readonly');
-        }}
+        }}*/
         });
+
         //在合计行上方添加空行，只有一个合计行时减2
         function addrow() {
             var len=$('#spreadsheet')[0].jexcel.rows.length
@@ -185,10 +216,6 @@
             type: 'error',
             //showCloseButton: true
         });
-            Messenger().post
-            message: 'There was an explosion while processing your request.'
-            type: 'error'
-            showCloseButton: true
         }
             //提交保存
         function submit() {
@@ -201,8 +228,41 @@
             type: result.msg,
             //showCloseButton: true
             });
-                $("#ret").html(result.data)
             })
         }
-    </script>
+
+/*var data3 = [
+    [1, 'Morning'],
+    [2, 'Morning'],
+    [3, 'Afternoon'],
+];
+
+$('#spreadsheet3').jexcel({
+    data:data3,
+    columns: [
+        {
+            type:'dropdown',
+            title:'Category',
+            width:'300',
+            source:[
+                { id:'1', name:'Paul Hodel', title:'Admin', group:'Secretary' },
+                { id:'2', name:'Cosme Sergio', title:'Teacher', group:'Docent' },
+                { id:'3', name:'Rose Mary',  title:'Teacher', group:'Docent' },
+                { id:'4', name:'Fernanda',  title:'Admin', group:'Secretary' },
+                { id:'5', name:'Roger', title:'Teacher', group:'Docent' },
+            ],
+            options: { type:'picker' },
+        },
+        {
+            type:'dropdown',
+            title:'Working hours',
+            width:'200',
+            source:['Morning','Afternoon','Evening'],
+            options: { type:'picker' },
+        },
+    ],
+    minDimensions: [2,4]
+}
+)*/
+</script>
 {% endblock %}

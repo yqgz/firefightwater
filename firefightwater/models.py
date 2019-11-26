@@ -72,7 +72,7 @@ class Column(models.Model):
     column_en_name = models.CharField('英文名', max_length=50)
     parameter = models.CharField('参数名', max_length=10, null=True, blank=True)
     formula = models.CharField('公式', max_length=100, null=True, blank=True)
-    c_formula = models.CharField('计算公式', max_length=100, null=True, blank=True) # 正则提取
+    c_formula = models.CharField('计算公式', max_length=100, null=True, blank=True)  # 正则提取
     dropdown = models.CharField('下拉列表', max_length=10, null=True, blank=True)
     defaultv = models.CharField('默认值', max_length=100, null=True, blank=True)
     prompt = models.CharField('提示', max_length=100, null=True, blank=True)
@@ -103,6 +103,25 @@ class Column(models.Model):
 
     def __str__(self):
         return self.column_name
+
+
+class ColumnDropdown(models.Model):
+    table = models.ForeignKey(Table, on_delete=models.CASCADE, db_index=True)
+    column = models.ForeignKey(Column, on_delete=models.CASCADE, db_index=True)
+    dd_name = models.CharField('下拉列表名', max_length=100)
+
+    def __str__(self):
+        return self.dd_name
+
+
+class Dropdown(models.Model):
+    dd_name = models.ForeignKey(ColumnDropdown, on_delete=models.CASCADE, db_index=True)
+    name = models.CharField('下拉列表项', max_length=100)
+    group = models.CharField('列表项分组', max_length=100, null=True, blank=True)
+    title = models.CharField('列表项描述', max_length=1000, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Value(models.Model):
