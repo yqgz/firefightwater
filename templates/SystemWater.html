@@ -117,7 +117,10 @@
         //初始化表格，添加注释，添加公式，添加合计
         function initRows() {
             var len = $('#spreadsheet')[0].jexcel.rows.length
-            for (l = 0; l <= len; l++) {
+            if (tal.length > 0) {//去掉最后一行
+                len--;
+            }
+            for (l = 1; l <= len; l++) {
                 //添加注释
                 for (i = 0; i < com.length; i++) {
                     $('#spreadsheet').jexcel('setComments', com[i][0] + String(l), com[i][1])
@@ -125,7 +128,7 @@
                 //添加公式
                 for (i = 0; i < fo.length; i++) {
                     var id = fo[i][0] + String(l)
-                    var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + len)
+                    var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + l)
                     $('#spreadsheet').jexcel('setValue', id, formula)
                 }
             }
