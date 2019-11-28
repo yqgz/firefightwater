@@ -109,7 +109,7 @@ class Dropdown(models.Model):
     dd_name = models.CharField('下拉列表名', max_length=100)
 
     def __str__(self):
-        return self.dropdown
+        return self.dd_name
 
 
 class ColumnDropdown(models.Model):
