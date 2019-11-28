@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Table, Module, Column, ModuleTable, ProjectTable, ColumnDropdown, Dropdown
+from .models import Project, Table, Module, Column, ModuleTable, ProjectTable, ColumnDropdown, Dropdown, DropdownItem
 
 
 # 装饰器注册Model
@@ -41,13 +41,18 @@ class ProjectTableAdmin(admin.ModelAdmin):
     list_display = ('project', 'module', 'table')  # list
 
 
-@admin.register(ColumnDropdown)
-class ColumnDropdownAdmin(admin.ModelAdmin):
-    list_display = ('column', 'dd_name')
-
-
 @admin.register(Dropdown)
 class DropdownAdmin(admin.ModelAdmin):
+    list_display = ['dd_name']
+
+
+@admin.register(ColumnDropdown)
+class ColumnDropdownAdmin(admin.ModelAdmin):
+    list_display = ('column', 'dropdown', 'table')
+
+
+@admin.register(DropdownItem)
+class DropdownItemAdmin(admin.ModelAdmin):
     list_display = ('dd_name', 'name', 'group', 'title')
 
 

@@ -105,17 +105,24 @@ class Column(models.Model):
         return self.column_name
 
 
-class ColumnDropdown(models.Model):
-    table = models.ForeignKey(Table, on_delete=models.CASCADE, db_index=True)
-    column = models.ForeignKey(Column, on_delete=models.CASCADE, db_index=True)
+class Dropdown(models.Model):
     dd_name = models.CharField('下拉列表名', max_length=100)
 
     def __str__(self):
-        return self.dd_name
+        return self.dropdown
 
 
-class Dropdown(models.Model):
-    dd_name = models.ForeignKey(ColumnDropdown, on_delete=models.CASCADE, db_index=True)
+class ColumnDropdown(models.Model):
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    column = models.ForeignKey(Column, on_delete=models.CASCADE, db_index=True)
+    dropdown = models.ForeignKey(Dropdown, on_delete=models.CASCADE, db_index=True)
+
+    def __str__(self):
+        return self.dropdown + self.table
+
+
+class DropdownItem(models.Model):
+    dd_name = models.ForeignKey(Dropdown, on_delete=models.CASCADE, db_index=True)
     name = models.CharField('下拉列表项', max_length=100)
     group = models.CharField('列表项分组', max_length=100, null=True, blank=True)
     title = models.CharField('列表项描述', max_length=1000, null=True, blank=True)
