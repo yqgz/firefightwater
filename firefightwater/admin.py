@@ -49,6 +49,7 @@ class DropdownAdmin(admin.ModelAdmin):
 @admin.register(ColumnDropdown)
 class ColumnDropdownAdmin(admin.ModelAdmin):
     list_display = ('column', 'dropdown', 'table')
+    change_form_template = 'admin/extras/column_dropdown_change_form.html'
 
 
 @admin.register(DropdownItem)

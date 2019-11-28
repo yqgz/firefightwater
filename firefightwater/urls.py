@@ -27,6 +27,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('nestedheader/', views.nestedheader, name='nestedheader'),
+    path('column_dropdown/get_column/<int:id>', views.get_column, name='get_column'),
     # path('<int:pk>/<int:md>/Auto/', views.Auto, name='Auto'),
     # path('<int:pk>/Cooling/', views.excel, name='Cooling'),
     # path('<int:pk>/Extinguisher/', views.excel, name='Extinguisher'),

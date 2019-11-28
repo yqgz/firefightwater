@@ -6,6 +6,7 @@ from django.contrib.admin.forms import AdminAuthenticationForm
 from .forms import *
 from firefightwater.common.response import json_response
 from .helper import *
+from django.http import HttpResponse
 import json
 
 
@@ -190,7 +191,7 @@ def module(request, pk, md):
         par = []  # 参数名
         nested_header = []
         com = []  # 注释字段
-        fo = [] # 展示公式
+        fo = []  # 展示公式
         f_cnt = 0  # 是否有公式的标志
         for key, column in enumerate(columns):
             c.append({'type': column.type, 'title': column.column_name, 'width': column.width})
@@ -244,24 +245,24 @@ def excel(request, pk):
                     value = Value(project_table=pt[0], value=val[0], formula=val[1], column=columns[c_key],
                                   line=r_key + 1)
                 else:
-                    value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key+1)
+                    value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key + 1)
                 value.save()
         return json_response('保存成功！')
-    # else:
-    #     data = Value.objects.filter(project_table=pt[0])
-    #     if data:
-    #         data = data[0].value
-    #     else:
-    #         data = json.dumps("[[]]")
-    # c = []
-    #
-    # columns = Column.objects.filter(table=pt[0].table)
-    # for column in columns:
-    #     c.append({'title': column.column_name})
-    # context = {'module_list': module_list, 'p': p, 'cur': cur,
-    #            'select_module': getselectmodule(pt[0].project_id, request.user), 'data': data,
-    #            'columns': json.dumps(c)}
-    # return render(request, 'nestedheader.html', context)
+        # else:
+        #     data = Value.objects.filter(project_table=pt[0])
+        #     if data:
+        #         data = data[0].value
+        #     else:
+        #         data = json.dumps("[[]]")
+        # c = []
+        #
+        # columns = Column.objects.filter(table=pt[0].table)
+        # for column in columns:
+        #     c.append({'title': column.column_name})
+        # context = {'module_list': module_list, 'p': p, 'cur': cur,
+        #            'select_module': getselectmodule(pt[0].project_id, request.user), 'data': data,
+        #            'columns': json.dumps(c)}
+        # return render(request, 'nestedheader.html', context)
 
 
 # 登录
@@ -283,6 +284,15 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('/login/')
+
+
+# 获取table下面的column
+def get_column(request, id):
+    columns = Column.objects.filter(table_id=id)
+    result = []
+    for i in columns:
+        result.append({'id': i.id, 'name': i.column_name})
+    return HttpResponse(json.dumps(result), content_type="application/json")
 
 
 def nestedheader(request):
