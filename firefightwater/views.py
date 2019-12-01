@@ -197,7 +197,7 @@ def module(request, pk, md):
             col = {'type': column.type, 'title': column.column_name, 'width': column.width}
             # 添加下拉菜单
             column_dropdown = ColumnDropdown.objects.filter(column_id=column.id)
-            if column_dropdown.exists():
+            if column_dropdown.exists() and column.type == 'dropdown':
                 dropdown_id = column_dropdown[0].dropdown_id
                 items = DropdownItem.objects.filter(dd_name_id=dropdown_id)
                 source = []
