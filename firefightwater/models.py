@@ -118,7 +118,7 @@ class ColumnDropdown(models.Model):
     dropdown = models.ForeignKey(Dropdown, on_delete=models.CASCADE, db_index=True)
 
     def __str__(self):
-        return self.dropdown + self.table
+        return self.dropdown.dd_name + self.table.table_name
 
 
 class DropdownItem(models.Model):

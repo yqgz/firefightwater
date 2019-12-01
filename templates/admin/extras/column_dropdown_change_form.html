@@ -6,6 +6,25 @@
     <script>
         django.jQuery(function() {
             var select = django.jQuery("#id_table");
+            console.log(select.val())
+            if (select.val()) {
+                var url = "/column_dropdown/get_column/"+select.val();//能够正确的访问到view的url
+                django.jQuery.get(
+                    url,
+                    function(data){
+                        var target = django.jQuery("#id_column");
+                        var subVal = target.val()
+                        target.empty();//先要清空一下
+                        data.forEach(function(e){
+                            // 将从view得到的id和db_user名称赋值给db_server的select
+                            if (subVal == e.id) {
+                                target.append("<option selected value='"+e.id+"'>"+e.name+"</option>");
+                            } else {
+                                target.append("<option value='"+e.id+"'>"+e.name+"</option>");
+                            }
+                        });
+                })
+            }
             select.change(function(){
                 var url = "/column_dropdown/get_column/"+django.jQuery(this).val();//能够正确的访问到view的url
                 django.jQuery.get(
@@ -15,9 +34,9 @@
                         target.empty();//先要清空一下
                         data.forEach(function(e){
                             // 将从view得到的id和db_user名称赋值给db_server的select
-                            target.append("<option value='"+e.id+"'>"+e.name+"<option>");
-                            target.eq(0).attr('selected', 'true');
+                            target.append("<option value='"+e.id+"'>"+e.name+"</option>");
                         });
+                        target.eq(0).attr('selected', 'true');
                 })
             });
  

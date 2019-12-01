@@ -21,11 +21,10 @@ def json_response(data, code=200):
     return response_as_json(data)
 
 
-def json_error(error_string="", code=500, **kwargs):
+def json_error(data="", code=500):
     data = {
         "code": code,
-        "msg": error_string,
-        "data": {}
+        "msg": "error",
+        "data": data
     }
-    data.update(kwargs)
     return response_as_json(data)

@@ -120,6 +120,10 @@
             if (tal.length > 0) {//去掉最后一行
                 len--;
             }
+            if (len == 0) {
+                $('#spreadsheet').jexcel('insertRow', 1, len, true)
+                len++
+            }
             for (l = 1; l <= len; l++) {
                 //添加注释
                 for (i = 0; i < com.length; i++) {
@@ -143,12 +147,12 @@
             }
         }
         initRows();
-        rows = 0
-        if (tal.length > 0) {
-            rows = 1
-        }
-        if ($('#spreadsheet')[0].jexcel.rows.length<=rows) {
-            addrow(rows)//初始化一行
-        }
+{#        rows = 0#}
+{#        if (tal.length > 0) {#}
+{#            rows = 1#}
+{#        }#}
+{#        if ($('#spreadsheet')[0].jexcel.rows.length<=rows) {#}
+{#            addrow(rows)//初始化一行#}
+{#        }#}
     </script>
 {% endblock %}

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Project, ProjectTable, Table, Column, Value, Module, ModuleTable
+from .models import Project, ProjectTable, Table, Column, Value, Module, ModuleTable, ColumnDropdown, Dropdown, DropdownItem
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.contrib.admin.forms import AdminAuthenticationForm
 from .forms import *
-from firefightwater.common.response import json_response
+from firefightwater.common.response import json_response,json_error
 from .helper import *
 from django.http import HttpResponse
 import json
@@ -194,7 +194,21 @@ def module(request, pk, md):
         fo = []  # 展示公式
         f_cnt = 0  # 是否有公式的标志
         for key, column in enumerate(columns):
-            c.append({'type': column.type, 'title': column.column_name, 'width': column.width})
+            col = {'type': column.type, 'title': column.column_name, 'width': column.width}
+            # 添加下拉菜单
+            column_dropdown = ColumnDropdown.objects.filter(column_id=column.id)
+            if column_dropdown.exists():
+                dropdown_id = column_dropdown[0].dropdown_id
+                items = DropdownItem.objects.filter(dd_name_id=dropdown_id)
+                source = []
+                for item in items:
+                    if item.group is None:
+                        item.group = ''
+                    if item.title is None:
+                        item.title = ''
+                    source.append({'id': item.id, 'name': item.name, 'group': item.group, 'title': item.title})
+                col['source'] = source
+            c.append(col)
             if column.c_formula is not None:
                 fo.append([num2Capital(key), column.c_formula])
             if column.prompt is not None:
@@ -238,7 +252,17 @@ def excel(request, pk):
         table = pt[0].table
         columns = Column.objects.filter(table=table)
         Value.objects.filter(project_table=pt[0]).delete()
-
+        # 不为空判断
+        msg = ''
+        for r_key, row in enumerate(data):
+            for c_key, val in enumerate(row):
+                if isinstance(val, list):
+                    value = val[0]
+                else:
+                    value = val
+                if columns[c_key].must and value=='':
+                    msg = columns[c_key].column_name + '的所有行不能为空！'
+                    return json_error(msg)
         for r_key, row in enumerate(data):
             for c_key, val in enumerate(row):
                 if isinstance(val, list):
