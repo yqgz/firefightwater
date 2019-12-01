@@ -4,153 +4,23 @@
 {% block content %}
     <div class="content-table">
         <h2>1.灭火级别配置计算表</h2>
-        <!--表10.1,id=35-->
+        <!--表10.1-->
         <div id="table{{ tables.0.id }}"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.0.id }}()"/>
             <input type='button' class="btn-primary" value='保存' onclick="submit{{ tables.0.id }}()"/>
-            <!--<i id="ret"></i>-->
         </div>
         <h2>2.灭火器配置计算表</h2>
-        <!--表10.2,id=36-->
+        <!--表10.2-->
         <div id="table{{ tables.1.id }}"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.1.id }}()"/>
             <input type='button' class="btn-primary" value='保存' onclick="submit{{ tables.1.id }}()"/>
-            <!--<i id="ret"></i>-->
         </div>
     </div>
     {% csrf_token %}
 {% endblock %}
 
 {% block extrajs %}
-    <script>
-        {% for table in tables %}
-            //提交保存
-            function submit{{ table.id }}() {
-                txt = JSON.stringify(table{{ table.id }}.getDataAndFormula(false))
-                csrf = $("input[name='csrfmiddlewaretoken']").val()
-                $.post("{% url 'excel' tables.0.pid %}", {
-                    data: txt,
-                    csrfmiddlewaretoken: csrf
-                }, function (result) {
-                    $.globalMessenger().post({
-                        message: result.data,
-                        hideAfter: 6,
-                        type: result.msg,
-                        //showCloseButton: true
-                    });
-                })
-            }
-
-            table{{ table.id }} = jexcel(document.getElementById('table' + {{ table.id }}), {
-                data: {{ table.data|safe }},
-                columns: {{ table.columns|safe }},
-                nestedHeaders: {{ table.nested_header|safe }},
-                wordWrap: true,
-                allowComments: true,
-                contextMenu: function (obj, x, y, e) {
-                    var items = [];
-                    if (y != null) {
-                        // Insert new row
-                        if (obj.options.allowInsertRow == true) {
-                            items.push({
-                                title: obj.options.text.insertANewRowAfter,
-                                onclick: function () {
-                                    obj.insertRow(1, parseInt(y));
-                                }
-                            });
-                        }
-
-                        if (obj.options.allowDeleteRow == true) {
-                            items.push({
-                                title: obj.options.text.deleteSelectedRows,
-                                onclick: function () {
-                                    obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
-                                }
-                            });
-                        }
-                    }
-                    return items;
-                },
-                text: {
-                    insertANewRowAfter: "插入一行",
-                    deleteSelectedRows: "删除选中行",
-                }
-            });
-
-
-            //在合计行上方添加空行，只有一个合计行时减2
-            function addrow{{ table.id }}() {
-                var com = {{ table.com|safe }} //提示字段
-                var fo = {{ table.fo|safe }} //公式字段
-                var tal = {{ table.tal|safe }}  //合计字段
-                var len = table{{ table.id }}.rows.length
-                if (tal.length == 0) {//没有合计字段插入到最后
-                    table{{ table.id }}.insertRow(1, len, true)
-                } else {
-                    table{{ table.id }}.insertRow(1, len - 1, true)
-                }
-
-                //添加提示信息，以下两种写法均可
-                for (i = 0; i < com.length; i++) {
-                    table{{ table.id }}.setComments(com[i][0] + String(len), com[i][1])
-                }
-
-                //添加公式
-                for (i = 0; i < fo.length; i++) {
-                    var id = fo[i][0] + String(len)
-                    var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + len)
-                    table{{ table.id }}.setValue(id, formula)
-                }
-
-                //更新合计公式
-                if (tal.length > 0) {
-                    for (i = 1; i < tal.length; i++) {
-                        formula = '=' + tal[0] + '('
-                        id = tal[i] + String(len + 1)
-                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
-                        table{{ table.id }}.setValue(id, formula)
-                    }
-                }
-            }
-            //初始化表格，添加注释，添加公式，添加合计
-            function initRows{{ table.id }}() {
-                var com = {{ table.com|safe }} //提示字段
-                var fo = {{ table.fo|safe }} //公式字段
-                var tal = {{ table.tal|safe }}  //合计字段
-                var len = table{{ table.id }}.rows.length
-                if (tal.length > 0) {//去掉最后一行
-                    len--;
-                }
-                if (len == 0) {
-                    table{{ table.id }}.insertRow(1, len, true)
-                    len++
-                }
-                for (l = 1; l <= len; l++) {
-                    //添加注释
-                    for (i = 0; i < com.length; i++) {
-                        table{{ table.id }}.setComments(com[i][0] + String(len), com[i][1])
-                    }
-                    //添加公式
-                    for (i = 0; i < fo.length; i++) {
-                        var id = fo[i][0] + String(l)
-                        var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + l)
-                        table{{ table.id }}.setValue(id, formula)
-                    }
-                }
-                //更新合计公式
-                if (tal.length > 0) {
-                    for (i = 1; i < tal.length; i++) {
-                        formula = '=' + tal[0] + '('
-                        id = tal[i] + String(len + 1)
-                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
-                        table{{ table.id }}.setValue(id, formula)
-                    }
-                }
-            }
-            initRows{{ table.id }}();
-        {% endfor %}
-
-    </script>
+    {{ block.super }}
 {% endblock %}
