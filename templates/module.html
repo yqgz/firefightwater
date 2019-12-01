@@ -35,7 +35,7 @@
             function submit{{ table.id }}() {
                 txt = JSON.stringify(table{{ table.id }}.getDataAndFormula(false))
                 csrf = $("input[name='csrfmiddlewaretoken']").val()
-                $.post("{% url 'excel' tables.0.pid %}", {
+                $.post("{% url 'excel' table.pid %}", {
                     data: txt,
                     csrfmiddlewaretoken: csrf
                 }, function (result) {
