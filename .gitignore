@@ -7,3 +7,4 @@ firefightwater/migrations
 firefightwater/__pycache__
 .DS_Store
 venv/
+db.sqlite3

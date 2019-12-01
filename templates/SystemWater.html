@@ -5,23 +5,23 @@
     <div class="content-table">
         <p>1.消防系统用水量</p>
         <!--表2.1，id=1-->
+
         <div id="spreadsheet"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow()"/>
             <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
             <!--<i id="ret"></i>-->
-            {% csrf_token %}
         </div>
     </div>
+    {% csrf_token %}
 {% endblock %}
 
 {% block extrajs %}
     <script>
         //提交保存
+        var table_id = '#spreadsheet'
         function submit() {
-//            这是取公式的方法getValue('A1', true); // will return value from a formula
-//            取值getValue('A1') // will return a formula
-            txt = JSON.stringify($('#spreadsheet').jexcel('getDataAndFormula', false))
+            txt = JSON.stringify($(table_id).jexcel('getDataAndFormula', false))
             csrf = $("input[name='csrfmiddlewaretoken']").val()
             $.post("{% url 'excel' tables.0.pid %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
             $.globalMessenger().post({
@@ -32,14 +32,6 @@
             });
             })
         }
-
-        //公式计算
-        /*var data = [
-         ['室外消火栓系统', '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
-         ['室内消火栓系统', '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
-         ['合计', '', , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
-         ['最大值', '', , '=MAX(D1:D2)', , , '=MAX(G1:G2)', '',],
-         ];*/
 
         $('#spreadsheet').jexcel({
             data: {{ tables.0.data|safe }},
@@ -83,25 +75,23 @@
 
         //在合计行上方添加空行，只有一个合计行时减2
         function addrow() {
-            var len = $('#spreadsheet')[0].jexcel.rows.length
+            var len = $(table_id)[0].jexcel.rows.length
             if (tal.length == 0) {//没有合计字段插入到最后
-                $('#spreadsheet').jexcel('insertRow', 1, len, true)
+                $(table_id).jexcel('insertRow', 1, len, true)
             } else {
-                $('#spreadsheet').jexcel('insertRow', 1, len - 1, true)
+                $(table_id).jexcel('insertRow', 1, len - 1, true)
             }
 
             //添加提示信息，以下两种写法均可
-            //$('#spreadsheet').jexcel('setComments','I1','注明选择依据')
-            //$('#spreadsheet').jexcel('setComments',[8,1],'注明选择依据')
             for (i = 0; i < com.length; i++) {
-                $('#spreadsheet').jexcel('setComments', com[i][0] + String(len), com[i][1])
+                $(table_id).jexcel('setComments', com[i][0] + String(len), com[i][1])
             }
 
             //添加公式
             for (i = 0; i < fo.length; i++) {
                 var id = fo[i][0] + String(len)
                 var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + len)
-                $('#spreadsheet').jexcel('setValue', id, formula)
+                $(table_id).jexcel('setValue', id, formula)
             }
 
             //更新合计公式
@@ -110,30 +100,30 @@
                     formula = '=' + tal[0] + '('
                     id = tal[i] + String(len + 1)
                     formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
-                    $('#spreadsheet').jexcel('setValue', id, formula)
+                    $(table_id).jexcel('setValue', id, formula)
                 }
             }
         }
         //初始化表格，添加注释，添加公式，添加合计
         function initRows() {
-            var len = $('#spreadsheet')[0].jexcel.rows.length
+            var len = $(table_id)[0].jexcel.rows.length
             if (tal.length > 0) {//去掉最后一行
                 len--;
             }
             if (len == 0) {
-                $('#spreadsheet').jexcel('insertRow', 1, len, true)
+                $(table_id).jexcel('insertRow', 1, len, true)
                 len++
             }
             for (l = 1; l <= len; l++) {
                 //添加注释
                 for (i = 0; i < com.length; i++) {
-                    $('#spreadsheet').jexcel('setComments', com[i][0] + String(l), com[i][1])
+                    $(table_id).jexcel('setComments', com[i][0] + String(l), com[i][1])
                 }
                 //添加公式
                 for (i = 0; i < fo.length; i++) {
                     var id = fo[i][0] + String(l)
                     var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + l)
-                    $('#spreadsheet').jexcel('setValue', id, formula)
+                    $(table_id).jexcel('setValue', id, formula)
                 }
             }
             //更新合计公式
@@ -142,17 +132,10 @@
                     formula = '=' + tal[0] + '('
                     id = tal[i] + String(len + 1)
                     formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
-                    $('#spreadsheet').jexcel('setValue', id, formula)
+                    $(table_id).jexcel('setValue', id, formula)
                 }
             }
         }
         initRows();
-{#        rows = 0#}
-{#        if (tal.length > 0) {#}
-{#            rows = 1#}
-{#        }#}
-{#        if ($('#spreadsheet')[0].jexcel.rows.length<=rows) {#}
-{#            addrow(rows)//初始化一行#}
-{#        }#}
     </script>
 {% endblock %}
