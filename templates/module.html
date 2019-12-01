@@ -87,18 +87,16 @@
 
             //在合计行上方添加空行，只有一个合计行时减2
             function addrow{{ table.id }}() {
-                var com =
-                {{ table.com|safe }} //提示字段
-                var fo =
-                {{ table.fo|safe }} //公式字段
-                var tal =
-                {{ table.tal|safe }}  //合计字段
+                var com = {{ table.com|safe }} //提示字段
+                var fo = {{ table.fo|safe }} //公式字段
+                var tal = {{ table.tal|safe }}  //合计字段
                 var len = table{{ table.id }}.rows.length
                 if (tal.length == 0) {//没有合计字段插入到最后
                     table{{ table.id }}.insertRow(1, len, true)
                 } else {
                     table{{ table.id }}.insertRow(1, len - 1, true)
                 }
+                len++
 
                 //添加提示信息，以下两种写法均可
                 for (i = 0; i < com.length; i++) {
@@ -124,12 +122,9 @@
             }
             //初始化表格，添加注释，添加公式，添加合计
             function initRows{{ table.id }}() {
-                var com =
-                {{ table.com|safe }} //提示字段
-                var fo =
-                {{ table.fo|safe }} //公式字段
-                var tal =
-                {{ table.tal|safe }}  //合计字段
+                var com = {{ table.com|safe }} //提示字段
+                var fo = {{ table.fo|safe }} //公式字段
+                var tal = {{ table.tal|safe }}  //合计字段
                 var len = table{{ table.id }}.rows.length
                 if (tal.length > 0) {//去掉最后一行
                     len--;
