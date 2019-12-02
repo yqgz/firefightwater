@@ -19,7 +19,9 @@
             {% if project_list %}
                 {% for var in project_list %}
                     <div class="project">
-                    <a style="color: #000;" href="{% url 'project_add' %}?pk={{ var.id }}">{{ var.project_name }}</a>
+                    <!--<a style="color: #000;" href="{% url 'project_add' %}?pk={{ var.id }}">{{ var.project_name }}</a>
+                    -->
+                    <a style="color: #000;" href="{% url 'introduction' var.id %}">{{ var.project_name }}</a>
                     <div class="project-dtl">{{ var.project_text | slice:"80" }} </div>
                     <div class="project-dtl">{{ var.user.username }} {{ var.pub_date }}</div>
                     </div>
