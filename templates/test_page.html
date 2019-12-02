@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% block title %}<title>{{ cur.0.module_name }}-消防系统计算平台</title>{% endblock %}
+{% block extrastyle %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/jsuites.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/jexcel.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/messenger.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/messenger-theme-block.css' %}" type="text/css"/>
+    <script src="{% static 'js/jexcel.js' %}"></script>
+    <script src="{% static 'js/jsuites.js' %}"></script>
+    <script src="{% static 'js/messenger.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'header.html' %}
+    {% include 'select_module.html' %}
+{% endblock %}
+{% block content %}
+    <div class="table">
+        <h3 style="margin-top: 10px">消防系统用水量</h3>
+        <div id="spreadsheet"></div>
+        <div>
+            <input type='button' class="btn-primary" value='新增' onclick="addrow()"/>
+            <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
+            <input type='button' class="btn-primary" value='修改' onclick="change()"/>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+<script>
+        var data = [
+            [1, '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
+            [2, '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
+            ['合计','',  , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
+        ];
+
+        var my_table = jexcel(document.getElementById('spreadsheet'),{
+            data: data,
+            columns: [
+                {type: 'dropdown',
+                    source: [ {'id':'1', 'name':'室外消火栓系统'},
+                        {'id':'2', 'name':'室内消火栓系统'},
+                        {'id':'3', 'name':'自动喷水灭火系统'} ],
+                    title: '系统名称', width: '200'},
+                {type: 'text', title: '建筑类别', width: '100'},
+                {type: 'dropdown', title: '最小设计流量(L/s)', width: '100',
+                source:[{id:'1',name:'15',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积V<=3000'},
+                    {id:'2',name:'20',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积3000<V<=5000'},
+                    {id:'3',name:'25',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积5000<V<=20000'},
+                    {id:'4',name:'30',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积20000<V<=50000'},
+                    {id:'5',name:'35',group:'一、二级-工业建筑',title:'厂房-甲、乙-建筑体积20000<V<=50000'},
+                    {id:'6',name:'40',group:'一、二级-工业建筑',title:'厂房-丙-建筑体积V>50000'},
+                    {id:'7',name:'15',group:'一、二级-工业建筑',title:'厂房-丁、戊-建筑体积V<=50000'},
+                    {id:'8',name:'20',group:'一、二级-工业建筑',title:'厂房-丁、戊-建筑体积V>50000'},
+                    {id:'9',name:'15',group:'一、二级-工业建筑',title:'仓库-甲、乙、丙-建筑体积V<=3000'},
+                    {id:'10',name:'25',group:'一、二级-工业建筑',title:'仓库-甲、乙、丙-建筑体积3000<V<=20000'},
+                    {id:'11',name:'35',group:'一、二级-工业建筑',title:'仓库-丙-建筑体积20000<V<=50000'},
+                    {id:'12',name:'45',group:'一、二级-工业建筑',title:'仓库-丙-建筑体积V>50000'},
+                    {id:'13',name:'15',group:'一、二级-工业建筑',title:'仓库-丁、戊-建筑体积V<=50000'},
+                    {id:'14',name:'20',group:'一、二级-工业建筑',title:'仓库-丁、戊-建筑体积V>50000'},
+                    {id:'15',name:'15',group:'一、二级-民用建筑',title:'住宅'},
+                    {id:'16',name:'15',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积V<=5000'},
+                    {id:'17',name:'25',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积5000<V<=20000'},
+                    {id:'18',name:'30',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积20000<V<=50000'},
+                    {id:'19',name:'40',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积V>50000'},
+                ],},
+                {type: 'text', title: '设计流量(L/s)', width: '100'},
+                {type: 'text', title: '灭火持续时间(h)', width: '100'},
+                {type: 'checkbox', title: '是否计入一次灭火设计流量', width: '200'},
+                {type: 'text', title: '用水量(m³)', width: '200'},
+                {type: 'checkbox', title: '是否计入消防水池容积', width: '180'},
+                {type: 'text', title: '备注', width: '100'},
+            ],
+            nestedHeaders: [
+                [
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: 'q(B)*t(B)*3600/1000', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},
+                ],
+                [
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: 'q(B)', colspan: '1'},
+                    {title: 't(B)', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: 'V(B)', colspan: '1'},
+                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'}
+                ],
+            ],
+            //mergeCells:{B3:[2,1], B4:[2,1]},//合并单元格
+            wordWrap: true,
+            allowComments: true,
+            parseFormulas: true,//显示公式结果
+            columnSorting:false,//禁用排序
+            contextMenu: function (obj, x, y, e) {
+                console.log(obj)
+                var items = [];
+                if (y == null) {
+                    // Sorting
+                    if (obj.options.columnSorting == true) {
+                        // Line
+                        //items.push({ type:'line' });
+
+                        items.push({
+                            title: obj.options.text.orderAscending,
+                            onclick: function () {
+                                obj.orderBy(x, 0);
+                            }
+                        });
+                        items.push({
+                            title: obj.options.text.orderDescending,
+                            onclick: function () {
+                                obj.orderBy(x, 1);
+                            }
+                        });
+                    }
+                } else {
+                    // Insert new row
+                    if (obj.options.allowInsertRow == true) {
+                        items.push({
+                            title: obj.options.text.insertANewRowAfter,
+                            onclick: function () {
+                                obj.insertRow(1, parseInt(y));
+                            }
+                        });
+                    }
+
+                    if (obj.options.allowDeleteRow == true) {
+                        items.push({
+                            title: obj.options.text.deleteSelectedRows,
+                            onclick: function () {
+                                obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                            }
+                        });
+                    }
+                }
+                return items;
+            },
+            text: {
+                insertANewRowAfter: "插入一行",
+                deleteSelectedRows: "删除选中行",
+            },
+            //设置单元格的readonly
+            /*updateTable: function(el, cell, x, y, source, value, id) {
+        if (x == 2 && (y == 2 || y==3)) {
+            cell.classList.add('readonly');
+        }}*/
+        });
+
+        //在合计行上方添加空行，只有一个合计行时减2
+        function addrow() {
+            var len=$('#spreadsheet')[0].jexcel.rows.length
+            var com=['I','注明选择依据'] //提示字段
+            var fo =['G', 'D','*','E','*3600/1000'] //公式字段
+            var tal=['SUM','D','G']  //合计字段
+            $('#spreadsheet').jexcel('insertRow',1,len-2)
+            //添加提示信息，以下两种写法均可
+            //$('#spreadsheet').jexcel('setComments','I1','注明选择依据')
+            //$('#spreadsheet').jexcel('setComments',[8,1],'注明选择依据')
+            $('#spreadsheet').jexcel('setComments',com[0]+String(len),com[1])
+            //添加公式
+            var id=fo[0]+String(len)
+            var formula='='
+            for (let i=1; i<fo.length; i++)
+            {
+                if(fo[i].match(/[A-Z]/)){
+                    formula+=fo[i]+String(len)
+                }
+                else
+                formula+=fo[i]
+            }
+            $('#spreadsheet').jexcel('setValue',id,formula)
+            //更新合计公式
+            if (tal.length>0){
+                for(let i=1;i<tal.length;i++){
+                    formula='='+tal[0]+'('
+                   id=tal[i]+String(len+1)
+                    formula+=tal[i]+1+':'+tal[i]+String(len)+')'
+                $('#spreadsheet').jexcel('setValue',id,formula)
+            }
+            }
+        }
+        $._messengerDefaults = ({
+            extraClasses: 'messenger-fixed messenger-theme-air messenger-on-bottom messenger-on-left',
+            theme:'block'
+        })
+        //把合计行的类型变成text
+        function change(){
+            console.log(my_table.getCell('A1'))
+            my_table.resetStyle('A1')
+            my_table.resetStyle([0,2])
+        }
+            //提交保存
+        function submit() {
+            txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))
+            csrf = $("input[name='csrfmiddlewaretoken']").val()
+            $.post("{% url 'excel' 3 %}", {data: txt, csrfmiddlewaretoken: csrf}, function (result) {
+            $.globalMessenger().post({
+            message: result.data,
+            hideAfter: 10,
+            type: result.msg,
+            //showCloseButton: true
+            });
+            })
+        }
+</script>
+{% endblock %}

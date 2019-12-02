@@ -346,3 +346,7 @@ def get_column(request, id):
 
 def nestedheader(request):
     return render(request, 'nestedheader.html')
+
+
+def test_page(request):
+    return render(request, 'test_page.html')
