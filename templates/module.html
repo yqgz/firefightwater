@@ -93,10 +93,11 @@
                 var len = table{{ table.id }}.rows.length
                 if (tal.length == 0) {//没有合计字段插入到最后
                     table{{ table.id }}.insertRow(1, len, true)
+                    len++
                 } else {
                     table{{ table.id }}.insertRow(1, len - 1, true)
                 }
-                len++
+
 
                 //添加提示信息，以下两种写法均可
                 for (i = 0; i < com.length; i++) {

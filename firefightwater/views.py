@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Project, ProjectTable, Table, Column, Value, Module, ModuleTable, ColumnDropdown, Dropdown, DropdownItem
+from .models import Project, ProjectTable, Table, Column, Value, Module, ModuleTable, ColumnDropdown, Dropdown, \
+    DropdownItem
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.contrib.admin.forms import AdminAuthenticationForm
 from .forms import *
-from firefightwater.common.response import json_response,json_error
+from firefightwater.common.response import json_response, json_error
 from .helper import *
 from django.http import HttpResponse
 import json
@@ -240,9 +241,6 @@ def module(request, pk, md):
 @login_required(redirect_field_name='', login_url='/login/')
 def excel(request, pk):
     pt = ProjectTable.objects.filter(id=pk)
-    # module_list = Module.objects.all()
-    # cur = module_list.filter(id=pt[0].module_id)
-    # p = pt[0].project '[["dd","","","","","","","",""]]'
 
     if request.POST:
         data = request.POST['data']
@@ -251,18 +249,17 @@ def excel(request, pk):
         data = eval(data)
         table = pt[0].table
         columns = Column.objects.filter(table=table)
-        Value.objects.filter(project_table=pt[0]).delete()
         # 不为空判断
-        msg = ''
         for r_key, row in enumerate(data):
             for c_key, val in enumerate(row):
                 if isinstance(val, list):
                     value = val[0]
                 else:
                     value = val
-                if columns[c_key].must and value=='':
+                if columns[c_key].must and value == '':
                     msg = columns[c_key].column_name + '的所有行不能为空！'
                     return json_error(msg)
+        Value.objects.filter(project_table=pt[0]).delete()
         for r_key, row in enumerate(data):
             for c_key, val in enumerate(row):
                 if isinstance(val, list):
@@ -272,21 +269,6 @@ def excel(request, pk):
                     value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key + 1)
                 value.save()
         return json_response('保存成功！')
-        # else:
-        #     data = Value.objects.filter(project_table=pt[0])
-        #     if data:
-        #         data = data[0].value
-        #     else:
-        #         data = json.dumps("[[]]")
-        # c = []
-        #
-        # columns = Column.objects.filter(table=pt[0].table)
-        # for column in columns:
-        #     c.append({'title': column.column_name})
-        # context = {'module_list': module_list, 'p': p, 'cur': cur,
-        #            'select_module': getselectmodule(pt[0].project_id, request.user), 'data': data,
-        #            'columns': json.dumps(c)}
-        # return render(request, 'nestedheader.html', context)
 
 
 # 登录
