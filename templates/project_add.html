@@ -223,3 +223,16 @@
         </form>
     </div>
 {% endblock %}
+
+{% block extrajs %}
+{{ block.super }}
+    <script>
+    $.globalMessenger().post({
+        message: "{{ data }}",
+        hideAfter: 6,
+        type: "{{ type }}",
+        //showCloseButton: true
+    });
+    </script>
+
+{% endblock %}

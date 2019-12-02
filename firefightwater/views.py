@@ -38,10 +38,9 @@ def project(request):
 
 @login_required(redirect_field_name='', login_url='/login/')
 def project_add(request):
-    pk = ''
-    msg = ''
     context = {}
     if request.POST:
+        msg = ''
         module_list = Module.objects.all()
         pk = request.POST['pk']
         if pk == '':
@@ -57,21 +56,29 @@ def project_add(request):
                         )
         else:
             p = Project.objects.get(id=pk, user=request.user)
+            p.project_name = request.POST['project_name']
+            p.project_num = request.POST['project_num']
+            p.project_text = request.POST['project_text']
+            p.designer = request.POST['designer']
+            p.proofreader = request.POST['proofreader']
+            p.chief = request.POST['chief']
+            p.approver = request.POST['approver']
+            p.version = request.POST['version']
         if request.POST['project_name'] == '':
             msg = '项目名称不能为空'
-        if request.POST['project_num'] == '':
+        elif request.POST['project_num'] == '':
             msg = '项目编号不能为空'
-        if request.POST['project_text'] == '':
+        elif request.POST['project_text'] == '':
             msg = '项目概况不能为空'
-        if request.POST['designer'] == '':
+        elif request.POST['designer'] == '':
             msg = '设计人不能为空'
-        if request.POST['proofreader'] == '':
+        elif request.POST['proofreader'] == '':
             msg = '校对人不能为空'
-        if request.POST['chief'] == '':
+        elif request.POST['chief'] == '':
             msg = '专业负责人不能为空'
-        if request.POST['approver'] == '':
+        elif request.POST['approver'] == '':
             msg = '审批人不能为空'
-        if request.POST['version'] == '':
+        elif request.POST['version'] == '':
             msg = '版本号不能为空'
         if msg == '':
             p.save()
@@ -89,6 +96,12 @@ def project_add(request):
                         ProjectTable.objects.create(project=p, table=t.table, module=t.module)
 
             return redirect('module', pk=p.id, md=1)
+        else:
+            context['data'] = msg
+            context['type'] = 'error'
+            context['module_list'] = module_list
+            context['p'] = p
+            return render(request, 'project_add.html', context)
     else:
         pk = request.GET['pk']
         module_list = Module.objects.all()
@@ -118,7 +131,6 @@ def project_add(request):
             )
         context['module_list'] = module_list
         context['p'] = p
-        context['msg'] = msg
         return render(request, 'project_add.html', context)
 
 
@@ -142,9 +154,9 @@ def introduction(request, pk):
                 if moduletables[0].have == '是':
                     m.have = 1
         context['select_module'] = getselectmodule(pk, request.user)
-    context['module_list'] = module_list
-    context['p'] = p
-    return render(request, 'introduction.html', context)
+        context['module_list'] = module_list
+        context['p'] = p
+        return render(request, 'introduction.html', context)
 
 
 # 模块
