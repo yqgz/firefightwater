@@ -5,9 +5,10 @@
 <div class="content-table">
     <div style="margin-top: 0.83em;margin-bottom: 0.83em;">
         <label class="h2label" >1.室外消火栓系统供水泵计算：</label>
-        <label id="pump" name="pump" style="font-size: 1.17em">有水泵</label>
+        <label id="pump" name="pump" style="font-size: 1.17em">{% if cur.have == '是' %}有水泵{% else %}无供水泵{% endif %}</label>
         <!--显示：有供水泵 or 无供水泵-->
     </div>
+    {% if cur.have == '是' %}
     <div id="has"><!--有水泵-->
         <div style="margin-top:1em;margin-bottom: 1em">
             <label class="h3label">a.室外消火栓系统供水泵流量：</label>
@@ -55,6 +56,7 @@
             <input type='button' class="btn-primary" value='保存' onclick="submit{{ tables.4.id }}()"/>
         </div>
     </div>
+    {% else %}
     <div id="no"><!--无水泵-->
         <h2>4.室外消火栓系统管网计算</h2>
         <p>1).管网水头损失的计算</p>
@@ -73,6 +75,7 @@
             <input type='button' class="btn-primary" value='保存' onclick="submit{{ tables.1.id }}()"/>
         </div>
     </div>
+    {% endif %}
 {% csrf_token %}
 </div>
 {% endblock %}

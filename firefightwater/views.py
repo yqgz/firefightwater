@@ -167,6 +167,12 @@ def module(request, pk, md):
     p = Project.objects.get(id=pk, user=request.user)
 
     pts = ProjectTable.objects.filter(project=pk, module=md)
+    # 室外消火栓系统
+    if md == 3:
+        table_id_ = pts[0].table_id
+        module_table = ModuleTable.objects.filter(module_id=md, table_id=table_id_)
+        if module_table[0].have == '是':
+            cur.have = '是'
     tables = []
     for pt in pts:  # 循环模块里面的每张表
         table = pt.table
