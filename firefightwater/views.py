@@ -122,6 +122,42 @@ def project_add(request):
     return render(request, 'project_add.html', context)
 
 
+@login_required(redirect_field_name='', login_url='/login/')
+def introduction(request, pk):
+    context = {}
+    p = {}
+    #  p = Project.objects.get(id=pk, user=request.user)
+    #  pk = request.GET['pk']
+    module_list = Module.objects.all()
+    if pk != '':
+        p = Project.objects.get(id=pk, user=request.user)
+        select_module = p.projecttable_set
+        for m in module_list:
+            m.select = False  # 是否勾选
+            have = select_module.filter(module=m)
+            if have:
+                m.select = True
+                m.have = False  # 是否有水栓
+                moduletables = ModuleTable.objects.filter(module=have[0].module, table=have[0].table)
+                if moduletables[0].have == '是':
+                    m.have = 1
+        context['select_module'] = getselectmodule(pk, request.user)
+    else:
+        p = Project(
+            project_name='',
+            project_num='',
+            project_text='',
+            designer='',
+            proofreader='',
+            chief='',
+            approver='',
+            version='',
+        )
+    context['module_list'] = module_list
+    context['p'] = p
+    return render(request, 'introduction.html', context)
+
+
 # 模块
 @login_required(redirect_field_name='', login_url='/login/')
 def module(request, pk, md):

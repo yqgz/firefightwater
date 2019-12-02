@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}<title>项目-消防系统计算平台</title>{% endblock %}
+{% block title %}<title>创建项目-消防系统计算平台</title>{% endblock %}
 {% block extrastyle %}
     {% load staticfiles %}
     <style type="text/css">
@@ -143,7 +143,7 @@
 					<input type="checkbox" name="hydrant" id="hydrant" {% if module_list.2.have %}
                            checked="checked" {% endif %}>
 				</span>
-                        <input type="text" class="form-control" disabled value="消火栓">
+                        <input type="text" class="form-control" disabled value="供水泵">
                     </div>
                 </div>
             </div>
@@ -219,7 +219,6 @@
                         </div>
                     </div>
                 </div>
-
                 <input type="submit" class="btn-primary" value="保存">
         </form>
     </div>
