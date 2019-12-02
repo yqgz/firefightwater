@@ -15,9 +15,8 @@
 
 {% block content %}
     <div class="content">
-        <form action="{% url 'project_add' %}" method="post">
+
             <input type="hidden" name="pk" value="{% if p.id %}{{ p.id }}{% endif %}">
-            {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
                     <div class="form-group">
@@ -218,10 +217,10 @@
                 </div>
                 <div class="project-btn">
                         <button class="btn-primary" onclick="javascrtpt:window.location.href=
-                                '{% url 'project_add' %}?pk={{ var.id }}'">
+                                '{% url 'project_add' %}?pk={{ p.id }}'">
                             编辑
                         </button>
                 </div>
-        </form>
+
     </div>
 {% endblock %}

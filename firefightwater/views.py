@@ -116,10 +116,10 @@ def project_add(request):
                 approver='',
                 version='',
             )
-    context['module_list'] = module_list
-    context['p'] = p
-    context['msg'] = msg
-    return render(request, 'project_add.html', context)
+        context['module_list'] = module_list
+        context['p'] = p
+        context['msg'] = msg
+        return render(request, 'project_add.html', context)
 
 
 @login_required(redirect_field_name='', login_url='/login/')
@@ -142,17 +142,6 @@ def introduction(request, pk):
                 if moduletables[0].have == '是':
                     m.have = 1
         context['select_module'] = getselectmodule(pk, request.user)
-    else:
-        p = Project(
-            project_name='',
-            project_num='',
-            project_text='',
-            designer='',
-            proofreader='',
-            chief='',
-            approver='',
-            version='',
-        )
     context['module_list'] = module_list
     context['p'] = p
     return render(request, 'introduction.html', context)
