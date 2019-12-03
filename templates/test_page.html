@@ -22,7 +22,6 @@
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow()"/>
             <input type='button' class="btn-primary" value='保存' onclick="submit()"/>
-            <input type='button' class="btn-primary" value='修改' onclick="change()"/>
         </div>
 
     </div>
@@ -150,11 +149,17 @@
                 insertANewRowAfter: "插入一行",
                 deleteSelectedRows: "删除选中行",
             },
-            //设置单元格的readonly
-            /*updateTable: function(el, cell, x, y, source, value, id) {
-        if (x == 2 && (y == 2 || y==3)) {
-            cell.classList.add('readonly');
-        }}*/
+            //设置合计行的readonly，删除dropdown和checkbox
+            updateTable: function(el, cell, x, y, source, value, id) {
+                if (y == 2 ) {
+                    cell.classList.remove('dropdown');
+                    if(cell.children.length==1)
+                        var $child = $(cell).find("input");
+                        if($child!=undefined)
+                            $child.remove();
+                    cell.classList.add('readonly');
+                }
+            }
         });
 
         //在合计行上方添加空行，只有一个合计行时减2
@@ -194,12 +199,7 @@
             extraClasses: 'messenger-fixed messenger-theme-air messenger-on-bottom messenger-on-left',
             theme:'block'
         })
-        //把合计行的类型变成text
-        function change(){
-            console.log(my_table.getCell('A1'))
-            my_table.resetStyle('A1')
-            my_table.resetStyle([0,2])
-        }
+
             //提交保存
         function submit() {
             txt = JSON.stringify($('#spreadsheet').jexcel('getData', false))
