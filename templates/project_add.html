@@ -16,7 +16,6 @@
 {% block content %}
     <div class="content">
         <form action="{% url 'project_add' %}" method="post">
-            <input type="hidden" name="pk" value="{% if p.id %}{{ p.id }}{% endif %}">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
@@ -24,7 +23,7 @@
                         <div class="col-lg-3"><label>项目名称<span style="color:red">*</span>：</label></div>
                         <div class="col-lg-8">
                             <input type="text" class="form-control" id="project_name" name="project_name"
-                                   value="{{ p.project_name }}" placeholder="请输入项目名称"/>
+                                   value="" placeholder="请输入项目名称"/>
                         </div>
                     </div>
                 </div>
@@ -35,7 +34,7 @@
                         <div class="col-lg-3"><label>项目编号<span style="color:red">*</span>：</label></div>
                         <div class="col-lg-8">
                             <input type="text" class="form-control" id="project_num" name="project_num"
-                                   value="{{ p.project_num }}" placeholder="请输入项目编号"/>
+                                   value="" placeholder="请输入项目编号"/>
                         </div>
                     </div>
                 </div>
@@ -46,7 +45,7 @@
                         <div class="col-lg-3"><label>项目概况<span style="color:red">*</span>：</label></div>
                         <div class="col-lg-8">
                         <textarea type="text" class="form-control" id="project_text" name="project_text" rows="5"
-                                  placeholder="请输入项目概况">{{ p.project_text }}</textarea>
+                                  placeholder="请输入项目概况"></textarea>
                         </div>
                     </div>
                 </div>
@@ -56,7 +55,7 @@
                     <div class="form-group">
                         <div class="col-lg-3"><label>设计人<span style="color:red">*</span>：</label></div>
                         <div class="col-lg-8">
-                            <input type="text" class="form-control" id="designer" name="designer" value="{{ p.designer }}"
+                            <input type="text" class="form-control" id="designer" name="designer" value=""
                                    placeholder="请输入项目设计人"/>
                         </div>
                     </div>
@@ -68,7 +67,7 @@
                         <div class="col-lg-3"><label>校对人<span style="color:red">*</span>：</label></div>
                         <div class="col-lg-8">
                             <input type="text" class="form-control" id="proofreader" name="proofreader"
-                                   value="{{ p.proofreader }}" placeholder="请输入项目校对人"/>
+                                   value="" placeholder="请输入项目校对人"/>
                         </div>
                     </div>
                 </div>
@@ -78,7 +77,7 @@
                     <div class="form-group">
                         <div class="col-lg-3"><label>专业负责人<span style="color:red">*</span>：</label></div>
                         <div class="col-lg-8">
-                            <input type="text" class="form-control" id="chief" name="chief" value="{{ p.chief }}"
+                            <input type="text" class="form-control" id="chief" name="chief" value=""
                                    placeholder="请输入专业负责人"/>
                         </div>
                     </div>
@@ -89,7 +88,7 @@
                     <div class="form-group">
                         <div class="col-lg-3"><label>审批人<span style="color:red">*</span>：</label></div>
                         <div class="col-lg-8">
-                            <input type="text" class="form-control" id="approver" name="approver" value="{{ p.approver }}"
+                            <input type="text" class="form-control" id="approver" name="approver" value=""
                                    placeholder="请输入审批人"/>
                         </div>
                     </div>
@@ -100,7 +99,7 @@
                     <div class="form-group">
                         <div class="col-lg-3"><label>版本号<span style="color:red">*</span>：</label></div>
                         <div class="col-lg-8">
-                            <input type="text" class="form-control" id="version" name="version" value="{{ p.version }}"
+                            <input type="text" class="form-control" id="version" name="version" value=""
                                    placeholder="请输入版本号"/>
                         </div>
                     </div>

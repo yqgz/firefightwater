@@ -42,28 +42,6 @@ def project_add(request):
     if request.POST:
         msg = ''
         module_list = Module.objects.all()
-        pk = request.POST['pk']
-        if pk == '':
-            p = Project(user=request.user,
-                        project_name=request.POST['project_name'],
-                        project_num=request.POST['project_num'],
-                        project_text=request.POST['project_text'],
-                        designer=request.POST['designer'],
-                        proofreader=request.POST['proofreader'],
-                        chief=request.POST['chief'],
-                        approver=request.POST['approver'],
-                        version=request.POST['version'],
-                        )
-        else:
-            p = Project.objects.get(id=pk, user=request.user)
-            p.project_name = request.POST['project_name']
-            p.project_num = request.POST['project_num']
-            p.project_text = request.POST['project_text']
-            p.designer = request.POST['designer']
-            p.proofreader = request.POST['proofreader']
-            p.chief = request.POST['chief']
-            p.approver = request.POST['approver']
-            p.version = request.POST['version']
         if request.POST['project_name'] == '':
             msg = '项目名称不能为空'
         elif request.POST['project_num'] == '':
@@ -81,6 +59,16 @@ def project_add(request):
         elif request.POST['version'] == '':
             msg = '版本号不能为空'
         if msg == '':
+            p = Project(user=request.user,
+                        project_name=request.POST['project_name'],
+                        project_num=request.POST['project_num'],
+                        project_text=request.POST['project_text'],
+                        designer=request.POST['designer'],
+                        proofreader=request.POST['proofreader'],
+                        chief=request.POST['chief'],
+                        approver=request.POST['approver'],
+                        version=request.POST['version'],
+                        )
             p.save()
             post = request.POST
             ProjectTable.objects.filter(project=p.id).delete()
@@ -95,51 +83,21 @@ def project_add(request):
                     for t in tables:
                         ProjectTable.objects.create(project=p, table=t.table, module=t.module)
 
-            return redirect('module', pk=p.id, md=1)
+            return redirect('introduction', pk=p.id)
         else:
             context['data'] = msg
             context['type'] = 'error'
             context['module_list'] = module_list
-            context['p'] = p
             return render(request, 'project_add.html', context)
     else:
-        pk = request.GET['pk']
         module_list = Module.objects.all()
-        if pk != '':
-            p = Project.objects.get(id=pk, user=request.user)
-            select_module = p.projecttable_set
-            for m in module_list:
-                m.select = False  # 是否勾选
-                have = select_module.filter(module=m)
-                if have:
-                    m.select = True
-                    m.have = False  # 是否有水栓
-                    moduletables = ModuleTable.objects.filter(module=have[0].module, table=have[0].table)
-                    if moduletables[0].have == '是':
-                        m.have = 1
-            context['select_module'] = getselectmodule(pk, request.user)
-        else:
-            p = Project(
-                project_name='',
-                project_num='',
-                project_text='',
-                designer='',
-                proofreader='',
-                chief='',
-                approver='',
-                version='',
-            )
         context['module_list'] = module_list
-        context['p'] = p
         return render(request, 'project_add.html', context)
 
 
 @login_required(redirect_field_name='', login_url='/login/')
 def introduction(request, pk):
     context = {}
-    p = {}
-    #  p = Project.objects.get(id=pk, user=request.user)
-    #  pk = request.GET['pk']
     module_list = Module.objects.all()
     if pk != '':
         p = Project.objects.get(id=pk, user=request.user)
@@ -206,40 +164,27 @@ def introduction_edit(request, pk):
                     for t in tables:
                         ProjectTable.objects.create(project=p, table=t.table, module=t.module)
 
-            return redirect('module', pk=p.id, md=1)
+            return redirect('introduction', pk=p.id)
         else:
             context['data'] = msg
             context['type'] = 'error'
             context['module_list'] = module_list
             context['p'] = p
-            return render(request, 'introduction.html', context)
+            return render(request, 'introduction_edit.html', context)
     else:
-        pk = request.GET['pk']
         module_list = Module.objects.all()
-        if pk != '':
-            p = Project.objects.get(id=pk, user=request.user)
-            select_module = p.projecttable_set
-            for m in module_list:
-                m.select = False  # 是否勾选
-                have = select_module.filter(module=m)
-                if have:
-                    m.select = True
-                    m.have = False  # 是否有水栓
-                    moduletables = ModuleTable.objects.filter(module=have[0].module, table=have[0].table)
-                    if moduletables[0].have == '是':
-                        m.have = 1
-            context['select_module'] = getselectmodule(pk, request.user)
-        else:
-            p = Project(
-                project_name='',
-                project_num='',
-                project_text='',
-                designer='',
-                proofreader='',
-                chief='',
-                approver='',
-                version='',
-            )
+        p = Project.objects.get(id=pk, user=request.user)
+        select_module = p.projecttable_set
+        for m in module_list:
+            m.select = False  # 是否勾选
+            have = select_module.filter(module=m)
+            if have:
+                m.select = True
+                m.have = False  # 是否有水栓
+                moduletables = ModuleTable.objects.filter(module=have[0].module, table=have[0].table)
+                if moduletables[0].have == '是':
+                    m.have = 1
+        context['select_module'] = getselectmodule(pk, request.user)
         context['module_list'] = module_list
         context['p'] = p
         return render(request, 'introduction_edit.html', context)

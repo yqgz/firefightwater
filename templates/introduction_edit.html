@@ -15,7 +15,7 @@
 
 {% block content %}
     <div class="content">
-        <form action="{% url 'project_add' %}" method="post">
+        <form action="{% url 'introduction_edit' p.id %}" method="post">
             <input type="hidden" name="pk" value="{% if p.id %}{{ p.id }}{% endif %}">
             {% csrf_token %}
             <div class="row">
