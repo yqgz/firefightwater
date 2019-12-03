@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.project, name='project'),
     path('project_add/', views.project_add, name='project_add'),
     path('introduction/<int:pk>/', views.introduction, name='introduction'),
+    path('introduction_edit/<int:pk>/', views.introduction_edit, name='introduction_edit'),
     path('module/<int:pk>/<int:md>/', views.module, name='module'),
     path('excel/<int:pk>/', views.excel, name='excel'),
     path('login/', views.login, name='login'),
