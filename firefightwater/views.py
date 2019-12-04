@@ -9,6 +9,7 @@ from firefightwater.common.response import json_response, json_error
 from .helper import *
 from django.http import HttpResponse
 import json
+from urllib import parse
 
 
 # 获取项目模块
@@ -40,41 +41,44 @@ def project(request):
 def project_add(request):
     context = {}
     if request.POST:
+        post = parse.parse_qs(request.POST['data'])
         msg = ''
         module_list = Module.objects.all()
-        if request.POST['project_name'] == '':
+        if 'project_name' not in post.keys() or post['project_name'][0] == '':
             msg = '项目名称不能为空'
-        elif request.POST['project_num'] == '':
+        elif 'project_num' not in post.keys() or post['project_num'][0] == '':
             msg = '项目编号不能为空'
-        elif request.POST['project_text'] == '':
+        elif 'project_text' not in post.keys() or post['project_text'][0] == '':
             msg = '项目概况不能为空'
-        elif request.POST['designer'] == '':
+        elif 'designer'not in post.keys() or post['designer'][0] == '':
             msg = '设计人不能为空'
-        elif request.POST['proofreader'] == '':
+        elif 'proofreader' not in post.keys() or post['proofreader'][0] == '':
             msg = '校对人不能为空'
-        elif request.POST['chief'] == '':
+        elif 'chief' not in post.keys() or post['chief'][0] == '':
             msg = '专业负责人不能为空'
-        elif request.POST['approver'] == '':
+        elif 'approver' not in post.keys() or post['approver'][0] == '':
             msg = '审批人不能为空'
-        elif request.POST['version'] == '':
+        elif 'version' not in post.keys() or post['version'][0] == '':
             msg = '版本号不能为空'
         if msg == '':
             p = Project(user=request.user,
-                        project_name=request.POST['project_name'],
-                        project_num=request.POST['project_num'],
-                        project_text=request.POST['project_text'],
-                        designer=request.POST['designer'],
-                        proofreader=request.POST['proofreader'],
-                        chief=request.POST['chief'],
-                        approver=request.POST['approver'],
-                        version=request.POST['version'],
+                        project_name=post['project_name'][0],
+                        project_num=post['project_num'][0],
+                        project_text=post['project_text'][0],
+                        designer=post['designer'][0],
+                        proofreader=post['proofreader'][0],
+                        chief=post['chief'][0],
+                        approver=post['approver'][0],
+                        version=post['version'][0],
                         )
             p.save()
-            post = request.POST
             ProjectTable.objects.filter(project=p.id).delete()
+            md = 0 # 存储第一个模块
             for var in module_list:
-                if var.module_en_name in post.keys() and post[var.module_en_name] == 'on':
-                    if var.id == 3 and 'hydrant' in post.keys() and post['hydrant'] == 'on':
+                if var.module_en_name in post.keys() and post[var.module_en_name][0] == 'on':
+                    if md == 0:
+                        md = var.id.__str__()
+                    if var.id == 3 and 'hydrant' in post.keys() and post['hydrant'][0] == 'on':
                         tables = ModuleTable.objects.filter(module=var.id, have='是')
                     elif var.id == 3:
                         tables = ModuleTable.objects.filter(module=var.id, have='否')
@@ -83,12 +87,9 @@ def project_add(request):
                     for t in tables:
                         ProjectTable.objects.create(project=p, table=t.table, module=t.module)
 
-            return redirect('introduction', pk=p.id)
+            return json_response(data={'msg': '新项目创建成功！', 'url': '/module/' + str(p.id) + '/' + str(md) + '/'})
         else:
-            context['data'] = msg
-            context['type'] = 'error'
-            context['module_list'] = module_list
-            return render(request, 'project_add.html', context)
+            return json_error(data=msg)
     else:
         module_list = Module.objects.all()
         context['module_list'] = module_list
@@ -164,7 +165,7 @@ def introduction_edit(request, pk):
                     for t in tables:
                         ProjectTable.objects.create(project=p, table=t.table, module=t.module)
 
-            return redirect('introduction', pk=p.id)
+            return redirect('module', pk=p.id, md=1)
         else:
             context['data'] = msg
             context['type'] = 'error'
