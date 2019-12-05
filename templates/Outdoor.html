@@ -12,12 +12,12 @@
     <div id="has"><!--有水泵-->
         <div style="margin-top:1em;margin-bottom: 1em">
             <label class="h3label">a.室外消火栓系统供水泵流量：</label>
-            <input type="text" id="flow4" name="flow4" style="width:100px"/>
-            <!--显示：表2.1中相应的设计流量值-->
+            o_flow<label>L/s</label>
+            <!--显示：表2.1中相应的设计流量值，参数t1.0.D，o_flow-->
         </div>
         <h3>b.室外消火栓系统供水泵扬程</h3>
         <p>1).管网水头损失的计算</p>
-        <!--表4.1-1-->
+        <!--表4.1-1--合计管道阻力参数sum_pr-->
         <div id="table{{ tables.0.id }}"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.0.id }}()"/>
@@ -60,7 +60,7 @@
     <div id="no"><!--无水泵-->
         <h2>4.室外消火栓系统管网计算</h2>
         <p>1).管网水头损失的计算</p>
-        <!--表4.4-1-->
+        <!--表4.4-1--合计管道阻力参数sum_prn-->
         <div id="table{{ tables.0.id }}"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.0.id }}()"/>

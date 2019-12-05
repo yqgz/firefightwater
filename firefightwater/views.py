@@ -269,6 +269,7 @@ def module(request, pk, md):
         com = []  # 注释字段
         fo = []  # 展示公式
         f_cnt = 0  # 是否有公式的标志
+        p_cnt = 0  # 是否有参数的标志
         for key, column in enumerate(columns):
             col = {'type': column.type, 'title': column.column_name, 'width': column.width}
             # 添加下拉菜单
@@ -295,18 +296,21 @@ def module(request, pk, md):
                 f_cnt = 1
             if column.parameter is None:
                 column.parameter = ''
+            else:
+                p_cnt = 1
             f.append({'title': column.formula, 'colspan': 1})
             par.append({'title': column.parameter, 'colspan': 1})
         if f_cnt == 1:  # 确定有公式再添加
             nested_header.append(f)
-        nested_header.append(par)
+        if p_cnt == 1:
+            nested_header.append(par)
         table.columns = c
         table.pid = pt.id
         table.nested_header = nested_header
         table.com = com
         table.fo = fo
         tables.append(table)
-    context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module':
+        context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module':
         getselectmodule(pk, request.user)}
 
     return render(request, cur[0].module_en_name + '.html', context, )
