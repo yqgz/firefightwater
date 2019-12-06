@@ -224,11 +224,19 @@ def module(request, pk, md):
                     line = val['line']
                 if val['formula'] is not None:  # 如果是公式就选择公式
                     vals.append(val['formula'])
+                elif val['value'] == '' and columns[cols[val['column_id']]].defaultv is not None: # 添加默认值
+                    vals.append(columns[cols[val['column_id']]].defaultv)
                 else:
                     vals.append(val['value'])
             values.append(vals)  # 保存最后一行
         else:
-            values = []
+            vals = []
+            for col in columns:
+                if col.defaultv is not None: # 添加默认值
+                    vals.append(col.defaultv)
+                else:
+                    vals.append('')
+            values.append(vals)
 
         # 合计行单独添加
         vals = []
