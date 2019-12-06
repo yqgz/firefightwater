@@ -5,10 +5,11 @@
     <div class="content-table">
         <h2>1.自动喷水灭火系统供水泵计算</h2>
         <h3>a.自动喷水灭火系统供水泵流量：</h3>a_flow<label>L/s</label>
-        <!--显示：表2.1中相应的设计流量值--参数t1.0.D，a_flow-->
+        <!--显示：表2.1中相应的设计流量值--参数m1.0.D，a_flow-->
         <h3>b.自动喷水灭火系统供水泵扬程</h3>
         <p>1).管网水头损失的计算</p>
-        <!--表6.1-1--合计管道阻力参数sum_pra-->
+        <!--表6.1-1-->
+        <!--合计管道阻力参数SUM(m5.0.K)，sum_pra-->
         <div id="table{{ tables.0.id }}"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.0.id }}()"/>
@@ -16,7 +17,8 @@
         </div>
 
         <p style="padding-top: 10px">2).水泵扬程的计算</p>
-        <!--表6.1-2--选泵扬程t5.1.I，参数a_pl-->
+        <!--表6.1-2-->
+        <!--选泵扬程m5.1.I，参数a_pl-->
         <div id="table{{ tables.1.id }}"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.1.id }}()"/>

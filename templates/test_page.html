@@ -30,10 +30,14 @@
 {% block extrajs %}
 <script>
         var data = [
-            [1, '建筑类别1', 15, 20, 0.5, true, '=D1*E1*3600/1000', false, '这里是选择依据'],
-            [2, '建筑类别2', 10, 15, 0.5, false, '=D2*E2*3600/1000', true, '填写选择依据'],
-            ['合计','',  , '=SUM(D1:D2)', , , '=SUM(G1:G2)', '',],
+            [1, '建筑类别1', 15, 20000,20, 0.5, true, '=E1*F1*3600/1000', false, '这里是选择依据'],
+            [2, '建筑类别2', 10, 3000,15, 0.5, false, '=E2*F2*3600/1000', true, '填写选择依据'],
+            ['合计','',,  , '=SUM(E1:E2)', , , '=SUM(H1:H2)', '',],
         ];
+        var changed = function(instance, cell, x, y, value) {
+            var cellName = jexcel.getColumnNameFromId([x,y]);
+            console.log('New change on cell ' + cellName + ' to: ' + value + '');
+        }
 
         var my_table = jexcel(document.getElementById('spreadsheet'),{
             data: data,
@@ -45,26 +49,27 @@
                     title: '系统名称', width: '200'},
                 {type: 'text', title: '建筑类别', width: '100'},
                 {type: 'dropdown', title: '最小设计流量(L/s)', width: '100',
-                source:[{id:'1',name:'15',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积V<=3000'},
-                    {id:'2',name:'20',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积3000<V<=5000'},
-                    {id:'3',name:'25',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积5000<V<=20000'},
-                    {id:'4',name:'30',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙-建筑体积20000<V<=50000'},
-                    {id:'5',name:'35',group:'一、二级-工业建筑',title:'厂房-甲、乙-建筑体积20000<V<=50000'},
-                    {id:'6',name:'40',group:'一、二级-工业建筑',title:'厂房-丙-建筑体积V>50000'},
-                    {id:'7',name:'15',group:'一、二级-工业建筑',title:'厂房-丁、戊-建筑体积V<=50000'},
-                    {id:'8',name:'20',group:'一、二级-工业建筑',title:'厂房-丁、戊-建筑体积V>50000'},
-                    {id:'9',name:'15',group:'一、二级-工业建筑',title:'仓库-甲、乙、丙-建筑体积V<=3000'},
-                    {id:'10',name:'25',group:'一、二级-工业建筑',title:'仓库-甲、乙、丙-建筑体积3000<V<=20000'},
-                    {id:'11',name:'35',group:'一、二级-工业建筑',title:'仓库-丙-建筑体积20000<V<=50000'},
-                    {id:'12',name:'45',group:'一、二级-工业建筑',title:'仓库-丙-建筑体积V>50000'},
-                    {id:'13',name:'15',group:'一、二级-工业建筑',title:'仓库-丁、戊-建筑体积V<=50000'},
-                    {id:'14',name:'20',group:'一、二级-工业建筑',title:'仓库-丁、戊-建筑体积V>50000'},
-                    {id:'15',name:'15',group:'一、二级-民用建筑',title:'住宅'},
-                    {id:'16',name:'15',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积V<=5000'},
-                    {id:'17',name:'25',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积5000<V<=20000'},
-                    {id:'18',name:'30',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积20000<V<=50000'},
-                    {id:'19',name:'40',group:'一、二级-民用建筑',title:'公共建筑-单层及多层-建筑体积V>50000'},
+                source:[{id:'1',name:'15',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙 | 建筑体积V<=3000'},
+                    {id:'2',name:'20',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙 | 建筑体积3000<V<=5000'},
+                    {id:'3',name:'25',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙 | 建筑体积5000<V<=20000'},
+                    {id:'4',name:'30',group:'一、二级-工业建筑',title:'厂房-甲、乙、丙 | 建筑体积20000<V<=50000'},
+                    {id:'5',name:'35',group:'一、二级-工业建筑',title:'厂房-甲、乙 | 建筑体积20000<V<=50000'},
+                    {id:'6',name:'40',group:'一、二级-工业建筑',title:'厂房-丙 | 建筑体积V>50000'},
+                    {id:'7',name:'15',group:'一、二级-工业建筑',title:'厂房-丁、戊 | 建筑体积V<=50000'},
+                    {id:'8',name:'20',group:'一、二级-工业建筑',title:'厂房-丁、戊 | 建筑体积V>50000'},
+                    {id:'9',name:'15',group:'一、二级-工业建筑',title:'仓库-甲、乙、丙 | 建筑体积V<=3000'},
+                    {id:'10',name:'25',group:'一、二级-工业建筑',title:'仓库-甲、乙、丙 | 建筑体积3000<V<=20000'},
+                    {id:'11',name:'35',group:'一、二级-工业建筑',title:'仓库-丙 | 建筑体积20000<V<=50000'},
+                    {id:'12',name:'45',group:'一、二级-工业建筑',title:'仓库-丙 | 建筑体积V>50000'},
+                    {id:'13',name:'15',group:'一、二级-工业建筑',title:'仓库-丁、戊 | 建筑体积V<=50000'},
+                    {id:'14',name:'20',group:'一、二级-工业建筑',title:'仓库-丁、戊 | 建筑体积V>50000'},
+                    {id:'15',name:'15',group:'一、二级-民用建筑',title:'住宅 | 建筑体积V>0'},
+                    {id:'16',name:'15',group:'一、二级-民用建筑',title:'公共建筑-单层及多层 | 建筑体积V<=5000'},
+                    {id:'17',name:'25',group:'一、二级-民用建筑',title:'公共建筑-单层及多层 | 建筑体积5000<V<=20000'},
+                    {id:'18',name:'30',group:'一、二级-民用建筑',title:'公共建筑-单层及多层 | 建筑体积20000<V<=50000'},
+                    {id:'19',name:'40',group:'一、二级-民用建筑',title:'公共建筑-单层及多层 | 建筑体积V>50000'},
                 ],},
+                {type: 'text', title: '建筑体积m³', width: '100'},
                 {type: 'text', title: '设计流量(L/s)', width: '100'},
                 {type: 'text', title: '灭火持续时间(h)', width: '100'},
                 {type: 'checkbox', title: '是否计入一次灭火设计流量', width: '200'},
@@ -82,7 +87,7 @@
                     {title: '', colspan: '1'},
                     {title: 'q(B)*t(B)*3600/1000', colspan: '1'},
                     {title: '', colspan: '1'},
-                    {title: '', colspan: '1'},
+                    {title: '', colspan: '1'},{title: '', colspan: '1'},
                 ],
                 [
                     {title: '', colspan: '1'},
@@ -93,7 +98,7 @@
                     {title: '', colspan: '1'},
                     {title: 'V(B)', colspan: '1'},
                     {title: '', colspan: '1'},
-                    {title: '', colspan: '1'}
+                    {title: '', colspan: '1'},{title: '', colspan: '1'},
                 ],
             ],
             //mergeCells:{B3:[2,1], B4:[2,1]},//合并单元格
@@ -101,6 +106,7 @@
             allowComments: true,
             parseFormulas: true,//显示公式结果
             columnSorting:false,//禁用排序
+            onchange: changed,
             contextMenu: function (obj, x, y, e) {
                 console.log(obj)
                 var items = [];
