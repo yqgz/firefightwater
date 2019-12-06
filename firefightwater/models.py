@@ -13,6 +13,7 @@ class Project(models.Model):
     chief = models.CharField('专业负责人', max_length=50)
     approver = models.CharField('审批人', max_length=50)
     version = models.CharField('版本号', max_length=50)
+    a_flow = models.CharField('自动喷水灭火系统供水泵流量', max_length=50, default=0)
     pub_date = models.DateTimeField('date published', auto_now=True)
 
     def __str__(self):
