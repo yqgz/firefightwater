@@ -5,11 +5,13 @@
     <div class="content-table">
         <h2>1.消防转输系统供水泵计算</h2>
         <label class="h3label">a.消防转输系统供水泵流量：</label>
-        <input type="text" id="flow7" name="flow7" style="width:100px"/>
-        <!--输入：表2.1中相应的设计流量值-->
+        <input type="text" id="flow7" name="flow7" style="width:100px"/><label>L/s</label>
+        <input type='button' class="btn-primary" value='保存' onclick="save()"/>
+        <!--输入，参数t_flow-->
         <h3>b.消防转输系统供水泵扬程</h3>
         <p>1).管网水头损失的计算</p>
         <!--表7.1-1-->
+        <!--管道阻力合计SUM(m6.0.J)，参数sum_prt-->
         <div id="table{{ tables.0.id }}"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.0.id }}()"/>
@@ -17,6 +19,7 @@
         </div>
         <p style="padding-top: 10px">2).水泵扬程的计算</p>
         <!--表7.1-2-->
+        <!--选泵扬程m6.1.I，参数t_pl-->
         <div id="table{{ tables.1.id }}"></div>
         <div>
             <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.1.id }}()"/>

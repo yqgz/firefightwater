@@ -15,7 +15,7 @@
 
 {% block content %}
     <div class="content">
-        <form action="{% url 'project_add' %}" method="post">
+        <form method="post" id="form">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
@@ -215,7 +215,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" class="btn-primary" value="保存">
+                <input type="button" class="btn-primary" value="保存" onclick="submit1()"/>
         </form>
     </div>
 {% endblock %}
@@ -223,12 +223,31 @@
 {% block extrajs %}
 {{ block.super }}
     <script>
-    $.globalMessenger().post({
-        message: "{{ data }}",
-        hideAfter: 6,
-        type: "{{ type }}",
-        //showCloseButton: true
-    });
+        //提交保存
+        function submit1() {
+            var serializeStr = $("#form").serialize()
+            var csrf = $("input[name='csrfmiddlewaretoken']").val()
+            $.post("{% url 'project_add' %}", {data: serializeStr, csrfmiddlewaretoken: csrf}, function (result) {
+
+                if (result.msg == 'success') {
+                    $.globalMessenger().post({
+                    message: result.data.msg,
+                    hideAfter: 10,
+                    type: result.msg,
+                    //showCloseButton: true
+                    });
+                    window.location.href = result.data.url
+                } else {
+                    $.globalMessenger().post({
+                    message: result.data,
+                    hideAfter: 10,
+                    type: result.msg,
+                    //showCloseButton: true
+                    });
+                }
+
+            })
+        }
     </script>
 
 {% endblock %}
