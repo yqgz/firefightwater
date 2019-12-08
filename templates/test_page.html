@@ -30,8 +30,8 @@
 {% block extrajs %}
 <script>
         var data = [
-            [1, '建筑类别1', 15, 20000,20, 0.5, true, '=E1*F1*3600/1000', false, '这里是选择依据'],
-            [2, '建筑类别2', 10, 3000,15, LN(100), false, '=E2*F2*3600/1000', true, '填写选择依据'],
+            [1, '建筑类别1', 15, 20000,20, 0.5, true, '=E1*F1*3600/1000', false,'=D1*I1', '这里是选择依据'],
+            [2, '建筑类别2', 10, 3000,15, LN(100), false, '=E2*F2*3600/1000', true, '=D2*I2','填写选择依据'],
             ['合计','',,  , '=SUM(E1:E2)', , , '=SUM(H1:H2)', '',],
         ];
         /*var changed = function(instance, cell, x, y, value) {
@@ -84,6 +84,7 @@
                 {type: 'checkbox', title: '是否计入一次灭火设计流量', width: '200'},
                 {type: 'text', title: '用水量(m³)', width: '200'},
                 {type: 'checkbox', title: '是否计入消防水池容积', width: '180'},
+                {type: 'text', title: '计算', width: '100'},
                 {type: 'text', title: '备注', width: '100'},
             ],
             nestedHeaders: [
@@ -96,7 +97,7 @@
                     {title: '', colspan: '1'},
                     {title: 'q(B)*t(B)*3600/1000', colspan: '1'},
                     {title: '', colspan: '1'},
-                    {title: '', colspan: '1'},{title: '', colspan: '1'},
+                    {title: '', colspan: '1'},{title: '', colspan: '1'},{title: '', colspan: '1'}
                 ],
                 [
                     {title: '', colspan: '1'},
@@ -107,7 +108,7 @@
                     {title: '', colspan: '1'},
                     {title: 'V(B)', colspan: '1'},
                     {title: '', colspan: '1'},
-                    {title: '', colspan: '1'},{title: '', colspan: '1'},
+                    {title: '', colspan: '1'},{title: '', colspan: '1'},{title: '', colspan: '1'}
                 ],
             ],
             //mergeCells:{B3:[2,1], B4:[2,1]},//合并单元格
