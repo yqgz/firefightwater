@@ -5,8 +5,8 @@
     <div class="content-table">
         <h2>1.消防转输系统供水泵计算</h2>
         <label class="h3label">a.消防转输系统供水泵流量：</label>
-        <input type="text" id="flow7" name="flow7" style="width:100px"/><label>L/s</label>
-        <input type='button' class="btn-primary" value='保存' onclick="save()"/>
+        <input type="text" id="t_flow" name="t_flow" style="width:100px" value="{{ p.t_flow }}"/><label>L/s</label>
+        <input type='button' class="btn-primary" value='保存' onclick="save1()"/>
         <!--输入，参数t_flow-->
         <h3>b.消防转输系统供水泵扬程</h3>
         <p>1).管网水头损失的计算</p>
@@ -40,4 +40,18 @@
 
 {% block extrajs %}
     {{ block.super }}
+    <script>
+        //提交保存
+        function save1() {
+            var csrf = $("input[name='csrfmiddlewaretoken']").val()
+            $.post("{% url 'project_save' p.id %}", {name: 't_flow', value: $("#t_flow").val(), csrfmiddlewaretoken: csrf}, function (result) {
+                $.globalMessenger().post({
+                message: result.data,
+                hideAfter: 5,
+                type: result.msg,
+                //showCloseButton: true
+                });
+            })
+        }
+    </script>
 {% endblock %}

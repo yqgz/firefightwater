@@ -357,6 +357,16 @@ def excel(request, pk):
                 value.save()
         return json_response('保存成功！')
 
+@login_required(redirect_field_name='', login_url='/login/')
+def project_save(request, pk):
+        context = {}
+        if request.POST:
+            p = Project.objects.get(id=pk, user=request.user)
+            name = request.POST['name']
+            value = request.POST['value']
+            setattr(p, name, value)
+            p.save()
+            return json_response(data='保存成功！')
 
 # 登录
 def login(request):
