@@ -416,3 +416,6 @@ def nestedheader(request):
 
 def test_page(request):
     return render(request, 'test_page.html')
+
+def gas_test(request):
+    return render(request, 'Gas_test.html')
