@@ -148,8 +148,12 @@ $._messengerDefaults = ({
 
     <script>
             var changed = function(instance, cell, x, y, value) {
-                if(x==1){
-                    if(value==1)
+                var zname=table29.getValue('B1')
+                //如果“系统名称”、“防护区名称”都有值
+                if(x==1 && zname !=''){
+                    if(value==1){
+                        table30.setValue('A1',zname);
+                    }
                 }
                     var cellName = jexcel.getColumnNameFromId([x,y]);
                 }
