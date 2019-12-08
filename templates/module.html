@@ -48,12 +48,22 @@
                 })
             }
 
+            var beforeChange{{ table.id }} = function(instance, cell, x, y, value) {
+            if (x == 2)
+                var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
+                if (title!=undefined && title[0] != undefined) {
+                    var desc = title[0].innerText;
+                    var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
+                    table{{ table.id }}.updateCell(parseInt(x)+1,y,val);
+                }
+            }
             table{{ table.id }} = jexcel(document.getElementById('table' + {{ table.id }}), {
                 data: {{ table.data|safe }},
                 columns: {{ table.columns|safe }},
                 nestedHeaders: {{ table.nested_header|safe }},
                 wordWrap: true,
                 allowComments: true,
+                onbeforechange: beforeChange{{ table.id }},
                 contextMenu: function (obj, x, y, e) {
                     var items = [];
                     if (y != null) {
@@ -95,7 +105,7 @@
                         if (source == '合计' || source == '最大值') {
                             cell.innerHTML = source
                         }
-                        cell.classList.add('readonly');
+{#                        cell.classList.add('readonly');#}
                     }
                 }
             });
@@ -122,7 +132,13 @@
                 //添加公式
                 for (i = 0; i < fo.length; i++) {
                     var id = fo[i][0] + String(len)
-                    var formula = '=' + fo[i][1].replace(/([A-Z])[^A-Z^\(]/g, "$1" + len)
+                    var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
                     table{{ table.id }}.setValue(id, formula)
                 }
 

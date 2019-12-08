@@ -343,7 +343,9 @@ def excel(request, pk):
         data = request.POST['data']
         true = 'true'  # 防止name 'true' is not defined
         false = 'false'
+        null = ''
         data = eval(data)
+        len1 = len(data) - 1
         table = pt[0].table
         columns = Column.objects.filter(table=table)
         # 不为空判断
@@ -353,9 +355,12 @@ def excel(request, pk):
                     value = val[0]
                 else:
                     value = val
-                if columns[c_key].must and value == '':
-                    msg = columns[c_key].column_name + '的所有行不能为空！'
-                    return json_error(msg)
+                if (table.total is not None and r_key < len1) or table.total is None:
+                    if columns[c_key].must and value == '':
+                        msg = columns[c_key].column_name + '的所有行不能为空！'
+                        return json_error(msg)
+        # 存储project属性
+        project_set(table, data, pt[0].project)
         Value.objects.filter(project_table=pt[0]).delete()
         for r_key, row in enumerate(data):
             for c_key, val in enumerate(row):
@@ -366,6 +371,88 @@ def excel(request, pk):
                     value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key + 1)
                 value.save()
         return json_response('保存成功！')
+
+
+# 存储project属性
+def project_set(table, data, p):
+    if table.id == 1:
+        col = capital2Num('D')
+        for r_key, row in enumerate(data):
+            if row[0] == '1':
+                p.o_flow = row[col]
+            elif row[0] == '2':
+                p.i_flow = row[col]
+            elif row[0] == '3':
+                p.a_flow = row[col]
+    elif table.id == 3:
+        row = len(data) - 1
+        col = capital2Num('J')
+        p.sum_pr = data[row][col]
+    elif table.id == 8:
+        row = len(data) - 1
+        col = capital2Num('J')
+        p.sum_prn = data[row][col]
+    elif table.id == 10:
+        row = len(data) - 1
+        col = capital2Num('J')
+        p.sum_pri = data[row][col]
+    elif table.id == 11:
+        row = 0
+        col = capital2Num('G')
+        p.i_mp = data[row][col]
+        col = capital2Num('I')
+        p.i_pl = data[row][col]
+    elif table.id == 13:
+        row = 0
+        col = capital2Num('B')
+        p.i_rsp = data[row][col]
+        col = capital2Num('D')
+        p.i_rp = data[row][col]
+    elif table.id == 16:
+        row = len(data) - 1
+        col = capital2Num('K')
+        p.sum_pra = data[row][col]
+    elif table.id == 17:
+        row = 0
+        col = capital2Num('I')
+        p.a_pl = data[row][col]
+    elif table.id == 22:
+        row = len(data) - 1
+        col = capital2Num('J')
+        p.sum_prt = data[row][col]
+    elif table.id == 23:
+        row = 0
+        col = capital2Num('I')
+        p.t_pl = data[row][col]
+    elif table.id == 25:
+        row = len(data) - 1
+        col = capital2Num('J')
+        p.max_sdf = data[row][col]
+    elif table.id == 26:
+        row = len(data) - 1
+        col = capital2Num('K')
+        p.max_prs = data[row][col]
+    elif table.id == 37:
+        row = len(data) - 1
+        col = capital2Num('I')
+        p.max_sdfc = data[row][col]
+    elif table.id == 38:
+        row = len(data) - 1
+        col = capital2Num('K')
+        p.sum_prc = data[row][col]
+    elif table.id == 39:
+        row = 0
+        col = capital2Num('G')
+        p.c_mp = data[row][col]
+        col = capital2Num('K')
+        p.c_ptp = data[row][col]
+    elif table.id == 41:
+        row = 0
+        col = capital2Num('B')
+        p.c_rsp = data[row][col]
+        col = capital2Num('D')
+        p.c_rp = data[row][col]
+    p.save()
 
 @login_required(redirect_field_name='', login_url='/login/')
 def project_save(request, pk):
