@@ -8,13 +8,13 @@
         <label id="pump" name="pump" style="font-size: 1.17em">{% if cur.have == '是' %}有水泵{% else %}无供水泵{% endif %}</label>
         <!--显示：有供水泵 or 无供水泵-->
     </div>
-    {% if cur.have == '是' %}
-    <div id="has"><!--有水泵-->
+
         <div style="margin-top:1em;margin-bottom: 1em">
-            <label class="h3label">a.室外消火栓系统供水泵流量：</label>
-            o_flow<label>L/s</label>
+            <label class="h3label">a.室外消火栓系统供水泵流量：</label>{{ p.o_flow }}<label>L/s</label>
             <!--显示：表2.1中相应的设计流量值，参数m1.0.D，o_flow-->
         </div>
+{% if cur.have == '是' %}
+    <div id="has"><!--有水泵-->
         <h3>b.室外消火栓系统供水泵扬程</h3>
         <p>1).管网水头损失的计算</p>
         <!--表4.1-1-->

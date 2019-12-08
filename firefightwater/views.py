@@ -10,6 +10,7 @@ from .helper import *
 from django.http import HttpResponse
 import json
 from urllib import parse
+import re
 
 
 # 获取项目模块
@@ -26,6 +27,13 @@ def getselectmodule(pk, user):
             selects.append(m)
     return selects  # 返回当前项目选择的module
 
+
+# 替换公式和默认值的参数值
+def getValue(fo, p):
+    for val in ['a_flow', 'sum_pra', 'a_pl', 'max_sdfc', 'sum_prc', 'c_mp', 'c_ptp', 'c_rsp', 'c_rp', 'i_flow', 'sum_pri', 'i_mp',
+                'i_pl', 'i_rsp', 'i_rp', 'o_flow', 'sum_prn', 'max_sdf', 'max_prs', 't_flow', 'sum_prt', 't_pl', 'sum_pr']:
+        fo = re.sub(val, getattr(p, val), fo)
+    return fo
 
 @login_required(redirect_field_name='', login_url='/login/')
 def project(request):
@@ -197,7 +205,7 @@ def module(request, pk, md):
     module_list = Module.objects.all()
     cur = module_list.filter(id=md)
     p = Project.objects.get(id=pk, user=request.user)
-
+    context = {}
     pts = ProjectTable.objects.filter(project=pk, module=md)
     # 室外消火栓系统
     if md == 3:
@@ -224,18 +232,18 @@ def module(request, pk, md):
                     line = val['line']
                 if val['formula'] is not None:  # 如果是公式就选择公式
                     vals.append(val['formula'])
-                elif val['value'] == '' and columns[cols[val['column_id']]].defaultv is not None: # 添加默认值
-                    vals.append(columns[cols[val['column_id']]].defaultv)
+                # elif val['value'] == '' and columns[cols[val['column_id']]].defaultv is not None: # 添加默认值
+                #     vals.append(columns[cols[val['column_id']]].defaultv)
                 else:
                     vals.append(val['value'])
             values.append(vals)  # 保存最后一行
         else:
             vals = []
-            for col in columns:
-                if col.defaultv is not None: # 添加默认值
-                    vals.append(col.defaultv)
-                else:
-                    vals.append('')
+            # for col in columns:
+            #     if col.defaultv is not None: # 添加默认值
+            #         vals.append(col.defaultv)
+            #     else:
+            #         vals.append('')
             values.append(vals)
 
         # 合计行单独添加
@@ -295,7 +303,9 @@ def module(request, pk, md):
                 col['source'] = source
             c.append(col)
             if column.c_formula is not None:
-                fo.append([num2Capital(key), column.c_formula])
+                fo.append([num2Capital(key), getValue(column.c_formula, p)])
+            if column.c_formula is None and column.defaultv is not None: # 添加默认值
+                fo.append([num2Capital(key), getValue(column.defaultv, p)])
             if column.prompt is not None:
                 com.append([num2Capital(key), column.prompt])
             if column.formula is None:
@@ -321,7 +331,7 @@ def module(request, pk, md):
         context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module':
         getselectmodule(pk, request.user)}
 
-    return render(request, cur[0].module_en_name + '.html', context, )
+    return render(request, cur[0].module_en_name + '.html', context)
 
 
 # 表格
@@ -380,6 +390,8 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
                 return redirect('/')
+            else:
+                return render(request, 'login.html', context={"status" : 'failed'})
     return render(request, 'login.html')
 
 

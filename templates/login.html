@@ -26,6 +26,11 @@
 
         <!-- Content -->
         <div id="content" class="colM">
+            {% if status == 'failed' %}
+            <p class="errornote">
+                请输入一个正确的 用户名 和密码. 注意他们都是区分大小写的.
+            </p>
+            {% endif %}
             <div id="content-main">
                 <form action="{% url 'login' %}" method="post" id="login-form">
                     {% csrf_token %}

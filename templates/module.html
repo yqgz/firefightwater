@@ -80,7 +80,23 @@
                 },
                 text: {
                     insertANewRowAfter: "插入一行",
-                    deleteSelectedRows: "删除选中行",
+                    deleteSelectedRows: "删除选中行"
+                },
+                //设置合计行的readonly，删除dropdown和checkbox
+                updateTable: function(el, cell, x, y, source, value, id) {
+                    h = this.data.length - 1
+                    tal = {{ table.tal|safe }}  //合计字段
+                    if (y == h && tal.length > 0) {
+                        cell.classList.remove('dropdown');
+                        if(cell.children.length==1)
+                            var $child = $(cell).find("input");
+                            if($child!=undefined)
+                                $child.remove();
+                        if (source == '合计' || source == '最大值') {
+                            cell.innerHTML = source
+                        }
+                        cell.classList.add('readonly');
+                    }
                 }
             });
 
@@ -106,7 +122,7 @@
                 //添加公式
                 for (i = 0; i < fo.length; i++) {
                     var id = fo[i][0] + String(len)
-                    var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + len)
+                    var formula = '=' + fo[i][1].replace(/([A-Z])[^A-Z^\(]/g, "$1" + len)
                     table{{ table.id }}.setValue(id, formula)
                 }
 
@@ -141,7 +157,13 @@
                     //添加公式
                     for (i = 0; i < fo.length; i++) {
                         var id = fo[i][0] + String(l)
-                        var formula = '=' + fo[i][1].replace(/([A-Z])/g, "$1" + l)
+                        var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
                         table{{ table.id }}.setValue(id, formula)
                     }
                 }
