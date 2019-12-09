@@ -140,7 +140,19 @@ $._messengerDefaults = ({
     </script>
 
     <script>
+        Array.prototype.countTimes = function(){
+            return this.reduce(function(times,name){
+                if(name in times){
+                    times[name]++;
+                }else{
+                    times[name] = 1;
+                }
+                return times;
+            },{});
+        }
             var changed = function(instance, cell, x, y, value) {
+                var columnData = table29.getColumnData(0)
+                var times = columnData.countTimes()
                 var len=parseInt(y)+1 //当前行
                 var lenq=table30.rows.length
                 var leni=table31.rows.length
