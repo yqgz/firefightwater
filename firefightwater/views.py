@@ -35,6 +35,7 @@ def getValue(fo, p):
         fo = re.sub(val, getattr(p, val), fo)
     return fo
 
+
 @login_required(redirect_field_name='', login_url='/login/')
 def project(request):
     # 获取当前用户的所有项目列表
@@ -304,7 +305,7 @@ def module(request, pk, md):
             c.append(col)
             if column.c_formula is not None:
                 fo.append([num2Capital(key), getValue(column.c_formula, p)])
-            if column.c_formula is None and column.defaultv is not None: # 添加默认值
+            if column.c_formula is None and column.defaultv is not None:  # 添加默认值
                 fo.append([num2Capital(key), getValue(column.defaultv, p)])
             if column.prompt is not None:
                 com.append([num2Capital(key), column.prompt])
@@ -454,6 +455,7 @@ def project_set(table, data, p):
         p.c_rp = data[row][col]
     p.save()
 
+
 @login_required(redirect_field_name='', login_url='/login/')
 def project_save(request, pk):
         context = {}
@@ -464,6 +466,7 @@ def project_save(request, pk):
             setattr(p, name, value)
             p.save()
             return json_response(data='保存成功！')
+
 
 # 登录
 def login(request):
@@ -478,7 +481,7 @@ def login(request):
                 auth.login(request, user)
                 return redirect('/')
             else:
-                return render(request, 'login.html', context={"status" : 'failed'})
+                return render(request, 'login.html', context={"status": 'failed'})
     return render(request, 'login.html')
 
 
@@ -503,6 +506,7 @@ def nestedheader(request):
 
 def test_page(request):
     return render(request, 'test_page.html')
+
 
 def gas_test(request):
     return render(request, 'Gas_test.html')

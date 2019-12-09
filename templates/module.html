@@ -49,13 +49,16 @@
             }
 
             var beforeChange{{ table.id }} = function(instance, cell, x, y, value) {
-            if (x == 2)
-                var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
-                if (title!=undefined && title[0] != undefined) {
-                    var desc = title[0].innerText;
-                    var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
-                    table{{ table.id }}.updateCell(parseInt(x)+1,y,val);
-                }
+                var pos=2
+                if ({{ table.id }} == 38)
+                    pos=3
+                if (x == pos)
+                    var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
+                    if (title!=undefined && title[0] != undefined) {
+                        var desc = title[0].innerText;
+                        var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
+                        table{{ table.id }}.updateCell(parseInt(x)+1,y,val);
+                    }
             }
             table{{ table.id }} = jexcel(document.getElementById('table' + {{ table.id }}), {
                 data: {{ table.data|safe }},

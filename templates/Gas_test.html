@@ -44,8 +44,6 @@
 
         <a href="/introduction/5/">概况</a>
 
-
-
                 <a href="/module/5/1/">消防系统用水量</a>
 
                 <a href="/module/5/2/">消防水池及水箱容积</a>
@@ -65,13 +63,8 @@
                 <a href="/module/5/9/">灭火器配置</a>
 
                 <a href="/module/5/10/">防护冷却系统</a>
-
-
     </div>
 </header>
-
-
-
     <div class="content-table">
         <h2>1.气体灭火系统灭火剂选型</h2>
         <!--表9.1-->
@@ -148,15 +141,83 @@ $._messengerDefaults = ({
 
     <script>
             var changed = function(instance, cell, x, y, value) {
-                var zname=table29.getValue('B1')
-                //如果“系统名称”、“防护区名称”都有值
-                if(x==1 && zname !=''){
-                    if(value==1){
-                        table30.setValue('A1',zname);
+                var len=parseInt(y)+1 //当前行
+                var lenq=table30.rows.length
+                var leni=table31.rows.length
+                var lenr=table33.rows.length
+                if(lenr==1){
+                            var val33 = table33.getValue('A1');
+                        }
+                if(leni==1){
+                            var val31 = table30.getValue('A1');
+                            var val32 = table34.getValue('A1');
+                        }
+                if(lenq==1){
+                            var val30 = table30.getValue('A1');
+                            var val34 = table34.getValue('A1');
+                        }
+                var zname = table29.getValue('B'+String(len))
+                var sname = table29.getValue('A'+String(len))
+                //如果改动“系统名称”且“防护区名称”有值
+                if(x==0 && zname !=''){
+                    if(value == 196){
+                        if(lenq == 1 && val30 != '' && val34 != ''){
+                            //仅有一行且不是空行
+                            addrow30();
+                            addrow34();
+                            lenq=table30.rows.length
+                        }
+                        table30.setValue('A'+String(lenq),zname);
+                        table34.setValue('A'+String(lenq),zname);
+                    }
+                    if(value == 197){
+                        if(leni == 1 && val31 != '' && val32 != ''){
+                            addrow31();
+                            addrow32();
+                            leni=table31.rows.length
+                        }
+                        table31.setValue('A'+String(leni),zname);
+                        table32.setValue('A'+String(leni),zname);
+                    }
+                    if(value == 198){
+                        if(lenr == 1 && val33 != ''){
+                            addrow33();
+                            lenr=table33.rows.length
+                        }
+                        table33.setValue('A'+String(lenr),zname);
                     }
                 }
-                    var cellName = jexcel.getColumnNameFromId([x,y]);
+                //如果改动“防护区名称”且“系统名称”有值
+                else if(x == 1 && sname !=''){
+                    if(sname == 196){
+                        if(lenq == 1 && val30 != '' && val34 != ''){
+                            //仅有一行且不是空行
+                            addrow30();
+                            addrow34();
+                            lenq=table30.rows.length
+                        }
+                        table30.setValue('A'+String(lenq),zname);
+                        table34.setValue('A'+String(lenq),zname);
+                    }
+                    if(sname == 197){
+                        if(leni == 1 && val31 != '' && val32 != ''){
+                            addrow31();
+                            addrow32();
+                            leni=table31.rows.length
+                        }
+                        table31.setValue('A'+String(leni),zname);
+                        table32.setValue('A'+String(leni),zname);
+                    }
+                    if(sname==198){
+                        if(lenr == 1 && val33 != ''){
+                            addrow33();
+                            lenr=table33.rows.length
+                        }
+                        table33.setValue('A'+String(lenr),zname);
+                    }
                 }
+
+            }
             //提交保存
             function submit29() {
                 txt = JSON.stringify(table29.getDataAndFormula(false))
