@@ -307,9 +307,8 @@ $._messengerDefaults = ({
                 });
             })
         }
-
-        var chgmode='';
-        var oldv='';
+        rows = {'196':1, '197': 1, '198': 1} // 系统名称对应的表中的行
+        var olda=[];
         var beforeChange = function(instance, cell, x, y, value) {
             var row =parseInt(y)+1;
             if (!(row in olda)) {
@@ -323,6 +322,7 @@ $._messengerDefaults = ({
                         newRows(row) // 新增
                     } else if (olda[row]['A'] != '' && value != '' && value != olda[row]['A']) {
                         //chgmode = 'change'
+                        rows[olda[row]['A']]--
                         olda[row]['A'] = value
                         deleteRows(row) //删除之前数据
                         newRows(row) //新增新数据
@@ -345,13 +345,15 @@ $._messengerDefaults = ({
                     olda[row]['B'] = value
                 }
             }
-            if (oldv=='')//新建数据
-            {
-                chgmode='new'
-            } else if (oldv != value){
-                //更改数据
-                chgmode='change'
+        }
+        // 删除行之前触发
+        var beforeDelete = function (el, rowNumber, numOfRows) {
+            var row = parseInt(rowNumber)+1;
+            if (row in olda) {
+                deleteRows(row)
+                olda.splice(row, 1)
             }
+            return true
         }
         table29 = jexcel(document.getElementById('table' + 29), {
                 data: [['', '', '', '', '', '', '', '']],
@@ -477,9 +479,8 @@ $._messengerDefaults = ({
         }
         initRows29();
         columnData = table29.getColumnData(0)
-        var olda = [];
         arr = {'196': [30, 34], '197': [31, 32], '198': [33]} // 系统名称对应的表id
-        rows = {'196':1, '197': 1, '198': 1} // 系统名称对应的表中的行
+
         for(i=0; i<columnData.length;i++){
             let row = i + 1;
             olda[row] = {}
@@ -500,7 +501,7 @@ $._messengerDefaults = ({
                     addrow = 'addrow' + id + '()'
                     eval(addrow)
                 }
-                let setValue = 'table' + id + ".setValue('A"+ nrow +"'," + olda[row]['B'] + ')'
+                let setValue = 'table' + id + ".setValue('A"+ nrow +"','" + olda[row]['B'] + "')"
                 eval(setValue)
             }
             olda[row]['ids'] = ids //对应的表
@@ -511,19 +512,38 @@ $._messengerDefaults = ({
             nrow = olda[row]['row']
             for (k = 0; k < ids.length; k++) {
                 id = ids[k]
-                setValue = 'table' + id + ".setValue('A"+ nrow +"'," + olda[row]['B'] + ')'
+                setValue = 'table' + id + ".setValue('A"+ nrow +"','" + olda[row]['B'] + "')"
                 eval(setValue)
             }
         }
-        var deleteRows = function (row) { // 太晚了先睡了
+        var deleteRows = function (row) { // 删除对应行
+            ids = olda[row]['ids']
+            nrow = olda[row]['row']
+            for (k = 0; k < ids.length; k++) {
+                id = ids[k]
+                getLen = 'table' + id + '.rows.length'
+                len = eval(getLen)
+                if (len == 1) { //如果只有一行设置成空
+                    setValue = 'table' + id + ".setValue('A"+ nrow +"','')"
+                    eval(setValue)
+                } else {
+                    getValue = 'table' + id + ".getValue('A"+ nrow + "')"
+                    value = eval(getValue)
+                    if (value == olda[row]['B']) {
+                        tmpRow = nrow - 1
+                        setValue = 'table' + id + ".deleteRow("+ tmpRow + ")"
+                        eval(setValue)
+                    }
+                }
+            }
+            for (k = 1; k < olda.length; k++) {//从1开始
+                idss = olda[k]['ids']
+                if (idss == ids && olda[k]['row'] > nrow) {
+                    olda[k]['row']--
+                }
+            }
+        }
 
-        }
-        // 删除行之前触发
-        var beforeDelete = function (instance, cell, x, y, value) {
-            var row =parseInt(y)+1;
-            var vala = table29.getValue('A'+ row);
-            var valb = table29.getValue('B'+ row);
-        }
         //提交保存
         function submit30() {
             txt = JSON.stringify(table30.getDataAndFormula(false))
