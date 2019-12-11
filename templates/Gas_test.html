@@ -151,8 +151,6 @@ $._messengerDefaults = ({
             },{});
         }
 
-
-        
 {#        var changed = function(instance, cell, x, y, value) {#}
 {#            //var columnData = table29.getColumnData(0)#}
 {#            //var times = columnData.countTimes()#}
@@ -309,6 +307,7 @@ $._messengerDefaults = ({
                 });
             })
         }
+
         var chgmode='';
         var oldv='';
         var beforeChange = function(instance, cell, x, y, value) {
@@ -316,7 +315,7 @@ $._messengerDefaults = ({
             if (!(row in olda)) {
                 olda[row] = {'A': '', 'B': ''}
             }
-            if (x==0) {
+            if (x==0) {//改了“系统名称”
                 if ('B' in olda[row] && olda[row]['B'] != '') {
                     if (olda[row]['A'] == '' && value != '') {
                         //chgmode = 'new'
@@ -327,12 +326,11 @@ $._messengerDefaults = ({
                         olda[row]['A'] = value
                         deleteRows(row) //删除之前数据
                         newRows(row) //新增新数据
-
                     }
                 } else {
                     olda[row]['A'] = value
                 }
-            } else if (x==1){
+            } else if (x==1){//改了“防护区名称”
                 if ('A' in olda[row] && olda[row]['A'] != '') {
                     if (olda[row]['B'] == '' && value != '') {
                         //chgmode = 'new'
@@ -361,7 +359,7 @@ $._messengerDefaults = ({
                 nestedHeaders: [[{'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'C1(C)', 'colspan': 1}, {'title': 't(C)', 'colspan': 1}, {'title': 't浸(C)', 'colspan': 1}, {'title': 'P0(C)', 'colspan': 1}, {'title': 'η(C)', 'colspan': 1}, {'title': '', 'colspan': 1}]],
                 wordWrap: true,
                 allowComments: true,
-{#                onchange: changed,#}
+                //onchange: changed,
                 onbeforechange: beforeChange,
                 onbeforedeleterow: beforeDelete,
                 contextMenu: function (obj, x, y, e) {
@@ -483,7 +481,7 @@ $._messengerDefaults = ({
         arr = {'196': [30, 34], '197': [31, 32], '198': [33]} // 系统名称对应的表id
         rows = {'196':1, '197': 1, '198': 1} // 系统名称对应的表中的行
         for(i=0; i<columnData.length;i++){
-            row = i + 1;
+            let row = i + 1;
             olda[row] = {}
             olda[row]['A'] = table29.getValue('A'+ row);
             olda[row]['B'] = table29.getValue('B'+ row);
@@ -492,18 +490,17 @@ $._messengerDefaults = ({
                 olda[row]['row'] = rows[olda[row]['A']]++ //对应的表中的行
             }
         }
-        
 
         var newRows = function (row) {
             ids = arr[olda[row]['A']]
             nrow = rows[olda[row]['A']]
             for (k = 0; k < ids.length; k++) {
-                id = ids[k]
+                let id = ids[k]
                 if (nrow != 1) {
                     addrow = 'addrow' + id + '()'
                     eval(addrow)
                 }
-                setValue = 'table' + id + ".setValue('A"+ nrow +"'," + olda[row]['B'] + ')'
+                let setValue = 'table' + id + ".setValue('A"+ nrow +"'," + olda[row]['B'] + ')'
                 eval(setValue)
             }
             olda[row]['ids'] = ids //对应的表
@@ -524,8 +521,8 @@ $._messengerDefaults = ({
         // 删除行之前触发
         var beforeDelete = function (instance, cell, x, y, value) {
             var row =parseInt(y)+1;
-            val = table29.getValue('A'+ row);
-
+            var vala = table29.getValue('A'+ row);
+            var valb = table29.getValue('B'+ row);
         }
         //提交保存
         function submit30() {
