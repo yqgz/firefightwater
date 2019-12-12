@@ -134,163 +134,21 @@
 
     <script>
 $._messengerDefaults = ({
-            extraClasses: 'messenger-fixed messenger-theme-air messenger-on-bottom messenger-on-left',
+            extraClasses: 'messenger-fixed messenger-theme-block messenger-on-bottom messenger-on-left',
             theme:'block'
         })
-    </script>
 
-    <script>
-        Array.prototype.countTimes = function(){
-            return this.reduce(function(times,name){
-                if(name in times){
-                    times[name]++;
-                }else{
-                    times[name] = 1;
-                }
-                return times;
-            },{});
-        }
+        {#Array.prototype.countTimes = function(){#}
+        {#    return this.reduce(function(times,name){#}
+        {#        if(name in times){#}
+        {#            times[name]++;#}
+        {#        }else{#}
+        {#            times[name] = 1;#}
+        {#        }#}
+        {#        return times;#}
+        {#    },{});#}
+        {#}#}
 
-{#        var changed = function(instance, cell, x, y, value) {#}
-{#            //var columnData = table29.getColumnData(0)#}
-{#            //var times = columnData.countTimes()#}
-{#            var len=parseInt(y)+1 //当前行#}
-{#            var lenq=table30.rows.length#}
-{#            var leni=table31.rows.length#}
-{#            var lenr=table33.rows.length#}
-{#            if(lenr==1){#}
-{#                        var val33 = table33.getValue('A1');#}
-{#                    }#}
-{#            if(leni==1){#}
-{#                        var val31 = table31.getValue('A1');#}
-{#                        var val32 = table32.getValue('A1');#}
-{#                    }#}
-{#            if(lenq==1){#}
-{#                        var val30 = table30.getValue('A1');#}
-{#                        var val34 = table34.getValue('A1');#}
-{#                    }#}
-{#            var zname = table29.getValue('B'+String(len))#}
-{#            var sname = table29.getValue('A'+String(len))#}
-{#            //如果改动“系统名称”且“防护区名称”有值#}
-{#            if(x==0 && zname !=''){#}
-{#                if(chgmode=='new'){#}
-{#                    if(value == 196){#}
-{#                        if(lenq == 1 && val30 != '' && val34 != ''){#}
-{#                            //对应表仅有一行且不是空行#}
-{#                            addrow30();#}
-{#                            addrow34();#}
-{#                            lenq=table30.rows.length#}
-{#                        }#}
-{#                        table30.setValue('A'+String(lenq),zname);#}
-{#                        table34.setValue('A'+String(lenq),zname);#}
-{#                    }#}
-{#                    if(value == 197){#}
-{#                        if(leni == 1 && val31 != '' && val32 != ''){#}
-{#                            addrow31();#}
-{#                            addrow32();#}
-{#                            leni=table31.rows.length#}
-{#                        }#}
-{#                        table31.setValue('A'+String(leni),zname);#}
-{#                        table32.setValue('A'+String(leni),zname);#}
-{#                    }#}
-{#                    if(value == 198){#}
-{#                        if(lenr == 1 && val33 != ''){#}
-{#                            addrow33();#}
-{#                            lenr=table33.rows.length#}
-{#                        }#}
-{#                        table33.setValue('A'+String(lenr),zname);#}
-{#                    }#}
-{#                }#}
-{#                else if(chgmode='change'){//修改对应表中行的值#}
-{#                    if(value == 196) {#}
-{#                        let columnData = table30.getColumnData(0)#}
-{#                        for(i=0; i<columnData.length;i++){#}
-{#                            if(columnData[i]== oldv ){#}
-{#                                table30.setValue('A'+String(i+1),zname);#}
-{#                                table34.setValue('A'+String(i+1),zname);#}
-{#                            }#}
-{#                        }#}
-{#                    }#}
-{#                    if(value == 197) {#}
-{#                        let columnData = table31.getColumnData(0)#}
-{#                        for(i=0; i<columnData.length;i++){#}
-{#                            if(columnData[i]== oldv ){#}
-{#                                table31.setValue('A'+String(i+1),zname);#}
-{#                                table32.setValue('A'+String(i+1),zname);#}
-{#                            }#}
-{#                        }#}
-{#                    }#}
-{#                    if(value == 198) {#}
-{#                        let columnData = table33.getColumnData(0)#}
-{#                        for(i=0; i<columnData.length;i++){#}
-{#                            if(columnData[i]== oldv ){#}
-{#                                table33.setValue('A'+String(i+1),zname);#}
-{#                            }#}
-{#                        }#}
-{#                    }#}
-{#                }#}
-{#            }#}
-{#            //如果改动“防护区名称”且“系统名称”有值#}
-{#            else if(x == 1 && sname !=''){#}
-{#                if(chgmode=='new'){#}
-{#                    if(sname == 196){#}
-{#                        if(lenq == 1 && val30 != '' && val34 != ''){#}
-{#                            //对应表仅有一行且不是空行#}
-{#                            addrow30();#}
-{#                            addrow34();#}
-{#                            lenq=table30.rows.length#}
-{#                        }#}
-{#                        table30.setValue('A'+String(lenq),zname);#}
-{#                        table34.setValue('A'+String(lenq),zname);#}
-{#                    }#}
-{#                    if(sname == 197){#}
-{#                        if(leni == 1 && val31 != '' && val32 != ''){#}
-{#                            addrow31();#}
-{#                            addrow32();#}
-{#                            leni=table31.rows.length#}
-{#                        }#}
-{#                        table31.setValue('A'+String(leni),zname);#}
-{#                        table32.setValue('A'+String(leni),zname);#}
-{#                    }#}
-{#                    if(sname==198){#}
-{#                        if(lenr == 1 && val33 != ''){#}
-{#                            addrow33();#}
-{#                            lenr=table33.rows.length#}
-{#                        }#}
-{#                        table33.setValue('A'+String(lenr),zname);#}
-{#                    }#}
-{#                }#}
-{#                else if(chgmode='change'){//修改对应表中行的值#}
-{#                    if(sname == 196) {#}
-{#                        let columnData = table30.getColumnData(0)#}
-{#                        for(i=0; i<columnData.length;i++){#}
-{#                            if(columnData[i]== oldv ){#}
-{#                                table30.setValue('A'+String(i+1),zname);#}
-{#                                table34.setValue('A'+String(i+1),zname);#}
-{#                            }#}
-{#                        }#}
-{#                    }#}
-{#                    if(sname == 197) {#}
-{#                        let columnData = table31.getColumnData(0)#}
-{#                        for(i=0; i<columnData.length;i++){#}
-{#                            if(columnData[i]== oldv ){#}
-{#                                table31.setValue('A'+String(i+1),zname);#}
-{#                                table32.setValue('A'+String(i+1),zname);#}
-{#                            }#}
-{#                        }#}
-{#                    }#}
-{#                    if(sname == 198) {#}
-{#                        let columnData = table33.getColumnData(0)#}
-{#                        for(i=0; i<columnData.length;i++){#}
-{#                            if(columnData[i]== oldv ){#}
-{#                                table33.setValue('A'+String(i+1),zname);#}
-{#                            }#}
-{#                        }#}
-{#                    }#}
-{#                }#}
-{#            }#}
-{##}
-{#        }#}
         //提交保存
         function submit29() {
             txt = JSON.stringify(table29.getDataAndFormula(false))
@@ -314,7 +172,7 @@ $._messengerDefaults = ({
             if (!(row in olda)) {
                 olda[row] = {'A': '', 'B': ''}
             }
-            if (x==0) {//改了“系统名称”
+            if (x == 0) {//改了“系统名称”
                 if ('B' in olda[row] && olda[row]['B'] != '') {
                     if (olda[row]['A'] == '' && value != '') {
                         //chgmode = 'new'
@@ -322,7 +180,7 @@ $._messengerDefaults = ({
                         newRows(row) // 新增
                     } else if (olda[row]['A'] != '' && value != '' && value != olda[row]['A']) {
                         //chgmode = 'change'
-                        rows[olda[row]['A']]--
+                        rows[olda[row]['A']]
                         olda[row]['A'] = value
                         deleteRows(row) //删除之前数据
                         newRows(row) //新增新数据
@@ -330,7 +188,9 @@ $._messengerDefaults = ({
                 } else {
                     olda[row]['A'] = value
                 }
-            } else if (x==1){//改了“防护区名称”
+                checkUnique();
+            }
+            else if (x==1){//改了“防护区名称”
                 if ('A' in olda[row] && olda[row]['A'] != '') {
                     if (olda[row]['B'] == '' && value != '') {
                         //chgmode = 'new'
@@ -344,7 +204,20 @@ $._messengerDefaults = ({
                 } else {
                     olda[row]['B'] = value
                 }
+                checkUnique();
             }
+        }
+        function  checkUnique() {
+            for(let i=1;i<olda.length-1;i++){
+                    for(let j=i+1;j<olda.length;j++){
+                        if(olda[i]['A']==olda[j]['A'] && olda[i]['B']==olda[j]['B'] && olda[i]['A']!='' && olda[i]['B']!='')
+                            $.globalMessenger().post({
+                                message: '“系统名称”、“防护区名称”组合的值应该唯一！',
+                                hideAfter: 6,
+                                type: 'error',
+                            });
+                    }
+                }
         }
         // 删除行之前触发
         var beforeDelete = function (el, rowNumber, numOfRows) {
@@ -355,6 +228,7 @@ $._messengerDefaults = ({
             }
             return true
         }
+
         table29 = jexcel(document.getElementById('table' + 29), {
                 data: [['', '', '', '', '', '', '', '']],
                 columns: [{'type': 'dropdown', 'title': '系统名称', 'width': 100, 'source': [{'id': 196, 'name': '七氟丙烷气体灭火系统', 'group': '', 'title': ''}, {'id': 197, 'name': 'IG541混合气体灭火系统', 'group': '', 'title': ''}, {'id': 198, 'name': '热气溶胶预制灭火系统', 'group': '', 'title': ''}]}, {'type': 'Text', 'title': '防护区名称', 'width': 100}, {'type': 'dropdown', 'title': '灭火设计浓度或惰化设计浓度(%)', 'width': 200, 'source': [{'id': 199, 'name': '5.8', 'group': '七氟丙烷', 'title': '固体表面火灾'}, {'id': 200, 'name': '10', 'group': '七氟丙烷', 'title': '图书、档案、票据和文物资料库等防护区'}, {'id': 201, 'name': '9', 'group': '七氟丙烷', 'title': '油浸变压器室、带油开关的配电室和自备发动机房等防护区'}, {'id': 202, 'name': '8', 'group': '七氟丙烷', 'title': '通讯机房和电子计算机房等防护区'}, {'id': 203, 'name': '28.1', 'group': 'IG541', 'title': '固体表面火灾'}, {'id': 204, 'name': '100', 'group': '热气溶胶', 'title': 'S型和K型热气溶胶灭固体表面火灾'}, {'id': 205, 'name': '130', 'group': '热气溶胶', 'title': 'S型热气溶胶灭通讯机房和电子计算机房等场所的电气设备火灾'}, {'id': 206, 'name': '140', 'group': '热气溶胶', 'title': 'S型和K型热气溶胶灭电缆隧道（夹层、井）及自备发电机房火灾'}]}, {'type': 'dropdown', 'title': '设计喷放时间(s)', 'width': 130, 'source': [{'id': 207, 'name': '8', 'group': '七氟丙烷', 'title': '在通讯机房和电子计算机房等防护区'}, {'id': 208, 'name': '10', 'group': '七氟丙烷', 'title': '其他防护区'}, {'id': 209, 'name': '90', 'group': '热气溶胶', 'title': '在通讯机房、电子计算机房等防护区'}, {'id': 210, 'name': '120', 'group': '热气溶胶', 'title': '其他防护区'}]}, {'type': 'dropdown', 'title': '灭火浸渍时间(min)', 'width': 140, 'source': [{'id': 211, 'name': '20', 'group': '七氟丙烷', 'title': '木材、纸张、织物等固体表面火灾'}, {'id': 212, 'name': '5', 'group': '七氟丙烷', 'title': '通讯机房、电子计算机房内的电气设备火灾'}, {'id': 213, 'name': '10', 'group': '七氟丙烷', 'title': '其他固体表面火灾'}, {'id': 214, 'name': '1', 'group': '七氟丙烷', 'title': '气体和液体火灾'}, {'id': 215, 'name': '20', 'group': 'IG541', 'title': '木材、纸张、织物等固体表面火灾'}, {'id': 216, 'name': '10', 'group': 'IG541', 'title': '通讯机房、电子计算机房内的电气设备火灾'}, {'id': 217, 'name': '10', 'group': 'IG541', 'title': '其他固体表面火灾'}, {'id': 218, 'name': '20', 'group': '热气溶胶', 'title': '木材、纸张、织物等固体表面火灾'}, {'id': 219, 'name': '10', 'group': '热气溶胶', 'title': '通讯机房、电子计算机房等防护区火灾及其他固体表面火灾'}]}, {'type': 'dropdown', 'title': '储存容器的增压压力等级(MPa)', 'width': 200, 'source': [{'id': 220, 'name': '2.5+0.1', 'group': '七氟丙烷', 'title': '一级'}, {'id': 221, 'name': '4.2+0.1', 'group': '七氟丙烷', 'title': '二级'}, {'id': 222, 'name': '5.6+0.1', 'group': '七氟丙烷', 'title': '三级'}, {'id': 223, 'name': '15.0', 'group': 'IG541', 'title': '一级'}, {'id': 225, 'name': '20', 'group': 'IG541', 'title': '二级'}]}, {'type': 'dropdown', 'title': '单位容积的充装量(kg/m³)', 'width': 200, 'source': [{'id': 224, 'name': '1120', 'group': '七氟丙烷', 'title': '一级增压储存容器'}, {'id': 226, 'name': '950', 'group': '七氟丙烷', 'title': '二级增压焊接结构储存容器'}, {'id': 227, 'name': '1120', 'group': '七氟丙烷', 'title': '二级增压无缝结构储存容器'}, {'id': 228, 'name': '1080', 'group': '七氟丙烷', 'title': '三级增压储存容器'}, {'id': 229, 'name': '211.15', 'group': 'IG541', 'title': '一级充压系统'}, {'id': 230, 'name': '281.06', 'group': 'IG541', 'title': '二级充压系统'}]}, {'type': 'Text', 'title': '备注', 'width': 100}],
@@ -381,6 +255,13 @@ $._messengerDefaults = ({
                             items.push({
                                 title: obj.options.text.deleteSelectedRows,
                                 onclick: function () {
+                                    if(y==0){
+                                        $.globalMessenger().post({
+                                            message: '表格中至少应有1行',
+                                            hideAfter: 6,
+                                            type: 'info',
+                                            });
+                                    }else
                                     obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
                                 }
                             });

@@ -1,0 +1,852 @@
+<html lang="zh"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>水喷雾灭火系统-消防系统计算平台</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/demo.css">
+    <link rel="stylesheet" href="/static/css/messenger.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/messenger-theme-block.css" type="text/css">
+    <script src="/static/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="/static/js/popper.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/messenger.js"></script>
+
+
+    <link rel="stylesheet" href="/static/css/jsuites.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/jexcel.css" type="text/css">
+    <script src="/static/js/jexcel.js"></script>
+    <script src="/static/js/jsuites.js"></script>
+
+
+</head>
+<body>
+<div class="jq22-container">
+
+    <nav class="headertitle">
+    <h1 class="navbar-header">消防系统计算平台 </h1>
+    <div class="container-fluid">
+        <div class="nav-item dropdown">
+            <a data-toggle="dropdown" data-target="#" role="button">
+                <div class="username">test<span class="caret"></span></div>
+            </a>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" href="/logout/" role="menuitem">退出</a>
+            </div>
+        </div>
+    </div>
+</nav>
+    <header class="jq22-header">
+    <div class="jq22-demo center">
+        <a href="/">项目列表</a>
+
+        <a href="/introduction/5/">概况</a>
+
+
+
+                <a href="/module/5/1/">消防系统用水量</a>
+
+                <a href="/module/5/2/">消防水池及水箱容积</a>
+
+                <a href="/module/5/3/">室外消火栓系统</a>
+
+                <a href="/module/5/4/">室内消火栓系统</a>
+
+                <a href="/module/5/5/">自动喷水灭火系统</a>
+
+                <a href="/module/5/6/">消防转输系统</a>
+
+                <a href="/module/5/7/" class="current">水喷雾灭火系统</a>
+
+                <a href="/module/5/8/">气体灭火系统</a>
+
+                <a href="/module/5/9/">灭火器配置</a>
+
+                <a href="/module/5/10/">防护冷却系统</a>
+
+
+    </div>
+</header>
+
+
+
+    <div class="content-table">
+        <h2>1.水喷雾灭火系统供水泵计算</h2>
+        <h3>a.水喷雾系统供水泵流量计算</h3>
+        <!--表8.1-1-->
+        <!--系统设计流量m7.0.J；系统设计流量最大值MAX(m7.0.J),参数max_sdf t25-->
+        <div id="table25" class="jexcel_container"></div>
+        <div>
+            <input type="button" class="btn-primary" value="新增" onclick="addrow25()">
+            <input type="button" class="btn-primary" value="保存" onclick="submit25()">
+        </div>
+        <h3>b.水喷雾灭火系统供水泵扬程</h3>
+        <p>1).管网水头损失的计算</p>
+        <!--表8.1-2-->
+        <!--总流量引用参数时与表8.1-1用A列匹配；管道阻力最大值MAX(m7.0.K)，参数max_prs t26-->
+        <div id="table26" class="jexcel_container"></div>
+        <div>
+            <input type="button" class="btn-primary" value="新增" onclick="addrow26()">
+            <input type="button" class="btn-primary" value="保存" onclick="submit26()">
+        </div>
+
+        <p style="padding-top: 10px">2).水泵扬程的计算</p>
+        <!--表7.1-3-->
+        <div id="table27" class="jexcel_container"></div>
+        <div>
+            <input type="button" class="btn-primary" value="新增" style="display:none;" onclick="addrow27()">
+            <input type="button" class="btn-primary" value="保存" onclick="submit27()">
+        </div>
+
+        <h3>c.水喷雾灭火系统供水泵选型</h3>
+        <!--表8.1-4-->
+        <div id="table28" class="jexcel_container"></div>
+        <div>
+            <input type="button" class="btn-primary" value="新增" style="display:none;" onclick="addrow28()">
+            <input type="button" class="btn-primary" value="保存" onclick="submit28()">
+        </div>
+        <input type="hidden" name="csrfmiddlewaretoken" value="hhEYmmPnCJXPJqNvK87qddKCIiIzdRwVA85BsFwTaAMZ7h9kD1ZLD2FFan6WRHkB">
+    </div>
+
+
+</div>
+
+
+
+    <script>
+$._messengerDefaults = ({
+            extraClasses: 'messenger-fixed messenger-theme-air messenger-on-bottom messenger-on-left',
+            theme:'block'
+        })
+    </script>
+
+    <script>
+
+            //提交保存
+            function submit25() {
+                txt = JSON.stringify(table25.getDataAndFormula(false))
+                csrf = $("input[name='csrfmiddlewaretoken']").val()
+                $.post("/excel/612/", {
+                    data: txt,
+                    csrfmiddlewaretoken: csrf
+                }, function (result) {
+                    $.globalMessenger().post({
+                        message: result.data,
+                        hideAfter: 6,
+                        type: result.msg,
+                        //showCloseButton: true
+                    });
+                })
+            }
+            var changed25 = function(instance, cell, x, y, value) {
+                if(x==9 && y!=table25.rows.length-1){
+                    var name = table25.getValue('A'+parseInt(y)+1);
+                    if(table26.getColumnData){
+                        var arr = table26.getColumnData(0);
+                        for(let i=0;i<arr.length;i++) {
+                            if (arr[i] == name) {
+                                table26.setValue('C'+parseInt(i)+1,value);
+                            }
+                        }
+                    }
+                }
+            }
+            var beforeChange25 = function(instance, cell, x, y, value) {
+                var pos=2
+                if (25 == 38)
+                    pos=3
+                if (x == pos)
+                    var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
+                    if (title!=undefined && title[0] != undefined) {
+                        var desc = title[0].innerText;
+                        var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
+                        table25.updateCell(parseInt(x)+1,y,val);
+                    }
+            }
+            table25 = jexcel(document.getElementById('table' + 25), {
+                data: [['1层水喷雾系统', '3', '2', '=B1*(10*C1)**0.5', '20', '177', '=E1*F1/D1', '=D1*G1*1.3', '=1.05', '=H1*I1', ''], ['最大值', '', '', '', '', '', '', '', '', '=MAX(J1:J1)', '']],
+                columns: [{'type': 'Text', 'title': '名称', 'width': 100}, {'type': 'Text', 'title': '水雾喷头流量系数', 'width': 100}, {'type': 'Text', 'title': '水雾喷头工作压力(MPa)', 'width': 100}, {'type': 'text', 'title': '水雾喷头流量(L/min)', 'width': 200}, {'type': 'Text', 'title': '保护对象的保护面积(m²)', 'width': 100}, {'type': 'dropdown', 'title': '保护对象的设计供给强度(L/min·m²)', 'width': 200, 'source': [{'id': 177, 'name': '15', 'group': '灭火', 'title': '固体物质火灾'}, {'id': 178, 'name': '10', 'group': '灭火', 'title': '输送机皮带'}, {'id': 179, 'name': '20', 'group': '灭火', 'title': '液体火灾 | 闪点60℃~120℃的液体'}, {'id': 180, 'name': '13', 'group': '灭火', 'title': '液体火灾 | 闪点高于120℃的液体'}, {'id': 181, 'name': '20', 'group': '灭火', 'title': '液体火灾 | 饮料酒'}, {'id': 182, 'name': '20', 'group': '灭火', 'title': '电气火灾 | 油浸式电力变压器、油断路器'}, {'id': 183, 'name': '6', 'group': '灭火', 'title': '电气火灾 | 油浸式电力变压器的集油坑'}, {'id': 184, 'name': '13', 'group': '灭火', 'title': '电气火灾 | 电缆'}, {'id': 185, 'name': '2.5', 'group': '防护冷却', 'title': '甲B、乙、丙类液体储罐 | 固定顶罐'}, {'id': 186, 'name': '2.0', 'group': '冷却防护', 'title': '甲B、乙、丙类液体储罐 | 浮顶罐'}, {'id': 187, 'name': '2.0', 'group': '防护冷却', 'title': '甲B、乙、丙类液体储罐 | 相邻罐'}, {'id': 188, 'name': '9', 'group': '防护冷却', 'title': '液化烃或类似液体储罐 | 全压力、半冷冻式储罐'}, {'id': 189, 'name': '2.5', 'group': '防护冷却', 'title': '液化烃或类似液体储罐 | 全冷冻式储罐 | 单、双容罐 | 罐壁'}, {'id': 190, 'name': '4', 'group': '防护冷却', 'title': '液化烃或类似液体储罐 | 全冷冻式储罐 | 单、双容罐 | 罐顶'}, {'id': 191, 'name': '20', 'group': '防护冷却', 'title': '液化烃或类似液体储罐 | 全冷冻式储罐 | 全容罐 | 罐顶泵平台、管道进出口等局部危险部位'}, {'id': 192, 'name': '10', 'group': '防护冷却', 'title': '液化烃或类似液体储罐 | 全冷冻式储罐 | 全容罐 | 管带'}, {'id': 193, 'name': '6', 'group': '防护冷却', 'title': '液化烃或类似液体储罐 | 液氨储罐'}, {'id': 194, 'name': '9', 'group': '防护冷却', 'title': '甲、乙类液体及可燃气体生产、输送、装卸设施'}, {'id': 195, 'name': '9', 'group': '防护冷却', 'title': '液化石油气灌瓶间、瓶库'}]}, {'type': 'text', 'title': '保护对象所需水雾喷头的计算数量(只)', 'width': 200}, {'type': 'text', 'title': '系统计算流量(L/s)', 'width': 100}, {'type': 'Text', 'title': '安全系数', 'width': 100}, {'type': 'text', 'title': '系统设计流量(L/s)', 'width': 100}, {'type': 'Text', 'title': '备注', 'width': 100}],
+                nestedHeaders: [[{'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'K(A)*(10*P(A))^0.5', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'S(A)*W(A)/q(A)', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}], [{'title': '', 'colspan': 1}, {'title': 'K(A)', 'colspan': 1}, {'title': 'P(A)', 'colspan': 1}, {'title': 'q(A)', 'colspan': 1}, {'title': 'S(A)', 'colspan': 1}, {'title': 'W(A)', 'colspan': 1}, {'title': 'N(A)', 'colspan': 1}, {'title': 'Qj(A)', 'colspan': 1}, {'title': 'k', 'colspan': 1}, {'title': 'Qs(A)', 'colspan': 1}, {'title': '', 'colspan': 1}]],
+                wordWrap: true,
+                allowComments: true,
+                onchange:changed25,
+                onbeforechange: beforeChange25,
+                contextMenu: function (obj, x, y, e) {
+                    var items = [];
+                    if (y != null) {
+                        // Insert new row
+                        if (obj.options.allowInsertRow == true) {
+                            items.push({
+                                title: obj.options.text.insertANewRowAfter,
+                                onclick: function () {
+                                    obj.insertRow(1, parseInt(y));
+                                }
+                            });
+                        }
+
+                        if (obj.options.allowDeleteRow == true) {
+                            items.push({
+                                title: obj.options.text.deleteSelectedRows,
+                                onclick: function () {
+                                    if(y==0){
+                                        $.globalMessenger().post({
+                                            message: '表格中至少应有1行',
+                                            hideAfter: 6,
+                                            type: 'info',
+                                            });
+                                    }else
+                                    obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                                }
+                            });
+                        }
+                    }
+                    return items;
+                },
+                text: {
+                    insertANewRowAfter: "插入一行",
+                    deleteSelectedRows: "删除选中行"
+                },
+                //设置合计行的readonly，删除dropdown和checkbox
+                updateTable: function(el, cell, x, y, source, value, id) {
+                    h = this.data.length - 1
+                    tal = ['MAX', 'J']  //合计字段
+                    if (y == h && tal.length > 0) {
+                        cell.classList.remove('dropdown');
+                        if(cell.children.length==1)
+                            var $child = $(cell).find("input");
+                            if($child!=undefined)
+                                $child.remove();
+                        if (source == '合计' || source == '最大值') {
+                            cell.innerHTML = source
+                        }
+
+                    }
+                }
+            });
+
+
+            //在合计行上方添加空行，只有一个合计行时减2
+            function addrow25() {
+                var com = [] //提示字段
+                var fo = [['D', 'B*(10*C)**0.5'], ['G', 'E*F/D'], ['H', 'D*G*1.3'], ['I', '1.05'], ['J', 'H*I']] //公式字段
+                var tal = ['MAX', 'J']  //合计字段
+                var len = table25.rows.length
+                if (tal.length == 0) {//没有合计字段插入到最后
+                    table25.insertRow(1, len, true)
+                    len++
+                } else {
+                    table25.insertRow(1, len - 1, true)
+                }
+
+                //添加提示信息
+                for (i = 0; i < com.length; i++) {
+                    table25.setComments(com[i][0] + String(len), com[i][1])
+                }
+
+                //添加公式
+                for (i = 0; i < fo.length; i++) {
+                    var id = fo[i][0] + String(len)
+                    var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
+                    table25.setValue(id, formula)
+                }
+
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table25.setValue(id, formula)
+                    }
+                }
+            }
+            //初始化表格，添加注释，添加公式，添加合计
+            function initRows25() {
+                var com = [] //提示字段
+                var fo = [['D', 'B*(10*C)**0.5'], ['G', 'E*F/D'], ['H', 'D*G*1.3'], ['I', '1.05'], ['J', 'H*I']] //公式字段
+                var tal = ['MAX', 'J']  //合计字段
+                var len = table25.rows.length
+                if (tal.length > 0) {//去掉最后一行
+                    len--;
+                }
+                if (len == 0) {
+                    table25.insertRow(1, len, true)
+                    len++
+                }
+                for (l = 1; l <= len; l++) {
+                    //添加注释
+                    for (i = 0; i < com.length; i++) {
+                        table25.setComments(com[i][0] + String(len), com[i][1])
+                    }
+                    //添加公式
+                    for (i = 0; i < fo.length; i++) {
+                        var id = fo[i][0] + String(l)
+                        var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
+                        table25.setValue(id, formula)
+                    }
+                }
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table25.setValue(id, formula)
+                    }
+                }
+            }
+            initRows25();
+
+            //提交保存
+            function submit26() {
+                txt = JSON.stringify(table26.getDataAndFormula(false))
+                csrf = $("input[name='csrfmiddlewaretoken']").val()
+                $.post("/excel/613/", {
+                    data: txt,
+                    csrfmiddlewaretoken: csrf
+                }, function (result) {
+                    $.globalMessenger().post({
+                        message: result.data,
+                        hideAfter: 6,
+                        type: result.msg,
+                        //showCloseButton: true
+                    });
+                })
+            }
+
+            var changed26 = function(instance, cell, x, y, value) {
+                if(x==0){
+                    var arr = table25.getColumnData(0)
+                    for(i=0;i<arr.length;i++){
+                        if(arr[i]==value){
+                            var flow=table25.getValue('J'+parseInt(i)+1,true);
+                            table26.setValue('C'+parseInt(y)+1,flow);
+                        }
+                    }
+                }
+            }
+            var beforeChange26 = function(instance, cell, x, y, value) {
+                var pos=2
+                if (26 == 38)
+                    pos=3
+                if (x == pos)
+                    var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
+                    if (title!=undefined && title[0] != undefined) {
+                        var desc = title[0].innerText;
+                        var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
+                        table26.updateCell(parseInt(x)+1,y,val);
+                    }
+            }
+            table26 = jexcel(document.getElementById('table' + 26), {
+                data: [[], ['最大值', '', '', '', '', '', '', '', '', '', '', '']],
+                columns: [{'type': 'Text', 'title': '名称', 'width': 100}, {'type': 'Text', 'title': '海澄-威廉系数', 'width': 100}, {'type': 'text', 'title': '总流量(T/h)', 'width': 100}, {'type': 'dropdown', 'title': '公称管径(mm)', 'width': 100}, {'type': 'text', 'title': '计算内径(mm)', 'width': 100}, {'type': 'text', 'title': '流速(m/s)', 'width': 200}, {'type': 'text', 'title': '单位管长阻力(10kPa/m)', 'width': 200}, {'type': 'Text', 'title': '管长(m)', 'width': 100}, {'type': 'Text', 'title': '局部阻力计算管长系数', 'width': 100}, {'type': 'Text', 'title': '计算管长（m）', 'width': 100}, {'type': 'text', 'title': '管道阻力(10kPa)', 'width': 100}, {'type': 'Text', 'title': '备注', 'width': 100}],
+                nestedHeaders: [[{'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '4*q(A)/(π*3600*(0.001*di)^2)', 'colspan': 1}, {'title': '100*0.0000107*v(A)*v(A)/(0.001*di)^1.3', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'L(A)*(1+α)', 'colspan': 1}, {'title': 'i(A)*Lj(A)', 'colspan': 1}, {'title': '', 'colspan': 1}], [{'title': '', 'colspan': 1}, {'title': 'C', 'colspan': 1}, {'title': 'q(A)', 'colspan': 1}, {'title': 'DN', 'colspan': 1}, {'title': 'di', 'colspan': 1}, {'title': 'v(A)', 'colspan': 1}, {'title': 'i(A)', 'colspan': 1}, {'title': 'L(A)', 'colspan': 1}, {'title': 'α', 'colspan': 1}, {'title': 'Lj(A)', 'colspan': 1}, {'title': 'H管损(A)', 'colspan': 1}, {'title': '', 'colspan': 1}]],
+                wordWrap: true,
+                allowComments: true,
+                onchange: changed26,
+                onbeforechange: beforeChange26,
+                contextMenu: function (obj, x, y, e) {
+                    var items = [];
+                    if (y != null) {
+                        // Insert new row
+                        if (obj.options.allowInsertRow == true) {
+                            items.push({
+                                title: obj.options.text.insertANewRowAfter,
+                                onclick: function () {
+                                    obj.insertRow(1, parseInt(y));
+                                }
+                            });
+                        }
+
+                        if (obj.options.allowDeleteRow == true) {
+                            items.push({
+                                title: obj.options.text.deleteSelectedRows,
+                                onclick: function () {
+                                    if(y==0){
+                                        $.globalMessenger().post({
+                                            message: '表格中至少应有1行',
+                                            hideAfter: 6,
+                                            type: 'info',
+                                            });
+                                    }else
+                                    obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                                }
+                            });
+                        }
+                    }
+                    return items;
+                },
+                text: {
+                    insertANewRowAfter: "插入一行",
+                    deleteSelectedRows: "删除选中行"
+                },
+                //设置合计行的readonly，删除dropdown和checkbox
+                updateTable: function(el, cell, x, y, source, value, id) {
+                    h = this.data.length - 1
+                    tal = ['MAX', 'K']  //合计字段
+                    if (y == h && tal.length > 0) {
+                        cell.classList.remove('dropdown');
+                        if(cell.children.length==1)
+                            var $child = $(cell).find("input");
+                            if($child!=undefined)
+                                $child.remove();
+                        if (source == '合计' || source == '最大值') {
+                            cell.innerHTML = source
+                        }
+
+                    }
+                }
+            });
+
+            //在合计行上方添加空行，只有一个合计行时减2
+            function addrow26() {
+                var com = [] //提示字段
+                var fo = [['C', 'm7.0.J'], ['F', '4*C/(3.1415*3600*(0.001*E)**2)'], ['G', '100*0.0000107*F**2/(0.001*E)**1.3'], ['I', '0.2'], ['J', 'H*(1+I)'], ['K', 'G*J']] //公式字段
+                var tal = ['MAX', 'K']  //合计字段
+                var len = table26.rows.length
+                if (tal.length == 0) {//没有合计字段插入到最后
+                    table26.insertRow(1, len, true)
+                    len++
+                } else {
+                    table26.insertRow(1, len - 1, true)
+                }
+
+                //添加提示信息
+                for (i = 0; i < com.length; i++) {
+                    table26.setComments(com[i][0] + String(len), com[i][1])
+                }
+
+                //添加公式
+                for (i = 0; i < fo.length; i++) {
+                    var id = fo[i][0] + String(len)
+                    var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
+                    table26.setValue(id, formula)
+                }
+
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table26.setValue(id, formula)
+                    }
+                }
+            }
+            //初始化表格，添加注释，添加公式，添加合计
+            function initRows26() {
+                var com = [] //提示字段
+                var fo = [['C', 'm7.0.J'], ['F', '4*C/(3.1415*3600*(0.001*E)**2)'], ['G', '100*0.0000107*F**2/(0.001*E)**1.3'], ['I', '0.2'], ['J', 'H*(1+I)'], ['K', 'G*J']] //公式字段
+                var tal = ['MAX', 'K']  //合计字段
+                var len = table26.rows.length
+                if (tal.length > 0) {//去掉最后一行
+                    len--;
+                }
+                if (len == 0) {
+                    table26.insertRow(1, len, true)
+                    len++
+                }
+                for (l = 1; l <= len; l++) {
+                    //添加注释
+                    for (i = 0; i < com.length; i++) {
+                        table26.setComments(com[i][0] + String(len), com[i][1])
+                    }
+                    //添加公式
+                    for (i = 0; i < fo.length; i++) {
+                        var id = fo[i][0] + String(l)
+                        var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
+                        table26.setValue(id, formula)
+                    }
+                }
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table26.setValue(id, formula)
+                    }
+                }
+            }
+            initRows26();
+
+            //提交保存
+            function submit27() {
+                txt = JSON.stringify(table27.getDataAndFormula(false))
+                csrf = $("input[name='csrfmiddlewaretoken']").val()
+                $.post("/excel/614/", {
+                    data: txt,
+                    csrfmiddlewaretoken: csrf
+                }, function (result) {
+                    $.globalMessenger().post({
+                        message: result.data,
+                        hideAfter: 6,
+                        type: result.msg,
+                        //showCloseButton: true
+                    });
+                })
+            }
+
+            var beforeChange27 = function(instance, cell, x, y, value) {
+                var pos=2
+                if (27 == 38)
+                    pos=3
+                if (x == pos)
+                    var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
+                    if (title!=undefined && title[0] != undefined) {
+                        var desc = title[0].innerText;
+                        var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
+                        table27.updateCell(parseInt(x)+1,y,val);
+                    }
+            }
+            table27 = jexcel(document.getElementById('table' + 27), {
+                data: [[]],
+                columns: [{'type': 'text', 'title': '水泵设计扬程(m)', 'width': 200}, {'type': 'Text', 'title': '与最高层喷头的几何高差(m)', 'width': 100}, {'type': 'Text', 'title': '栓口压力(m)', 'width': 100}, {'type': 'text', 'title': '管网水头损失(m)', 'width': 100}, {'type': 'text', 'title': '泵房水头损失（含报警阀水头损失）(m)', 'width': 200}, {'type': 'Text', 'title': '倒流防止器损失(m)', 'width': 100}, {'type': 'Text', 'title': '可利用的市政压力(m)', 'width': 100}, {'type': 'Text', 'title': '水头损失安全系数', 'width': 100}, {'type': 'text', 'title': '选泵扬程(m)', 'width': 100}, {'type': 'text', 'title': '系统工作压力(MPa)', 'width': 100}, {'type': 'text', 'title': '管道试验压力(MPa)', 'width': 100}, {'type': 'dropdown', 'title': '管道及附件压力等级(MPa)', 'width': 100, 'source': [{'id': 170, 'name': '1.0', 'group': '', 'title': ''}, {'id': 171, 'name': '1.6', 'group': '', 'title': ''}, {'id': 172, 'name': '2.5', 'group': '', 'title': ''}, {'id': 173, 'name': '4.0', 'group': '', 'title': ''}]}],
+                nestedHeaders: [[{'title': 'H+P0+K2*(H管损+H泵损+H倒损)-P市', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}], [{'title': 'P', 'colspan': 1}, {'title': 'H', 'colspan': 1}, {'title': 'P0', 'colspan': 1}, {'title': 'H管损', 'colspan': 1}, {'title': 'H泵损', 'colspan': 1}, {'title': 'H倒损', 'colspan': 1}, {'title': 'P市', 'colspan': 1}, {'title': 'k2', 'colspan': 1}, {'title': 'H泵', 'colspan': 1}, {'title': 'P系统', 'colspan': 1}, {'title': 'P试验', 'colspan': 1}, {'title': '', 'colspan': 1}]],
+                wordWrap: true,
+                allowComments: true,
+                onbeforechange: beforeChange27,
+                contextMenu: function (obj, x, y, e) {
+                    var items = [];
+                    if (y != null) {
+                        // Insert new row
+                        if (obj.options.allowInsertRow == true) {
+                            items.push({
+                                title: obj.options.text.insertANewRowAfter,
+                                onclick: function () {
+                                    obj.insertRow(1, parseInt(y));
+                                }
+                            });
+                        }
+
+                        if (obj.options.allowDeleteRow == true) {
+                            items.push({
+                                title: obj.options.text.deleteSelectedRows,
+                                onclick: function () {
+                                    if(y==0){
+                                        $.globalMessenger().post({
+                                            message: '表格中至少应有1行',
+                                            hideAfter: 6,
+                                            type: 'info',
+                                            });
+                                    }else
+                                    obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                                }
+                            });
+                        }
+                    }
+                    return items;
+                },
+                text: {
+                    insertANewRowAfter: "插入一行",
+                    deleteSelectedRows: "删除选中行"
+                },
+                //设置合计行的readonly，删除dropdown和checkbox
+                updateTable: function(el, cell, x, y, source, value, id) {
+                    h = this.data.length - 1
+                    tal = []  //合计字段
+                    if (y == h && tal.length > 0) {
+                        cell.classList.remove('dropdown');
+                        if(cell.children.length==1)
+                            var $child = $(cell).find("input");
+                            if($child!=undefined)
+                                $child.remove();
+                        if (source == '合计' || source == '最大值') {
+                            cell.innerHTML = source
+                        }
+
+                    }
+                }
+            });
+
+
+            //在合计行上方添加空行，只有一个合计行时减2
+            function addrow27() {
+                var com = [] //提示字段
+                var fo = [['A', 'B+C+H*(D+E+F)-G'], ['D', '0'], ['E', '8'], ['F', '4'], ['I', 'A'], ['J', '1.4*I+G'], ['K', 'J+0.4']] //公式字段
+                var tal = []  //合计字段
+                var len = table27.rows.length
+                if (tal.length == 0) {//没有合计字段插入到最后
+                    table27.insertRow(1, len, true)
+                    len++
+                } else {
+                    table27.insertRow(1, len - 1, true)
+                }
+
+                //添加提示信息
+                for (i = 0; i < com.length; i++) {
+                    table27.setComments(com[i][0] + String(len), com[i][1])
+                }
+
+                //添加公式
+                for (i = 0; i < fo.length; i++) {
+                    var id = fo[i][0] + String(len)
+                    var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
+                    table27.setValue(id, formula)
+                }
+
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table27.setValue(id, formula)
+                    }
+                }
+            }
+            //初始化表格，添加注释，添加公式，添加合计
+            function initRows27() {
+                var com = [] //提示字段
+                var fo = [['A', 'B+C+H*(D+E+F)-G'], ['D', '0'], ['E', '8'], ['F', '4'], ['I', 'A'], ['J', '1.4*I+G'], ['K', 'J+0.4']] //公式字段
+                var tal = []  //合计字段
+                var len = table27.rows.length
+                if (tal.length > 0) {//去掉最后一行
+                    len--;
+                }
+                if (len == 0) {
+                    table27.insertRow(1, len, true)
+                    len++
+                }
+                for (l = 1; l <= len; l++) {
+                    //添加注释
+                    for (i = 0; i < com.length; i++) {
+                        table27.setComments(com[i][0] + String(len), com[i][1])
+                    }
+                    //添加公式
+                    for (i = 0; i < fo.length; i++) {
+                        var id = fo[i][0] + String(l)
+                        var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
+                        table27.setValue(id, formula)
+                    }
+                }
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table27.setValue(id, formula)
+                    }
+                }
+            }
+            initRows27();
+
+            //提交保存
+            function submit28() {
+                txt = JSON.stringify(table28.getDataAndFormula(false))
+                csrf = $("input[name='csrfmiddlewaretoken']").val()
+                $.post("/excel/615/", {
+                    data: txt,
+                    csrfmiddlewaretoken: csrf
+                }, function (result) {
+                    $.globalMessenger().post({
+                        message: result.data,
+                        hideAfter: 6,
+                        type: result.msg,
+                        //showCloseButton: true
+                    });
+                })
+            }
+
+            var beforeChange28 = function(instance, cell, x, y, value) {
+                var pos=2
+                if (28 == 38)
+                    pos=3
+                if (x == pos)
+                    var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
+                    if (title!=undefined && title[0] != undefined) {
+                        var desc = title[0].innerText;
+                        var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
+                        table28.updateCell(parseInt(x)+1,y,val);
+                    }
+            }
+            table28 = jexcel(document.getElementById('table' + 28), {
+                data: [[]],
+                columns: [{'type': 'text', 'title': '常用水泵数量', 'width': 120}, {'type': 'text', 'title': '备用水泵数量', 'width': 120}, {'type': 'text', 'title': '单台水泵流量(L/s)', 'width': 150}, {'type': 'text', 'title': '单台水泵扬程(m)', 'width': 150}, {'type': 'text', 'title': '单台水泵功率(kW)', 'width': 150}, {'type': 'text', 'title': '水泵接合器数量', 'width': 150}, {'type': 'text', 'title': '是否与喷淋泵合用', 'width': 150}],
+                nestedHeaders: [[{'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'Q', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'N', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}]],
+                wordWrap: true,
+                allowComments: true,
+                onbeforechange: beforeChange28,
+                contextMenu: function (obj, x, y, e) {
+                    var items = [];
+                    if (y != null) {
+                        // Insert new row
+                        if (obj.options.allowInsertRow == true) {
+                            items.push({
+                                title: obj.options.text.insertANewRowAfter,
+                                onclick: function () {
+                                    obj.insertRow(1, parseInt(y));
+                                }
+                            });
+                        }
+
+                        if (obj.options.allowDeleteRow == true) {
+                            items.push({
+                                title: obj.options.text.deleteSelectedRows,
+                                onclick: function () {
+                                    if(y==0){
+                                        $.globalMessenger().post({
+                                            message: '表格中至少应有1行',
+                                            hideAfter: 6,
+                                            type: 'info',
+                                            });
+                                    }else
+                                    obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                                }
+                            });
+                        }
+                    }
+                    return items;
+                },
+                text: {
+                    insertANewRowAfter: "插入一行",
+                    deleteSelectedRows: "删除选中行"
+                },
+                //设置合计行的readonly，删除dropdown和checkbox
+                updateTable: function(el, cell, x, y, source, value, id) {
+                    h = this.data.length - 1
+                    tal = []  //合计字段
+                    if (y == h && tal.length > 0) {
+                        cell.classList.remove('dropdown');
+                        if(cell.children.length==1)
+                            var $child = $(cell).find("input");
+                            if($child!=undefined)
+                                $child.remove();
+                        if (source == '合计' || source == '最大值') {
+                            cell.innerHTML = source
+                        }
+
+                    }
+                }
+            });
+
+
+            //在合计行上方添加空行，只有一个合计行时减2
+            function addrow28() {
+                var com = [] //提示字段
+                var fo = [['D', "[4832.1, '=MAX(J1:J1)']"]] //公式字段
+                var tal = []  //合计字段
+                var len = table28.rows.length
+                if (tal.length == 0) {//没有合计字段插入到最后
+                    table28.insertRow(1, len, true)
+                    len++
+                } else {
+                    table28.insertRow(1, len - 1, true)
+                }
+
+                //添加提示信息
+                for (i = 0; i < com.length; i++) {
+                    table28.setComments(com[i][0] + String(len), com[i][1])
+                }
+
+                //添加公式
+                for (i = 0; i < fo.length; i++) {
+                    var id = fo[i][0] + String(len)
+                    var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
+                    table28.setValue(id, formula)
+                }
+
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table28.setValue(id, formula)
+                    }
+                }
+            }
+            //初始化表格，添加注释，添加公式，添加合计
+            function initRows28() {
+                var com = [] //提示字段
+                var fo = [['D', "[4832.1, '=MAX(J1:J1)']"]] //公式字段
+                var tal = []  //合计字段
+                var len = table28.rows.length
+                if (tal.length > 0) {//去掉最后一行
+                    len--;
+                }
+                if (len == 0) {
+                    table28.insertRow(1, len, true)
+                    len++
+                }
+                for (l = 1; l <= len; l++) {
+                    //添加注释
+                    for (i = 0; i < com.length; i++) {
+                        table28.setComments(com[i][0] + String(len), com[i][1])
+                    }
+                    //添加公式
+                    for (i = 0; i < fo.length; i++) {
+                        var id = fo[i][0] + String(l)
+                        var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + len
+                                    }
+                                })
+                        table28.setValue(id, formula)
+                    }
+                }
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table28.setValue(id, formula)
+                    }
+                }
+            }
+            initRows28();
+
+
+    </script>
+
+
+
+</body></html>

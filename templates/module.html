@@ -84,6 +84,13 @@
                             items.push({
                                 title: obj.options.text.deleteSelectedRows,
                                 onclick: function () {
+                                    if(y==0){
+                                        $.globalMessenger().post({
+                                            message: '表格中至少应有1行',
+                                            hideAfter: 6,
+                                            type: 'info',
+                                            });
+                                    }else
                                     obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
                                 }
                             });

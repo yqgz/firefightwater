@@ -510,3 +510,7 @@ def test_page(request):
 
 def gas_test(request):
     return render(request, 'Gas_test.html')
+
+
+def sprinkle_test(request):
+    return render(request, 'Sprinkle_test.html')
