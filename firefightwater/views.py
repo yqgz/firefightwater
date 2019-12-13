@@ -514,3 +514,11 @@ def gas_test(request):
 
 def sprinkle_test(request):
     return render(request, 'Sprinkle_test.html')
+
+def model_test(request):
+    objs = Project.objects.all()
+    obj = Project.objects.all().first()
+    obj1 = Project.objects.filter(id=1)
+    objg = Project.objects.get(id=1)
+    print(objg)
+    return render(request, 'Sprinkle_test.html')
