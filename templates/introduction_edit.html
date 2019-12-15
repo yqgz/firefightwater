@@ -224,7 +224,8 @@
                     </div>
                 </div>
                 <input type="submit" class="btn-primary" value="保存">
-                <button id="cancel" class="btn-primary" onclick="javascrtpt:window.location.href='{% url 'introduction' p.id%}">取消</button>
+
+                <a id="cancel" class="btn-primary" href="{% url 'introduction' p.id%}">取消</a>
         </form>
     </div>
 {% endblock %}

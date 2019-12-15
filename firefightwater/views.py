@@ -171,7 +171,8 @@ def introduction_edit(request, pk):
         if msg == '':
             p.save()
             post = request.POST
-            ProjectTable.objects.filter(project=p.id).delete()
+            projectTables = ProjectTable.objects.filter(project=p.id)
+            pts = []
             for var in module_list:
                 if var.module_en_name in post.keys() and post[var.module_en_name] == 'on':
                     if var.id == 3 and 'hydrant' in post.keys() and post['hydrant'] == 'on':
@@ -181,8 +182,15 @@ def introduction_edit(request, pk):
                     else:
                         tables = ModuleTable.objects.filter(module=var.id)
                     for t in tables:
-                        ProjectTable.objects.create(project=p, table=t.table, module=t.module)
+                        have = projectTables.filter(table=t.table, module=t.module)
+                        if have is None: # 不存在添加
+                            pt = ProjectTable(project=p, table=t.table, module=t.module)
+                            pts.append(pt)
+                        else: # 存在不添加
+                            projectTables = projectTables.exclude(table=t.table, module=t.module)
 
+            projectTables.delete()
+            ProjectTable.objects.bulk_create(pts)
             return redirect('module', pk=p.id, md=1)
         else:
             context['data'] = msg
