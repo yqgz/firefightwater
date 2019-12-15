@@ -43,7 +43,7 @@ def project(request):
     q = None
     if 'q' in request.GET:
         q = request.GET['q']
-        project_list = Project.objects.filter(Q(project_name__contains=q) | Q(project_text__contains=q))
+        project_list = Project.objects.filter(user=request.user).filter(Q(project_name__contains=q) | Q(project_text__contains=q))
     else:
         project_list = Project.objects.filter(user=request.user)
     # 获取所有模块列表
