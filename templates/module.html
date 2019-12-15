@@ -181,13 +181,15 @@
                             items.push({
                                 title: obj.options.text.deleteSelectedRows,
                                 onclick: function () {
-                                    if(y==0){
-                                        $.globalMessenger().post({
-                                            message: '表格中至少应有1行',
-                                            hideAfter: 6,
-                                            type: 'info',
-                                            });
-                                    }else
+                                    tal = {{ table.tal|safe }}
+                                    if (tal.length > 0) {
+                                        len = 2
+                                    } else {
+                                        len = 1
+                                    }
+                                    if (table{{ table.id }}.rows.length == len) {
+                                        addrow{{ table.id }}()
+                                    }
                                     obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
                                 }
                             });
@@ -211,6 +213,7 @@
                                 $child.remove();
                         if (source == '合计' || source == '最大值') {
                             cell.innerHTML = source
+                            cell.classList.add('readonly');
                         }
                         //cell.classList.add('readonly');
                     }
