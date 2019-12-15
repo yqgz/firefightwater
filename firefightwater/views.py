@@ -89,6 +89,7 @@ def project_add(request):
             p.save()
             ProjectTable.objects.filter(project=p.id).delete()
             md = 0 # 存储第一个模块
+            pts = [] # 所有项目表
             for var in module_list:
                 if var.module_en_name in post.keys() and post[var.module_en_name][0] == 'on':
                     if md == 0:
@@ -100,7 +101,9 @@ def project_add(request):
                     else:
                         tables = ModuleTable.objects.filter(module=var.id)
                     for t in tables:
-                        ProjectTable.objects.create(project=p, table=t.table, module=t.module)
+                        pt = ProjectTable(project=p, table=t.table, module=t.module)
+                        pts.append(pt)
+            ProjectTable.objects.bulk_create(pts)
 
             return json_response(data={'msg': '新项目创建成功！', 'url': '/module/' + str(p.id) + '/' + str(md) + '/'})
         else:
