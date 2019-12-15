@@ -112,7 +112,8 @@
                     <div class="input-group">
 			 <span class="input-group-addon">
 				 <input type="checkbox" name="{{ module_list.0.module_en_name }}"
-                        id="{{ module_list.0.module_en_name }}" onclick="return false;" checked="checked">
+                        id="{{ module_list.0.module_en_name }}" {% if module_list.0.select %}
+                               checked="checked" {% endif %} >
 			 </span>
                         <input type="text" class="form-control" disabled value="{{ module_list.0.module_name }}">
                     </div>
@@ -132,7 +133,8 @@
                     <div class="input-group">
 				<span class="input-group-addon">
 					<input type="checkbox" name="{{ module_list.2.module_en_name }}"
-                           id="{{ module_list.2.module_en_name }}" onclick="return false;" checked="checked">
+                           id="{{ module_list.2.module_en_name }}" {% if module_list.2.select %}
+                            checked="checked" {% endif %}>
 				</span>
                         <input type="text" class="form-control" disabled value="{{ module_list.2.module_name }}">
 
@@ -140,7 +142,7 @@
 					<input type="checkbox" name="hydrant" id="hydrant" {% if module_list.2.have %}
                            checked="checked" {% endif %}>
 				</span>
-                        <input type="text" class="form-control" disabled value="供水泵">
+                        <input type="text" class="form-control" disabled value="有室外消火栓供水泵">
                     </div>
                 </div>
             </div>
@@ -150,7 +152,8 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.3.module_en_name }}"
-                               id="{{ module_list.3.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.3.module_en_name }}" {% if module_list.3.select %}
+                               checked="checked" {% endif %} >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.3.module_name }}">
                         </div>
@@ -159,7 +162,8 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.4.module_en_name }}"
-                               id="{{ module_list.4.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.4.module_en_name }}" {% if module_list.4.select %}
+                               checked="checked" {% endif %} >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.4.module_name }}">
                         </div>
@@ -168,7 +172,8 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.5.module_en_name }}"
-                               id="{{ module_list.5.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.5.module_en_name }}" {% if module_list.5.select %}
+                               checked="checked" {% endif %} >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.5.module_name }}">
                         </div>
@@ -179,7 +184,7 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.6.module_en_name }}"
-                               id="{{ module_list.6.module_en_name }}"  {% if module_list.1.select %}
+                               id="{{ module_list.6.module_en_name }}"  {% if module_list.6.select %}
                                checked="checked" {% endif %} >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.6.module_name }}">
@@ -189,7 +194,7 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.7.module_en_name }}"
-                               id="{{ module_list.7.module_en_name }}" {% if module_list.1.select %}
+                               id="{{ module_list.7.module_en_name }}" {% if module_list.7.select %}
                                checked="checked" {% endif %} >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.7.module_name }}">
@@ -199,7 +204,8 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.8.module_en_name }}"
-                               id="{{ module_list.8.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.8.module_en_name }}" {% if module_list.8.select %}
+                               checked="checked" {% endif %} >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.8.module_name }}">
                         </div>
@@ -210,13 +216,15 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.9.module_en_name }}"
-                               id="{{ module_list.9.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.9.module_en_name }}"{% if module_list.9.select %}
+                               checked="checked" {% endif %} >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.9.module_name }}">
                         </div>
                     </div>
                 </div>
                 <input type="submit" class="btn-primary" value="保存">
+                <button id="cancel" class="btn-primary" onclick="javascrtpt:window.location.href='{% url 'introduction' p.id%}">取消</button>
         </form>
     </div>
 {% endblock %}
