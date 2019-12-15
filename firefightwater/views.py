@@ -386,6 +386,7 @@ def excel(request, pk):
         # 存储project属性
         project_set(table, data, pt[0].project)
         Value.objects.filter(project_table=pt[0]).delete()
+        values = []
         for r_key, row in enumerate(data):
             for c_key, val in enumerate(row):
                 if isinstance(val, list):
@@ -393,7 +394,8 @@ def excel(request, pk):
                                   line=r_key + 1)
                 else:
                     value = Value(project_table=pt[0], value=val, column=columns[c_key], line=r_key + 1)
-                value.save()
+                values.append(value)
+        Value.objects.bulk_create(values)
         return json_response('保存成功！')
 
 
