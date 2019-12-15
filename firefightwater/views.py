@@ -8,6 +8,7 @@ from .forms import *
 from firefightwater.common.response import json_response, json_error
 from .helper import *
 from django.http import HttpResponse
+from django.db.models import Q
 import json
 from urllib import parse
 import re
@@ -39,10 +40,15 @@ def getValue(fo, p):
 @login_required(redirect_field_name='', login_url='/login/')
 def project(request):
     # 获取当前用户的所有项目列表
-    project_list = Project.objects.filter(user=request.user)
+    q = None
+    if 'q' in request.GET:
+        q = request.GET['q']
+        project_list = Project.objects.filter(Q(project_name__contains=q) | Q(project_text__contains=q))
+    else:
+        project_list = Project.objects.filter(user=request.user)
     # 获取所有模块列表
     module_list = Module.objects.all()
-    context = {'project_list': project_list, 'module_list': module_list}
+    context = {'project_list': project_list, 'module_list': module_list, 'q':q}
     return render(request, 'project.html', context)
 
 
@@ -329,8 +335,20 @@ def module(request, pk, md):
         table.com = com
         table.fo = fo
         tables.append(table)
-        context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module':
-        getselectmodule(pk, request.user)}
+        select_module = getselectmodule(pk, request.user)
+        pre_module = None
+        next_module = None
+        for key, module in enumerate(select_module):
+            if cur[0] == module:
+                pre_module = select_module[key-1]
+                next_module = select_module[key+1]
+                if key == 0:
+                    pre_module = None
+                if module == select_module[-1]:
+                    next_module = None
+                break
+
+        context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module': select_module, 'next': next_module, 'pre': pre_module}
 
     return render(request, cur[0].module_en_name + '.html', context)
 
@@ -513,4 +531,12 @@ def gas_test(request):
 
 
 def sprinkle_test(request):
+    return render(request, 'Sprinkle_test.html')
+
+def model_test(request):
+    objs = Project.objects.all()
+    obj = Project.objects.all().first()
+    obj1 = Project.objects.filter(id=1)
+    objg = Project.objects.get(id=1)
+    print(objg)
     return render(request, 'Sprinkle_test.html')

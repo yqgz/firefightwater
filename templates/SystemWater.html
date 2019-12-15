@@ -14,7 +14,9 @@
         {% csrf_token %}
     </div>
 {% endblock %}
-
+{% block nav %}
+    {{ block.super }}
+{% endblock %}
 {% block extrajs %}
     {{ block.super }}
 {% endblock %}

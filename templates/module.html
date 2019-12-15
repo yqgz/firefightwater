@@ -24,9 +24,19 @@
         {% else %}
 
         {% endif %}
+
+
     </div>
 {% endblock %}
-
+{% block nav %}
+    {{ block.super }}
+    {% if pre %}
+    <a href="{% url 'module' p.id pre.id %}">上一步</a>
+    {% endif %}
+    {% if next %}
+    <a href="{% url 'module' p.id next.id %}">下一步</a>
+    {% endif %}
+{% endblock %}
 {% block extrajs %}
     {{ block.super }}
     <script>
@@ -233,7 +243,7 @@
                                     if (a.length > 1) {
                                         return a
                                     } else {
-                                        return a + len
+                                        return a + String(len)
                                     }
                                 })
                     table{{ table.id }}.setValue(id, formula)
@@ -274,7 +284,7 @@
                                     if (a.length > 1) {
                                         return a
                                     } else {
-                                        return a + len
+                                        return a + String(l)
                                     }
                                 })
                         table{{ table.id }}.setValue(id, formula)
