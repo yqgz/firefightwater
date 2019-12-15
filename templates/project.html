@@ -19,28 +19,19 @@
                     </button>
                 </div>
             </div>
-            <div class="col-lg-3" style="float:right">
-                <div class="input-group">
-                    <input type="text" class="form-control"/>
-                     <span class="input-group-btn">
-                         <button class="btn btn-primary">搜索</button>
+            <form  class="col-lg-3" style="float:right" id="changelist-search" method="get" action="{% url 'project' %}">
+                    <div class="input-group"><!-- DIV needed for valid HTML -->
+                        <input  class="form-control" type="text" size="40" name="q" value="{% if q %}{{ q }}{% endif %}" id="searchbar" autofocus="">
+                        <span class="input-group-btn">
+                         <button type="submit" class="btn btn-primary">搜索</button>
                      </span>
-                </div>
-            </div>
-        </div>
-            <div class="project-btn">
-                <button class="btn-primary" onclick="javascrtpt:window.location.href='{% url 'project_add' %}?pk='">
-                    创建项目
-                </button>
-            </div>
-            <div id="toolbar">
-                <form id="changelist-search" method="get" action="{% url 'project' %}">
-                    <div><!-- DIV needed for valid HTML -->
-                        <label for="searchbar"><img src="/static/admin/img/search.svg" alt="Search"></label>
-                        <input type="text" size="40" name="q" value="{% if q %}{{ q }}{% endif %}" id="searchbar" autofocus="">
-                        <input type="submit" value="搜索">
                     </div>
                 </form>
+
+        </div>
+
+            <div id="toolbar">
+
             </div>
             {% if project_list %}
                 {% for var in project_list %}
