@@ -19,6 +19,7 @@ class TagInline(admin.TabularInline):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
+    search_fields = ['project_name', 'project_text']
     list_display = ('project_name', 'project_num', 'project_text', 'designer', 'proofreader', 'chief',
                     'approver', 'version', 'user')  # list
     inlines = [TagInline]
