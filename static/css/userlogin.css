@@ -1,5 +1,6 @@
 body{
-    background-image:url('/static/admin/img/night.jpg');
+    background-image:url('/static/admin/img/上海设计.jpg');
+    background-size: cover;
     /*background-color: #66afe9;*/
 }
 .login #header {

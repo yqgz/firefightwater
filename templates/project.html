@@ -11,11 +11,23 @@
 {% block content %}
     <div class="content">
         <div class="jq22-demo center">
-            <div class="project-btn">
-                <button class="btn-primary" onclick="javascrtpt:window.location.href='{% url 'project_add' %}?pk='">
-                    创建项目
-                </button>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="project-btn">
+                    <button class="btn-primary" onclick="javascrtpt:window.location.href='{% url 'project_add' %}?pk='">
+                        创建项目
+                    </button>
+                </div>
             </div>
+            <div class="col-lg-3" style="float:right">
+                <div class="input-group">
+                    <input type="text" class="form-control"/>
+                     <span class="input-group-btn">
+                         <button class="btn btn-primary">搜索</button>
+                     </span>
+                </div>
+            </div>
+        </div>
             {% if project_list %}
                 {% for var in project_list %}
                     <div class="project">

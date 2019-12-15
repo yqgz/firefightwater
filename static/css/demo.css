@@ -356,3 +356,7 @@ padding-left: 0;
 .checkblock .col-lg-3{
 padding-right: 0;
 }
+.input-group-btn>.btn{
+	font-size: 16px;
+	border-radius: 0px;
+}
