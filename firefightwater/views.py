@@ -341,11 +341,13 @@ def module(request, pk, md):
         for key, module in enumerate(select_module):
             if cur[0] == module:
                 pre_module = select_module[key-1]
-                next_module = select_module[key+1]
-                if key == 0:
-                    pre_module = None
                 if module == select_module[-1]:
                     next_module = None
+                else:
+                    next_module = select_module[key+1]
+                if key == 0:
+                    pre_module = None
+
                 break
 
         context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module': select_module, 'next': next_module, 'pre': pre_module}
