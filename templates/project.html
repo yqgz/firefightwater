@@ -20,7 +20,7 @@
                 <form id="changelist-search" method="get" action="{% url 'project' %}">
                     <div><!-- DIV needed for valid HTML -->
                         <label for="searchbar"><img src="/static/admin/img/search.svg" alt="Search"></label>
-                        <input type="text" size="40" name="q" value="{% if q %} {{ q }} {% endif %}" id="searchbar" autofocus="">
+                        <input type="text" size="40" name="q" value="{% if q %}{{ q }}{% endif %}" id="searchbar" autofocus="">
                         <input type="submit" value="搜索">
                     </div>
                 </form>
