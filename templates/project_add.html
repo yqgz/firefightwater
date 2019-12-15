@@ -111,7 +111,7 @@
                     <div class="input-group">
 			 <span class="input-group-addon">
 				 <input type="checkbox" name="{{ module_list.0.module_en_name }}"
-                        id="{{ module_list.0.module_en_name }}" onclick="return false;" checked="checked">
+                        id="{{ module_list.0.module_en_name }}">
 			 </span>
                         <input type="text" class="form-control" disabled value="{{ module_list.0.module_name }}">
                     </div>
@@ -120,8 +120,7 @@
                     <div class="input-group">
 				 <span class="input-group-addon">
 					 <input type="checkbox" name="{{ module_list.1.module_en_name }}"
-                            id="{{ module_list.1.module_en_name }}" {% if module_list.1.select %}
-                            checked="checked" {% endif %} >
+                            id="{{ module_list.1.module_en_name }}" >
 				 </span>
                         <input type="text" class="form-control" disabled value="{{ module_list.1.module_name }}">
                     </div>
@@ -131,13 +130,12 @@
                     <div class="input-group">
 				<span class="input-group-addon">
 					<input type="checkbox" name="{{ module_list.2.module_en_name }}"
-                           id="{{ module_list.2.module_en_name }}" onclick="return false;" checked="checked">
+                           id="{{ module_list.2.module_en_name }}">
 				</span>
                         <input type="text" class="form-control" disabled value="{{ module_list.2.module_name }}">
 
                         <span class="input-group-addon">
-					<input type="checkbox" name="hydrant" id="hydrant" {% if module_list.2.have %}
-                           checked="checked" {% endif %}>
+					<input type="checkbox" name="hydrant" id="hydrant">
 				</span>
                         <input type="text" class="form-control" disabled value="供水泵">
                     </div>
@@ -149,7 +147,7 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.3.module_en_name }}"
-                               id="{{ module_list.3.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.3.module_en_name }}">
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.3.module_name }}">
                         </div>
@@ -158,7 +156,7 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.4.module_en_name }}"
-                               id="{{ module_list.4.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.4.module_en_name }}" >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.4.module_name }}">
                         </div>
@@ -167,7 +165,7 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.5.module_en_name }}"
-                               id="{{ module_list.5.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.5.module_en_name }}" >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.5.module_name }}">
                         </div>
@@ -178,8 +176,7 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.6.module_en_name }}"
-                               id="{{ module_list.6.module_en_name }}"  {% if module_list.1.select %}
-                               checked="checked" {% endif %} >
+                               id="{{ module_list.6.module_en_name }}" >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.6.module_name }}">
                         </div>
@@ -188,8 +185,7 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.7.module_en_name }}"
-                               id="{{ module_list.7.module_en_name }}" {% if module_list.1.select %}
-                               checked="checked" {% endif %} >
+                               id="{{ module_list.7.module_en_name }}"  >
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.7.module_name }}">
                         </div>
@@ -198,7 +194,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">
                                 <input type="checkbox" name="{{ module_list.8.module_en_name }}"
-                                       id="{{ module_list.8.module_en_name }}" onclick="return false;" checked="checked">
+                                       id="{{ module_list.8.module_en_name }}">
                             </span>
                             <input type="text" class="form-control" disabled value="{{ module_list.8.module_name }}">
                         </div>
@@ -209,7 +205,7 @@
                         <div class="input-group">
 					<span class="input-group-addon">
 						<input type="checkbox" name="{{ module_list.9.module_en_name }}"
-                               id="{{ module_list.9.module_en_name }}" onclick="return false;" checked="checked">
+                               id="{{ module_list.9.module_en_name }}">
 					</span>
                             <input type="text" class="form-control" disabled value="{{ module_list.9.module_name }}">
                         </div>
@@ -226,29 +222,41 @@
         //提交保存
         function submit1() {
             $('#submit').attr("disabled",true);
-            var serializeStr = $("#form").serialize()
-            var csrf = $("input[name='csrfmiddlewaretoken']").val()
-            $.post("{% url 'project_add' %}", {data: serializeStr, csrfmiddlewaretoken: csrf}, function (result) {
+            var cntckb = $('#form').find("input:checkbox:checked").length;
+            if (cntckb){
+                var serializeStr = $("#form").serialize()
+                var csrf = $("input[name='csrfmiddlewaretoken']").val()
+                $.post("{% url 'project_add' %}", {data: serializeStr, csrfmiddlewaretoken: csrf}, function (result) {
 
-                if (result.msg == 'success') {
-                    $.globalMessenger().post({
-                    message: result.data.msg,
-                    hideAfter: 10,
-                    type: result.msg,
-                    //showCloseButton: true
-                    });
-                    window.location.href = result.data.url
-                } else {
-                    $('#submit').attr("disabled",false);
-                    $.globalMessenger().post({
-                    message: result.data,
-                    hideAfter: 10,
-                    type: result.msg,
-                    //showCloseButton: true
-                    });
-                }
+                    if (result.msg == 'success') {
+                        $.globalMessenger().post({
+                        message: result.data.msg,
+                        hideAfter: 10,
+                        type: result.msg,
+                        //showCloseButton: true
+                        });
+                        window.location.href = result.data.url
+                    } else {
+                        $('#submit').attr("disabled",false);
+                        $.globalMessenger().post({
+                        message: result.data,
+                        hideAfter: 10,
+                        type: result.msg,
+                        //showCloseButton: true
+                        });
+                    }
+                })
+            }
+            else{
+                $('#submit').attr("disabled",false);
+                $.globalMessenger().post({
+                        message: '至少应选择1个模块',
+                        hideAfter: 10,
+                        type: 'error',
+                        //showCloseButton: true
+                        });
+            }
 
-            })
         }
     </script>
 
