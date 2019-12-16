@@ -183,7 +183,7 @@ def introduction_edit(request, pk):
                         tables = ModuleTable.objects.filter(module=var.id)
                     for t in tables:
                         have = projectTables.filter(table=t.table, module=t.module)
-                        if have is None: # 不存在添加
+                        if not have.exists(): # 不存在添加
                             pt = ProjectTable(project=p, table=t.table, module=t.module)
                             pts.append(pt)
                         else: # 存在不添加
@@ -191,7 +191,7 @@ def introduction_edit(request, pk):
 
             projectTables.delete()
             ProjectTable.objects.bulk_create(pts)
-            return redirect('module', pk=p.id, md=1)
+            return redirect('introduction', pk=p.id)
         else:
             context['data'] = msg
             context['type'] = 'error'
@@ -203,6 +203,8 @@ def introduction_edit(request, pk):
         p = Project.objects.get(id=pk, user=request.user)
         select_module = p.projecttable_set
         for m in module_list:
+            if hasattr(m, 'select') and m.select == True:
+                continue
             m.select = False  # 是否勾选
             have = select_module.filter(module=m)
             if have:
