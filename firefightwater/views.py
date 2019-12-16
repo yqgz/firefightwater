@@ -88,8 +88,8 @@ def project_add(request):
                         )
             p.save()
             ProjectTable.objects.filter(project=p.id).delete()
-            md = 0 # 存储第一个模块
-            pts = [] # 所有项目表
+            md = 0  # 存储第一个模块
+            pts = []  # 所有项目表
             for var in module_list:
                 if var.module_en_name in post.keys() and post[var.module_en_name][0] == 'on':
                     if md == 0:
@@ -183,10 +183,10 @@ def introduction_edit(request, pk):
                         tables = ModuleTable.objects.filter(module=var.id)
                     for t in tables:
                         have = projectTables.filter(table=t.table, module=t.module)
-                        if have is None: # 不存在添加
+                        if have is None:  # 不存在添加
                             pt = ProjectTable(project=p, table=t.table, module=t.module)
                             pts.append(pt)
-                        else: # 存在不添加
+                        else:  # 存在不添加
                             projectTables = projectTables.exclude(table=t.table, module=t.module)
 
             projectTables.delete()
