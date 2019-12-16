@@ -30,12 +30,14 @@
 {% endblock %}
 {% block nav %}
     {{ block.super }}
-    {% if pre %}
-    <a href="{% url 'module' p.id pre.id %}">上一步</a>
-    {% endif %}
-    {% if next %}
-    <a href="{% url 'module' p.id next.id %}">下一步</a>
-    {% endif %}
+    <div class="pager">
+        {% if pre %}
+            <a href="{% url 'module' p.id pre.id %}"><button class="btn-primary">上一步</button></a>
+        {% endif %}
+        {% if next %}
+            <a href="{% url 'module' p.id next.id %}"><button class="btn-primary">下一步</button></a>
+        {% endif %}
+    </div>
 {% endblock %}
 {% block extrajs %}
     {{ block.super }}
@@ -137,11 +139,12 @@
                         }
                     }
                 {% endif %}
+                {#用下拉列表值给下一字段赋值#}
                 var beforeChange{{ table.id }} = function(instance, cell, x, y, value) {
                     var pos=2
                     if ({{ table.id }} == 38)
                         pos=3
-                    if (x == pos)
+                    if (x == pos && {{ table.id }} != 1)
                         var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
                         if (title!=undefined && title[0] != undefined) {
                             var desc = title[0].innerText;
@@ -215,7 +218,6 @@
                             cell.innerHTML = source
                             cell.classList.add('readonly');
                         }
-                        //cell.classList.add('readonly');
                     }
                 }
             });

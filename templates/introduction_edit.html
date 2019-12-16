@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}<title>编辑项目-消防系统计算平台</title>{% endblock %}
+{% block title %}<title>编辑项目概况-消防系统计算平台</title>{% endblock %}
 {% block extrastyle %}
     {% load staticfiles %}
     <style type="text/css">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            <h3>选择项目模块：</h3>
+            <h3>选择项目模块：</h3><label style="color:red">（如果减少模块会导致对应表的数据被删除）</label>
             <div class="row" style="margin-bottom:10px">
                 <div class="col-lg-4">
                     <div class="input-group">
@@ -142,7 +142,7 @@
 					<input type="checkbox" name="hydrant" id="hydrant" {% if module_list.2.have %}
                            checked="checked" {% endif %}>
 				</span>
-                        <input type="text" class="form-control" disabled value="有室外消火栓供水泵">
+                        <input type="text" class="form-control" disabled value="有无室外消火栓供水泵">
                     </div>
                 </div>
             </div>
@@ -224,8 +224,7 @@
                     </div>
                 </div>
                 <input type="submit" class="btn-primary" value="保存">
-
-                <a id="cancel" class="btn-primary" href="{% url 'introduction' p.id%}">取消</a>
+                <a id="cancel"  href="{% url 'introduction' p.id%}"><button class="btn-primary">取消</button></a>
         </form>
     </div>
 {% endblock %}
@@ -237,7 +236,6 @@
         message: "{{ data }}",
         hideAfter: 6,
         type: "{{ type }}",
-        //showCloseButton: true
     });
     </script>
 

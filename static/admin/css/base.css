@@ -412,7 +412,7 @@ input, textarea, select, .form-row p, form .button {
     vertical-align: middle;
     font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
     font-weight: normal;
-    font-size: 13px;
+    font-size: 14px;
 }
 .form-row div.help {
     padding: 2px 3px;
@@ -450,7 +450,7 @@ select[multiple] {
 
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
     background: #79aec8;
-    padding: 10px 15px;
+    padding: 9px 15px;
     border: none;
     border-radius: 4px;
     color: #fff;
@@ -464,7 +464,7 @@ a.button {
 .button:active, input[type=submit]:active, input[type=button]:active,
 .button:focus, input[type=submit]:focus, input[type=button]:focus,
 .button:hover, input[type=submit]:hover, input[type=button]:hover {
-    background: #609ab6;
+    background: #5b86b0;
 }
 
 .button[disabled], input[type=submit][disabled], input[type=button][disabled] {
@@ -854,7 +854,7 @@ table#change-history tbody th {
 #branding h1 {
     padding: 0;
     margin: 0 20px 0 0;
-    font-weight: 300;
+    font-weight: 500;
     font-size: 24px;
     color: #f5dd5d;
 }
