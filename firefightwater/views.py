@@ -410,85 +410,94 @@ def excel(request, pk):
         return json_response('保存成功！')
 
 
-# 存储project属性
+# 获取单元格数值
+def getVal(val):
+    if isinstance(val, list):
+        value = val[0]
+    else:
+        value = val
+    return value
+
+
+# 存储project属性 gaigai
 def project_set(table, data, p):
     if table.id == 1:
         col = capital2Num('D')
         for r_key, row in enumerate(data):
             if row[0] == '1':
-                p.o_flow = row[col]
+                p.o_flow = getVal(row[col])
             elif row[0] == '2':
-                p.i_flow = row[col]
+                p.i_flow = getVal(row[col])
             elif row[0] == '3':
-                p.a_flow = row[col]
+                p.a_flow = getVal(row[col])
     elif table.id == 3:
         row = len(data) - 1
         col = capital2Num('J')
-        p.sum_pr = data[row][col]
+        p.sum_pr = getVal(data[row][col])
     elif table.id == 8:
         row = len(data) - 1
         col = capital2Num('J')
-        p.sum_prn = data[row][col]
+        p.sum_prn = getVal(data[row][col])
     elif table.id == 10:
         row = len(data) - 1
         col = capital2Num('J')
-        p.sum_pri = data[row][col]
+        p.sum_pri = getVal(data[row][col])
     elif table.id == 11:
         row = 0
         col = capital2Num('G')
-        p.i_mp = data[row][col]
+        p.i_mp = getVal(data[row][col])
         col = capital2Num('I')
-        p.i_pl = data[row][col]
+        p.i_pl = getVal(data[row][col])
     elif table.id == 13:
         row = 0
         col = capital2Num('B')
-        p.i_rsp = data[row][col]
+        p.i_rsp = getVal(data[row][col])
         col = capital2Num('D')
-        p.i_rp = data[row][col]
+        p.i_rp = getVal(data[row][col])
     elif table.id == 16:
         row = len(data) - 1
         col = capital2Num('K')
-        p.sum_pra = data[row][col]
+        p.sum_pra = getVal(data[row][col])
     elif table.id == 17:
         row = 0
         col = capital2Num('I')
-        p.a_pl = data[row][col]
+        p.a_pl = getVal(data[row][col])
     elif table.id == 22:
         row = len(data) - 1
         col = capital2Num('J')
-        p.sum_prt = data[row][col]
+        p.sum_prt = getVal(data[row][col])
     elif table.id == 23:
         row = 0
         col = capital2Num('I')
-        p.t_pl = data[row][col]
+        p.t_pl = getVal(data[row][col])
     elif table.id == 25:
         row = len(data) - 1
         col = capital2Num('J')
-        p.max_sdf = data[row][col]
+        p.max_sdf = getVal(data[row][col])
     elif table.id == 26:
         row = len(data) - 1
         col = capital2Num('K')
-        p.max_prs = data[row][col]
+        p.max_prs = getVal(data[row][col])
     elif table.id == 37:
         row = len(data) - 1
         col = capital2Num('I')
-        p.max_sdfc = data[row][col]
+        p.max_sdfc = getVal(data[row][col])
     elif table.id == 38:
         row = len(data) - 1
         col = capital2Num('K')
-        p.sum_prc = data[row][col]
+        p.sum_prc = getVal(data[row][col])
     elif table.id == 39:
         row = 0
         col = capital2Num('G')
-        p.c_mp = data[row][col]
+        p.c_mp = getVal(data[row][col])
         col = capital2Num('K')
-        p.c_ptp = data[row][col]
+        p.c_ptp = getVal(data[row][col])
     elif table.id == 41:
         row = 0
         col = capital2Num('B')
-        p.c_rsp = data[row][col]
+        p.c_rsp = getVal(data[row][col])
         col = capital2Num('D')
-        p.c_rp = data[row][col]
+        p.c_rp = getVal(data[row][col])
     p.save()
 
 
