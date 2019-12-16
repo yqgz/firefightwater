@@ -231,7 +231,7 @@
                     if (result.msg == 'success') {
                         $.globalMessenger().post({
                         message: result.data.msg,
-                        hideAfter: 10,
+                        hideAfter: 6,
                         type: result.msg,
                         //showCloseButton: true
                         });
@@ -240,7 +240,7 @@
                         $('#submit').attr("disabled",false);
                         $.globalMessenger().post({
                         message: result.data,
-                        hideAfter: 10,
+                        hideAfter: 6,
                         type: result.msg,
                         //showCloseButton: true
                         });
@@ -251,7 +251,7 @@
                 $('#submit').attr("disabled",false);
                 $.globalMessenger().post({
                         message: '至少应选择1个模块',
-                        hideAfter: 10,
+                        hideAfter: 6,
                         type: 'error',
                         //showCloseButton: true
                         });
