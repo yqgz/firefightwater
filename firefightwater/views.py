@@ -31,8 +31,9 @@ def getselectmodule(pk, user):
 
 # 替换公式和默认值的参数值
 def getValue(fo, p):
-    for val in ['a_flow', 'sum_pra', 'a_pl', 'max_sdfc', 'sum_prc', 'c_mp', 'c_ptp', 'c_rsp', 'c_rp', 'i_flow', 'sum_pri', 'i_mp',
-                'i_pl', 'i_rsp', 'i_rp', 'o_flow', 'sum_prn', 'max_sdf', 'max_prs', 't_flow', 'sum_prt', 't_pl', 'sum_pr']:
+    for val in ['a_flow', 'sum_pra', 'a_pl', 'max_sdfc', 'sum_prc', 'c_mp', 'c_ptp', 'c_rsp', 'c_rp', 'i_flow',
+                'sum_pri', 'i_mp','i_pl', 'i_rsp', 'i_rp', 'o_flow', 'sum_prn', 'max_sdf', 'max_prs', 't_flow',
+                'sum_prt', 't_pl', 'sum_pr']:
         fo = re.sub(val, getattr(p, val), fo)
     return fo
 
@@ -43,12 +44,13 @@ def project(request):
     q = None
     if 'q' in request.GET:
         q = request.GET['q']
-        project_list = Project.objects.filter(user=request.user).filter(Q(project_name__contains=q) | Q(project_text__contains=q))
+        project_list = Project.objects.filter(user=request.user).filter(Q(project_name__contains=q) |
+                                                                        Q(project_text__contains=q))
     else:
         project_list = Project.objects.filter(user=request.user)
     # 获取所有模块列表
     module_list = Module.objects.all()
-    context = {'project_list': project_list, 'module_list': module_list, 'q':q}
+    context = {'project_list': project_list, 'module_list': module_list, 'q': q}
     return render(request, 'project.html', context)
 
 
@@ -361,7 +363,8 @@ def module(request, pk, md):
 
                 break
 
-        context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module': select_module, 'next': next_module, 'pre': pre_module}
+        context = {'module_list': module_list, 'p': p, 'cur': cur, 'tables': tables, 'select_module': select_module,
+                   'next': next_module, 'pre': pre_module}
 
     return render(request, cur[0].module_en_name + '.html', context)
 

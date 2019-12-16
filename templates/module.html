@@ -59,6 +59,7 @@
                     });
                 })
             }
+            {#根据第一张表的内容自动填充后面的表#}
             {% if table.id == 29 %}
                 rows = {'196':1, '197': 1, '198': 1} // 系统名称对应的表中的行
                 var olda=[];
@@ -179,7 +180,6 @@
                                 }
                             });
                         }
-
                         if (obj.options.allowDeleteRow == true) {
                             items.push({
                                 title: obj.options.text.deleteSelectedRows,
@@ -221,7 +221,6 @@
                     }
                 }
             });
-
 
             //在合计行上方添加空行，只有一个合计行时减2
             function addrow{{ table.id }}() {
