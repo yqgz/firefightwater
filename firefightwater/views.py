@@ -32,7 +32,7 @@ def getselectmodule(pk, user):
 # 替换公式和默认值的参数值
 def getValue(fo, p):
     for val in ['a_flow', 'sum_pra', 'a_pl', 'max_sdfc', 'sum_prc', 'c_mp', 'c_ptp', 'c_rsp', 'c_rp', 'i_flow',
-                'sum_pri', 'i_mp','i_pl', 'i_rsp', 'i_rp', 'o_flow', 'sum_prn', 'max_sdf', 'max_prs', 't_flow',
+                'sum_pri', 'i_mp', 'i_pl', 'i_rsp', 'i_rp', 'o_flow', 'sum_prn', 'max_sdf', 'max_prs', 't_flow',
                 'sum_prt', 't_pl', 'sum_pr']:
         fo = re.sub(val, getattr(p, val), fo)
     return fo

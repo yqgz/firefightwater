@@ -233,5 +233,23 @@
             });
             })
         }
+        {#$(window).bind('beforeunload',function(){#}
+        {#      return '您输入的内容尚未保存，确定离开此页面吗？';#}
+        {#      }#}
+        {#  );#}
+        {#$(window).on('beforeunload',function(){#}
+        {#    return'提示消息';#}
+        {# }#}
+        {#);#}
+ {#window.onbeforeunload = function () {#}
+ {#           return "Do you want to leave?"#}
+ {#       }#}
+        window.onbeforeunload = function(event) {
+            event.returnValue = "我在这写点东西...";
+        };
+        {#window.unload(function () { alert("Do Reset.."); //I will call my method#}
+        {# });#}
+
+
 </script>
 {% endblock %}

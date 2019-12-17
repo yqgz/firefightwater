@@ -256,8 +256,10 @@
                         //showCloseButton: true
                         });
             }
-
         }
+        window.onbeforeunload = function(event) {
+            event.returnValue = "有数据未保存";
+        };
     </script>
 
 {% endblock %}
