@@ -115,30 +115,40 @@
             {% else %}
                 {% if table.id == 25 %}
                     var changed{{ table.id }} = function(instance, cell, x, y, value) {
-                        if(x==9 && y!=table25.rows.length-1){
-                            var name = table25.getValue('A'+parseInt(y)+1);
+                        let rows = table25.rows.length
+                        if(x==9 && y!=rows-1){
+                            let row = parseInt(y)+1
+                            var name = table25.getValue('A'+ row);
                             if(table26.getColumnData){
                                 var arr = table26.getColumnData(0);
                                 for(let i=0;i<arr.length;i++) {
                                     if (arr[i] == name) {
-                                        table26.setValue('C'+parseInt(i)+1,value);
+                                        row = parseInt(i)+1
+                                        table26.setValue('C'+ row,value);
                                     }
                                 }
                             }
+                        }
+                        if(x==9 && y==rows-1 && table28.setValue != undefined){
+                            table28.setValue('D1',value);
                         }
                     }
                 {% elif table.id == 26 %}
                     var changed{{ table.id }} = function(instance, cell, x, y, value) {
                         let rows = table{{ table.id }}.rows.length
+                        {#用合计值给下一张表赋值#}
                         if(x==10 && y==rows-1 && table27.setValue != undefined){
                             table27.setValue('D1',value);
                         }
+                        {#用名称字段匹配值#}
                         if(x==0){
                             var arr = table25.getColumnData(0)
                             for(i=0;i<arr.length;i++){
                                 if(arr[i]==value){
-                                    var flow=table25.getValue('J'+parseInt(i)+1,true);
-                                    table26.setValue('C'+parseInt(y)+1,flow);
+                                    let rnum = parseInt(i)+1
+                                    var flow=table25.getValue('J'+rnum,true);
+                                    rnum = parseInt(y)+1
+                                    table26.setValue('C'+ rnum,flow);
                                 }
                             }
                         }
@@ -178,11 +188,29 @@
                             table23.setValue('D1',value);
                         }
                     }
+                    {% elif table.id == 37 %}
+                    var changed{{ table.id }} = function(instance, cell, x, y, value) {
+                        let rows = table{{ table.id }}.rows.length
+                        if(x==8 && y==rows-1 && table40.setValue != undefined){
+                            table40.setValue('D1',value);
+                        }
+                    }
                     {% elif table.id == 38 %}
                     var changed{{ table.id }} = function(instance, cell, x, y, value) {
                         let rows = table{{ table.id }}.rows.length
                         if(x==10 && y==rows-1 && table39.setValue != undefined){
                             table39.setValue('D1',value);
+                        }
+                        if(x==0){
+                            var arr = table37.getColumnData(0)
+                            for(i=0;i<arr.length;i++){
+                                if(arr[i]==value){
+                                    let rnum = parseInt(i)+1
+                                    var flow=table37.getValue('I'+rnum,true);
+                                    rnum = parseInt(y)+1
+                                    table38.setValue('C'+ rnum,flow);
+                                }
+                            }
                         }
                     }
                 {% endif %}
@@ -207,7 +235,7 @@
                 nestedHeaders: {{ table.nested_header|safe }},
                 wordWrap: true,
                 allowComments: true,
-            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 8 or table.id == 10 or table.id == 16 or table.id == 22 or table.id == 38%}
+            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 8 or table.id == 10 or table.id == 16 or table.id == 22 or table.id == 25 or table.id == 37 or table.id == 38%}
                 onchange:changed{{ table.id }},
             {% endif %}
                 onbeforechange: beforeChange{{ table.id }},
