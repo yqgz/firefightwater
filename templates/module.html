@@ -213,6 +213,20 @@
                             }
                         }
                     }
+                    {% elif table.id == 39 %}
+                    var changed{{ table.id }} = function(instance, cell, x, y, value) {
+                        if((x==6 || x==10) && y==0 && table41.setValue != undefined){
+                            var p=ROUND(table39.getValue('K1',true)*1.2+table39.getValue('G1',true),2);
+                            table41.setValue('H1',p);
+                        }
+                    }
+                    {% elif table.id == 41 %}
+                    var changed{{ table.id }} = function(instance, cell, x, y, value) {
+                        if((x==1 || x==3) && y==0 && table42.setValue != undefined){
+                            var l=ROUND(table41.getValue('B1',true)*100-table41.getValue('D1',true),2);
+                            table42.setValue('D1',l+5);
+                        }
+                    }
                 {% endif %}
                 {#用下拉列表值给下一字段赋值#}
                 var beforeChange{{ table.id }} = function(instance, cell, x, y, value) {
@@ -235,7 +249,7 @@
                 nestedHeaders: {{ table.nested_header|safe }},
                 wordWrap: true,
                 allowComments: true,
-            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 8 or table.id == 10 or table.id == 16 or table.id == 22 or table.id == 25 or table.id == 37 or table.id == 38%}
+            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 8 or table.id == 10 or table.id == 16 or table.id == 22 or table.id == 25 or table.id == 37 or table.id == 38 or table.id == 39 or table.id == 41%}
                 onchange:changed{{ table.id }},
             {% endif %}
                 onbeforechange: beforeChange{{ table.id }},
@@ -308,7 +322,13 @@
                 } else {
                     table{{ table.id }}.insertRow(1, len - 1, true)
                 }
-
+                if({{ table.id }}== 22 ){
+                    var flow=document.getElementById('t_flow');
+                    var v = flow.value
+                    if(table22.setValue != undefined){
+                        table22.setValue('B'+len,v);
+                    }
+                }
                 //添加提示信息
                 for (i = 0; i < com.length; i++) {
                     table{{ table.id }}.setComments(com[i][0] + String(len), com[i][1])

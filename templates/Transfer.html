@@ -5,7 +5,8 @@
     <div class="content-table">
         <h2>1.消防转输系统供水泵计算</h2>
         <label class="h3label">a.消防转输系统供水泵流量：</label>
-        <input type="text" id="t_flow" name="t_flow" style="width:100px" value="{{ p.t_flow }}"/><label>L/s</label>
+        <input type="text" id="t_flow" name="t_flow" style="width:100px" value="{{ p.t_flow }}" onchange="totalFlow()"/>
+        <label>L/s</label>
         <input type='button' class="btn-primary" value='保存' onclick="save1()"/>
         <!--输入，参数t_flow-->
         <h3>b.消防转输系统供水泵扬程</h3>
@@ -41,6 +42,16 @@
 {% block extrajs %}
     {{ block.super }}
     <script>
+        function totalFlow() {
+            var flow=document.getElementById('t_flow');
+            var v = flow.value
+            if(table22.setValue != undefined){
+                let rows = table22.rows.length
+                for(let i=1;i<rows;i++){
+                    table22.setValue('B'+i,v);
+                }
+            }
+        }
         //提交保存
         function save1() {
             var csrf = $("input[name='csrfmiddlewaretoken']").val()
