@@ -160,6 +160,18 @@
                             table4.setValue('D1',value);
                         }
                     }
+                    {% elif table.id == 4 %}
+                    var changed{{ table.id }} = function(instance, cell, x, y, value) {
+                        if(x==8 && table5.setValue != undefined){
+                            table5.setValue('D1',value);
+                        }
+                        if((x==6 || x==8) && table6.setValue != undefined ){
+                            var p1=ROUND(table4.getValue('I1',true)*1.2,2);
+                            var p2=ROUND(table4.getValue('G1',true),2);
+                            var p=p1+p2;
+                            table6.setValue('H1',p);
+                        }
+                    }
                     {% elif table.id == 8 %}
                     var changed{{ table.id }} = function(instance, cell, x, y, value) {
                         let rows = table{{ table.id }}.rows.length
@@ -172,6 +184,12 @@
                         let rows = table{{ table.id }}.rows.length
                         if(x==9 && y==rows-1 && table11.setValue != undefined){
                             table11.setValue('D1',value);
+                        }
+                    }
+                    {% elif table.id == 11 %}
+                    var changed{{ table.id }} = function(instance, cell, x, y, value) {
+                        if(x==8  && table12.setValue != undefined){
+                            table12.setValue('D1',value);
                         }
                     }
                     {% elif table.id == 16 %}
@@ -249,7 +267,7 @@
                 nestedHeaders: {{ table.nested_header|safe }},
                 wordWrap: true,
                 allowComments: true,
-            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 8 or table.id == 10 or table.id == 16 or table.id == 22 or table.id == 25 or table.id == 37 or table.id == 38 or table.id == 39 or table.id == 41%}
+            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 4 or table.id == 8 or table.id == 10 or table.id == 11 or table.id == 16 or table.id == 22  or table.id == 37 or table.id == 38 or table.id == 39 or table.id == 41%}
                 onchange:changed{{ table.id }},
             {% endif %}
                 onbeforechange: beforeChange{{ table.id }},
