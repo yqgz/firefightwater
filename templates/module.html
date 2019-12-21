@@ -421,6 +421,19 @@
                 }
             });
 
+            // 添加联动下拉列表
+            {% if table.id == 36 %}
+                dropdownFilter = function(instance, cell, c, r, source) {
+                    var text = instance.jexcel.records[r][c-1].innerText;
+                    for(i = 0; i<source.length; i++) {
+                        if (source[i]['group'] != text) {
+                            delete source[i]
+                        }
+                    }
+                    return source;
+                }
+                table36.options.columns[8]["filter"] = dropdownFilter
+            {% endif %}
             //在合计行上方添加空行，只有一个合计行时减2
             function addrow{{ table.id }}() {
                 var com = {{ table.com|safe }} //提示字段
@@ -592,8 +605,8 @@
 
             {% endif %}
         {% endfor %}
-        window.onbeforeunload = function(event) {
-            event.returnValue = "有数据未保存";
-        };
+{#        window.onbeforeunload = function(event) {#}
+{#            event.returnValue = "有数据未保存";#}
+{#        };#}
     </script>
 {% endblock %}
