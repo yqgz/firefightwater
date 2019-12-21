@@ -38,9 +38,9 @@ def getValue(fo, p):
     return fo
 
 
+# 获取当前用户的所有项目列表
 @login_required(redirect_field_name='', login_url='/login/')
 def project(request):
-    # 获取当前用户的所有项目列表
     q = None
     if 'q' in request.GET:
         q = request.GET['q']
@@ -54,6 +54,7 @@ def project(request):
     return render(request, 'project.html', context)
 
 
+# 新增项目
 @login_required(redirect_field_name='', login_url='/login/')
 def project_add(request):
     context = {}
@@ -116,6 +117,7 @@ def project_add(request):
         return render(request, 'project_add.html', context)
 
 
+# 项目概述页面
 @login_required(redirect_field_name='', login_url='/login/')
 def introduction(request, pk):
     context = {}
@@ -138,6 +140,7 @@ def introduction(request, pk):
         return render(request, 'introduction.html', context)
 
 
+# 项目编辑页面
 @login_required(redirect_field_name='', login_url='/login/')
 def introduction_edit(request, pk):
     context = {}
@@ -222,7 +225,7 @@ def introduction_edit(request, pk):
         return render(request, 'introduction_edit.html', context)
 
 
-# 模块
+# 项目模块对应的表展示
 @login_required(redirect_field_name='', login_url='/login/')
 def module(request, pk, md):
     module_list = Module.objects.all()
@@ -372,7 +375,7 @@ def module(request, pk, md):
     return render(request, cur[0].module_en_name + '.html', context)
 
 
-# 表格
+# 项目表格保存
 @login_required(redirect_field_name='', login_url='/login/')
 def excel(request, pk):
     pt = ProjectTable.objects.filter(id=pk)
@@ -422,7 +425,7 @@ def getVal(val):
     return value
 
 
-# 存储project属性 gaigai
+# 存储project属性
 def project_set(table, data, p):
     if table.id == 1:
         col = capital2Num('D')
@@ -504,6 +507,7 @@ def project_set(table, data, p):
     p.save()
 
 
+# 项目消防转输系统供水泵流量保存
 @login_required(redirect_field_name='', login_url='/login/')
 def project_save(request, pk):
         context = {}

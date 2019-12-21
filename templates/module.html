@@ -189,6 +189,7 @@
                         if(x==9 && y==rows-1 && table9.setValue != undefined){
                             table9.setValue('C1',value);
                         }
+
                     }
                     {% elif table.id == 10 %}
                     var changed{{ table.id }} = function(instance, cell, x, y, value) {
@@ -349,7 +350,8 @@
                         if (title!=undefined && title[0] != undefined) {
                             var desc = title[0].innerText;
                             var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
-                            table{{ table.id }}.updateCell(parseInt(x)+1,y,val);
+                            var cellStr = jexcel.getColumnName(parseInt(x)+1) + y;
+                            table{{ table.id }}.setValue(cellStr,val);
                         }
                 }
             {% endif %}
