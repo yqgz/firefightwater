@@ -282,6 +282,7 @@
                     }
                     {% elif table.id == 36 %}
                     {#“灭火器配置表-最小需配灭火级别”从“灭火级别配置表”获得#}
+                    sourcey = null
                     var changed{{ table.id }} = function(instance, cell, x, y, value) {
                         if(x==0){
                             var arr = table35.getColumnData(0)
@@ -293,6 +294,21 @@
                                     table36.setValue('E'+ rnum,flow);
                                 }
                             }
+                        }
+                        if (x==7){// 下拉列表联动筛选操作
+                            if (sourcey == null) {
+                                sourcey=table36.options.columns[8].source
+                            }
+                            source = sourcey.concat()
+                            var text = cell.innerText;
+                            for(i = source.length - 1; i >=0; i--) {
+                                if (source[i]['group'] != text) {
+                                    source.splice(i,1)
+                                }
+                            }
+                            table36.options.columns[8].source = source
+                            var columnName = jexcel.getColumnNameFromId([parseInt(x) + 1, y]);
+                            instance.jexcel.setValue(columnName, '');
                         }
                     }
                     {% elif table.id == 37 %}
@@ -350,7 +366,7 @@
                         if (title!=undefined && title[0] != undefined) {
                             var desc = title[0].innerText;
                             var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
-                            var cellStr = jexcel.getColumnName(parseInt(x)+1) + y;
+                            var cellStr = jexcel.getColumnNameFromId([parseInt(x)+1, y]);
                             table{{ table.id }}.setValue(cellStr,val);
                         }
                 }
@@ -362,6 +378,7 @@
                 nestedHeaders: {{ table.nested_header|safe }},
                 wordWrap: true,
                 allowComments: true,
+                allowManualInsertRow:false,// 禁用回车
             {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 4 or table.id == 6 or table.id == 8 or table.id == 10 or table.id == 11 or table.id == 13 or table.id == 16 or table.id == 17 or table.id == 19 or table.id == 22 or table.id == 23 or table.id == 35 or table.id == 36 or table.id == 37 or table.id == 38 or table.id == 39 or table.id == 41%}
                 onchange:changed{{ table.id }},
             {% endif %}
@@ -422,20 +439,6 @@
                     }
                 }
             });
-
-            // 添加联动下拉列表
-            {% if table.id == 36 %}
-                dropdownFilter = function(instance, cell, c, r, source) {
-                    var text = instance.jexcel.records[r][c-1].innerText;
-                    for(i = 0; i<source.length; i++) {
-                        if (source[i]['group'] != text) {
-                            delete source[i]
-                        }
-                    }
-                    return source;
-                }
-                table36.options.columns[8]["filter"] = dropdownFilter
-            {% endif %}
             //在合计行上方添加空行，只有一个合计行时减2
             function addrow{{ table.id }}() {
                 var com = {{ table.com|safe }} //提示字段
