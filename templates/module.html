@@ -390,14 +390,14 @@
                     var items = [];
                     if (y != null) {
                         // Insert new row
-                        if (obj.options.allowInsertRow == true) {
-                            items.push({
-                                title: obj.options.text.insertANewRowAfter,
-                                onclick: function () {
-                                    obj.insertRow(1, parseInt(y));
-                                }
-                            });
-                        }
+                        {#if (obj.options.allowInsertRow == true) {#}
+                        {#    items.push({#}
+                        {#        title: obj.options.text.insertANewRowAfter,#}
+                        {#        onclick: function () {#}
+                        {#            obj.insertRow(1, parseInt(y));#}
+                        {#        }#}
+                        {#    });#}
+                        {#}#}
                         if (obj.options.allowDeleteRow == true) {
                             items.push({
                                 title: obj.options.text.deleteSelectedRows,
