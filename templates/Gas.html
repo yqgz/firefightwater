@@ -53,12 +53,14 @@
             <input type='button' class="btn-primary" value='保存' onclick="submit{{ tables.5.id }}()"/>
         </div>
 
-        <h2>5.自定义系统</h2>
-        <!--输入文本字段-->
-        <div id="table{{ tables.6.id }}"></div>
-        <div>
-            <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.6.id }}()"/>
-            <input type='button' class="btn-primary" value='保存' onclick="submit{{ tables.6.id }}()"/>
+        <div style="display: none">
+            <h2>5.自定义系统</h2>
+            <!--输入文本字段-->
+            <div id="table{{ tables.6.id }}"></div>
+            <div>
+                <input type='button' class="btn-primary" value='新增' onclick="addrow{{ tables.6.id }}()"/>
+                <input type='button' class="btn-primary" value='保存' onclick="submit{{ tables.6.id }}()"/>
+            </div>
         </div>
         {% csrf_token %}
 
