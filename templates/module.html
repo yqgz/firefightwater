@@ -112,6 +112,104 @@
                     }
                     return true
                 }
+                {#用名称字段匹配，给派生表赋字段值#}
+                var changed{{ table.id }} = function(instance, cell, x, y, value) {
+                    if(x == 2 || x == 3 || x==5 || x==6){
+                        let r1 = parseInt(y)+1
+                        let type = table29.getValue('A'+ r1,true);
+                        if(type == "七氟丙烷气体灭火系统"){
+                            if(table30.getColumnData != undefined || table34.getColumnData != undefined){
+                                var arr1 = table30.getColumnData(0)
+                                var arr2 = table34.getColumnData(0)
+                                let name = table29.getValue('B'+ r1,true);
+                                {#七氟丙烷气体灭火系统计算表#}
+                                for(let i=0;i<arr1.length;i++){
+                                    if(arr1[i]==name){
+                                        let rnum = parseInt(i)+1
+                                        if(x==2){
+                                            let consistence = table29.getValue('C'+ r1,true);
+                                            table30.setValue('G'+ rnum,consistence);
+                                        }
+                                        else if(x==3){
+                                            let time = table29.getValue('D'+ r1,true);
+                                            table30.setValue('I'+ rnum,time);
+                                        }
+                                    }
+                                }
+                                {#七氟丙烷气体灭火钢瓶选型表#}
+                                for(let i=0;i<arr2.length;i++){
+                                    if(arr2[i]==name){
+                                        let rnum = parseInt(i)+1
+                                        if(x==2){
+                                            let consistence = table29.getValue('C'+ r1,true);
+                                            table34.setValue('D'+ rnum,consistence);
+                                        }
+                                        else if(x==5){
+                                            let plevel = table29.getValue('F'+ r1,true);
+                                            table34.setValue('E'+ rnum,plevel);
+                                        }
+                                        else if(x==6){
+                                            let weight = table29.getValue('G'+ r1,true);
+                                            table34.setValue('G'+ rnum,weight);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if(type == "IG541混合气体灭火系统"){
+                            if(table31.getColumnData != undefined || table32.getColumnData != undefined){
+                                var arr1 = table31.getColumnData(0)
+                                var arr2 = table32.getColumnData(0)
+                                let name = table29.getValue('B'+ r1,true);
+                                {#IG541混合气体灭火系统计算表#}
+                                for(let i=0;i<arr1.length;i++){
+                                    if(arr1[i]==name){
+                                        let rnum = parseInt(i)+1
+                                        if(x==2){
+                                            let consistence = table29.getValue('C'+ r1,true);
+                                            table31.setValue('G'+ rnum,consistence);
+                                        }
+                                        else if(x==3){
+                                            let time = table29.getValue('D'+ r1,true);
+                                            table31.setValue('I'+ rnum,time);
+                                        }
+                                    }
+                                }
+                                {#IG541混合气体灭火钢瓶选型表#}
+                                for(let i=0;i<arr2.length;i++){
+                                    if(arr2[i]==name){
+                                        let rnum = parseInt(i)+1
+                                        if(x==2){
+                                            let consistence = table29.getValue('C'+ r1,true);
+                                            table32.setValue('C'+ rnum,consistence);
+                                        }
+                                        else if(x==5){
+                                            let plevel = table29.getValue('F'+ r1,true);
+                                            table32.setValue('D'+ rnum,plevel);
+                                        }
+                                        else if(x==6){
+                                            let weight = table29.getValue('G'+ r1,true);
+                                            table32.setValue('F'+ rnum,weight);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if(type == "热气溶胶预制灭火系统"){
+                            if(table33.getColumnData != undefined){
+                                var arr = table33.getColumnData(0)
+                                let name = table29.getValue('B'+ r1,true);
+                                for(let i=0;i<arr.length;i++){
+                                    if(arr[i]==name){
+                                        let consistence = table29.getValue('C'+ r1,true);
+                                        let rnum = parseInt(i)+1
+                                        table33.setValue('D'+ rnum,consistence);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             {% else %}
                 {% if table.id == 3 %}
                 var changed{{ table.id }} = function(instance, cell, x, y, value) {
@@ -301,6 +399,23 @@
                         }
                     }
                 }
+                {% elif table.id == 31 %}
+                var changed{{ table.id }} = function(instance, cell, x, y, value) {
+                    {#用名称字段匹配值：“IG541气体灭火系统计算-灭火设计用量或惰化设计用量”的值给“IG541混合气体灭火钢瓶选型表”#}
+                    if(x==7){
+                        let r1 = parseInt(y)+1
+                        if(table32.getColumnData != undefined){
+                            var arr = table32.getColumnData(0)
+                            let name = table31.getValue('A'+ r1,true);
+                            for(let i=0;i<arr.length;i++){
+                                if(arr[i]==name){
+                                    let rnum = parseInt(i)+1
+                                    table32.setValue('B'+ rnum,value);
+                                }
+                            }
+                        }
+                    }
+                }
                 {% elif table.id == 34 %}
                 var changed{{ table.id }} = function(instance, cell, x, y, value) {
                     let fc
@@ -317,6 +432,7 @@
                             }
                         }
                     }
+{#                    用名称字段匹配值：“钢瓶选型表-实际浓度”#}
                     if(x==8){
                         let r = parseInt(y)+1
                         let fa = table34.getValue('I'+ r,true);//T
@@ -443,7 +559,7 @@
                 wordWrap: true,
                 allowComments: true,
                 allowManualInsertRow:false,// 禁用回车创建行
-            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 4 or table.id == 6 or table.id == 8 or table.id == 10 or table.id == 11 or table.id == 13 or table.id == 16 or table.id == 17 or table.id == 19 or table.id == 22 or table.id == 23 or table.id == 30 or table.id == 34 or table.id == 35 or table.id == 36 or table.id == 37 or table.id == 38 or table.id == 39 or table.id == 41%}
+            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 4 or table.id == 6 or table.id == 8 or table.id == 10 or table.id == 11 or table.id == 13 or table.id == 16 or table.id == 17 or table.id == 19 or table.id == 22 or table.id == 23 or table.id == 29 or table.id == 30 or table.id == 31 or table.id == 34 or table.id == 35 or table.id == 36 or table.id == 37 or table.id == 38 or table.id == 39 or table.id == 41%}
                 onchange:changed{{ table.id }},
             {% endif %}
                 onbeforechange: beforeChange{{ table.id }},
