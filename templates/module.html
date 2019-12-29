@@ -214,8 +214,7 @@
                         }
                     }
                 }
-            {% else %}
-                {% if table.id == 3 %}
+            {% else if table.id == 3%}
                 var changed{{ table.id }} = function(instance, cell, x, y, value) {
                     let rows = table{{ table.id }}.rows.length
                     if(x==9 && y==rows-1 && table4.setValue != undefined){
@@ -283,6 +282,61 @@
                         var p = p1-p2+5;
                         p = ROUND(p,2)
                         table14.setValue('D1',p);
+                    }
+                }
+                {% elif table.id == 15 || table.id == 21 %}
+                {#室内灭火系统“减压孔板计算计算-栓口动压、栓口静压”计算#}
+                var changed{{ table.id }} = function(instance, cell, x, y, value) {
+                    {#栓口动压#}
+                    r= parseInt(y)+1
+                    var zone
+                    if(x==1){
+                        zone = table{{ table.id }}.getValue('B'+r)
+                        if(zone == true){
+                            let h2 = table{{ table.id }}.getValue('E'+r,true)
+                            let h3 = table{{ table.id }}.getValue('H'+r,true)
+                            let dynamic = ROUND(h2 - h3,2)
+                            table{{ table.id }}.setValue('J'+r,dynamic);
+                            {#减压阀分区的栓口动压和栓口静压的值相等#}
+                            table{{ table.id }}.setValue('K'+r,dynamic);
+                        }
+                        else if(zone == false){
+                            {#栓口动压#}
+                            let h0 = table{{ table.id }}.getValue('C'+r,true)
+                            let h3 = table{{ table.id }}.getValue('H'+r,true)
+                            let h4 = table{{ table.id }}.getValue('I'+r,true)
+                            let dynamic = ROUND(h0 - h3 - h4,2)
+                            table{{ table.id }}.setValue('J'+r,dynamic);
+                            {#栓口静压#}
+                            let h1 = table{{ table.id }}.getValue('D'+r,true)
+                            let height = table{{ table.id }}.getValue('G'+r,true)
+                            let static = ROUND(h1 - height,2)
+                            table{{ table.id }}.setValue('K'+r,static);
+                        }
+                    }
+                    if(x==2 || x==3 || x==4 || x==6 || x==7 || x==8) {
+                        zone = table{{ table.id }}.getValue('B'+r)
+                        if(zone == false){
+                            {#栓口动压#}
+                            let h0 = table{{ table.id }}.getValue('C'+r,true)
+                            let h3 = table{{ table.id }}.getValue('H'+r,true)
+                            let h4 = table{{ table.id }}.getValue('I'+r,true)
+                            let dynamic = ROUND(h0 - h3 - h4,2)
+                            table{{ table.id }}.setValue('J'+r,dynamic);
+                            {#栓口静压#}
+                            let h1 = table{{ table.id }}.getValue('D'+r,true)
+                            let height = table{{ table.id }}.getValue('G'+r,true)
+                            let static = ROUND(h1 - height,2)
+                            table{{ table.id }}.setValue('K'+r,static);
+                        }
+                        else if(zone == true){
+                            let h2 = table{{ table.id }}.getValue('E'+r,true)
+                            let h3 = table{{ table.id }}.getValue('H'+r,true)
+                            let dynamic = ROUND(h2 - h3,2)
+                            table{{ table.id }}.setValue('J'+r,dynamic);
+                            {#减压阀分区的栓口动压和栓口静压的值相等#}
+                            table{{ table.id }}.setValue('K'+r,dynamic);
+                        }
                     }
                 }
                 {% elif table.id == 16 %}
@@ -563,7 +617,7 @@
                 wordWrap: true,
                 allowComments: true,
                 allowManualInsertRow:false,// 禁用回车创建行
-            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 4 or table.id == 6 or table.id == 8 or table.id == 10 or table.id == 11 or table.id == 13 or table.id == 16 or table.id == 17 or table.id == 19 or table.id == 22 or table.id == 23 or table.id == 29 or table.id == 30 or table.id == 31 or table.id == 34 or table.id == 35 or table.id == 36 or table.id == 37 or table.id == 38 or table.id == 39 or table.id == 41%}
+            {% if table.id == 25 or table.id == 26 or table.id == 3 or table.id == 4 or table.id == 6 or table.id == 8 or table.id == 10 or table.id == 11 or table.id == 13 or table.id == 15 or table.id == 16 or table.id == 17 or table.id == 19 or table.id == 21 or table.id == 22 or table.id == 23 or table.id == 29 or table.id == 30 or table.id == 31 or table.id == 34 or table.id == 35 or table.id == 36 or table.id == 37 or table.id == 38 or table.id == 39 or table.id == 41%}
                 onchange:changed{{ table.id }},
             {% endif %}
                 onbeforechange: beforeChange{{ table.id }},
