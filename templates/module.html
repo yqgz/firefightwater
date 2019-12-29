@@ -613,13 +613,16 @@
                     if (y == h && tal.length > 0) {
                         cell.classList.remove('dropdown');
                         if(cell.children.length==1)
-                            var $child = $(cell).find("input");
-                            if($child!=undefined)
-                                $child.remove();
+                            var child = $(cell).find("input");
+                            if(child!=undefined && (source == '合计' || source == '最大值'))
+                                child.remove();
+                            var checkbox = $(cell).find("input:checkbox")
+                            if (checkbox!=undefined)
+                                checkbox.attr("onclick", "return false");
                         if (source == '合计' || source == '最大值') {
                             cell.innerHTML = source
-                            cell.classList.add('readonly');
                         }
+                        cell.classList.add('readonly');
                     }
                 }
             });

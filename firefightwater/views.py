@@ -574,3 +574,7 @@ def model_test(request):
     objg = Project.objects.get(id=1)
     print(objg)
     return render(request, 'Sprinkle_test.html')
+
+
+def module1(request):
+    return render(request, 'module1.html')

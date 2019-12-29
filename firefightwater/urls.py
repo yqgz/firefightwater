@@ -34,5 +34,6 @@ urlpatterns = [
     path('gas_test/', views.gas_test, name='gas_test'),
     path('sprinkle_test/', views.sprinkle_test, name='sprinkle_test'),
     path('model_test/', views.model_test, name='model_test'),
+    path('module1/', views.module1, name='module1'),
     path('column_dropdown/get_column/<int:id>', views.get_column, name='get_column'),
 ]

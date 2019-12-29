@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消防系统用水量-消防系统计算平台</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/demo.css">
+    <link rel="stylesheet" href="/static/css/messenger.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/messenger-theme-block.css" type="text/css">
+    <script src="/static/js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="/static/js/popper.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/messenger.js"></script>
+
+
+    <link rel="stylesheet" href="/static/css/jsuites.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/jexcel.css" type="text/css">
+    <script src="/static/js/jexcel.js"></script>
+    <script src="/static/js/jsuites.js"></script>
+
+
+</head>
+<body>
+<div class="jq22-container">
+
+    <nav class="headertitle">
+    <h1 class="navbar-header">消防系统计算平台 </h1>
+    <div class="container-fluid">
+        <div class="nav-item dropdown">
+            <a data-toggle="dropdown" data-target="#" role="button">
+                <div class="username">admin<span class="caret"></span></div>
+            </a>
+            <div class="dropdown-menu" role="menu">
+                <a class="dropdown-item" href="/logout/" role="menuitem">退出</a>
+            </div>
+        </div>
+    </div>
+</nav>
+    <header class="jq22-header">
+    <div class="jq22-demo center">
+        <a href="/">项目列表</a>
+
+        <a href="/introduction/12/">概况</a>
+
+
+
+                <a href="/module/12/1/" class="current">消防系统用水量</a>
+
+                <a href="/module/12/2/">消防水池及水箱容积</a>
+
+                <a href="/module/12/3/">室外消火栓系统</a>
+
+                <a href="/module/12/4/">室内消火栓系统</a>
+
+                <a href="/module/12/5/">自动喷水灭火系统</a>
+
+                <a href="/module/12/6/">消防转输系统</a>
+
+                <a href="/module/12/7/">水喷雾灭火系统</a>
+
+                <a href="/module/12/8/">气体灭火系统</a>
+
+                <a href="/module/12/9/">灭火器配置</a>
+
+                <a href="/module/12/10/">防护冷却系统</a>
+
+
+    </div>
+</header>
+
+
+
+    <div class="content-table">
+        <p>1.消防系统用水量</p>
+        <!--表2.1-->
+        <!--设计流量值参数m1.0.D，A列'室外消火栓系统'a_flow，'室内消火栓系统'i_flow，'自动喷水灭火系统'a_flow t1-->
+        <div id="table1" class="jexcel_container"></div>
+        <div>
+            <input type="button" class="btn-primary" value="新增" onclick="addrow1()">
+            <input type="button" class="btn-primary" value="保存" onclick="submit1()">
+        </div>
+        <input type="hidden" name="csrfmiddlewaretoken" value="OMTmsllr3QPbLJH24iOGFrxxsurzfobgJMNy4eFPyld1dYevXL2Q1K8LfxMFPaN0">
+    </div>
+
+
+
+
+
+
+    <div class="pager">
+
+
+            <a href="/module/12/2/"><button class="btn-primary">下一步</button></a>
+
+    </div>
+
+
+</div>
+
+
+
+    <script>
+        $._messengerDefaults = ({
+            extraClasses: 'messenger-fixed messenger-theme-air messenger-on-bottom messenger-on-left',
+            theme:'block'
+        })
+
+    </script>
+
+    <script>
+
+            //提交保存
+            function submit1() {
+                txt = JSON.stringify(table1.getDataAndFormula(false))
+                csrf = $("input[name='csrfmiddlewaretoken']").val()
+                $.post("/excel/829/", {
+                    data: txt,
+                    csrfmiddlewaretoken: csrf
+                }, function (result) {
+                    if (result.code == undefined) {
+                        window.location.href = '/login/'
+                    } else {
+                        $.globalMessenger().post({
+                            message: result.data,
+                            hideAfter: 6,
+                            type: result.msg,
+                            //showCloseButton: true
+                        });
+                    }
+                })
+            }
+
+
+
+
+                var beforeChange1 = function(instance, cell, x, y, value) {
+                    var pos=2
+                    if (1 == 38 || 1 == 16 || 1 == 26)
+                        pos=3
+                    if (x == pos && 1 != 1)
+                        var title = $(cell).find('.jdropdown-selected').find('.jdropdown-title');
+                        if (title!=undefined && title[0] != undefined) {
+                            var desc = title[0].innerText;
+                            var val = desc.substr(desc.lastIndexOf('计算内径') + 4);
+                            var cellStr = jexcel.getColumnNameFromId([parseInt(x)+1, y]);
+                            table1.setValue(cellStr,val);
+                        }
+                }
+
+
+            table1 = jexcel(document.getElementById('table' + 1), {
+                data: [['1', '1', '10', '1', '52', 'false', '=ROUND(D1*E1*3600/1000,2)', 'false', '=ROUND(G1*H1,2)', '1'], ['2', '1', '11', '2', '54', 'false', '=ROUND(D2*E2*3600/1000,2)', 'false', '=ROUND(G2*H2,2)', '2'], ['1', '2', '10', '2', '52', 'false', '=ROUND(D3*E3*3600/1000,2)', 'false', '=ROUND(G3*H3,2)', ''], ['5', '2', '13', '2', '56', 'false', '=ROUND(D4*E4*3600/1000,2)', 'false', '=ROUND(G4*H4,2)', ''], ['2', '1', '14', '2', '56', 'false', '=ROUND(D5*E5*3600/1000,2)', 'false', '=ROUND(G5*H5,2)', ''], ['合计', '', '', '', '=SUM(E1:E5)', 'false', '=SUM(G1:G5)', 'false', '=SUM(I1:I5)', '']],
+                columns: [{'type': 'dropdown', 'title': '系统名称', 'width': 200, 'source': [{'id': 1, 'name': '室外消火栓系统', 'group': '', 'title': ''}, {'id': 2, 'name': '室内消火栓系统', 'group': '', 'title': ''}, {'id': 3, 'name': '自动喷水灭火系统', 'group': '', 'title': ''}, {'id': 4, 'name': '水喷雾系统', 'group': '', 'title': ''}, {'id': 5, 'name': '大空间主动型智能灭火系统', 'group': '', 'title': ''}, {'id': 6, 'name': '雨淋系统', 'group': '', 'title': ''}, {'id': 7, 'name': '水幕系统', 'group': '', 'title': ''}, {'id': 8, 'name': '防护冷却系统', 'group': '', 'title': ''}, {'id': 9, 'name': '高压细水雾系统', 'group': '', 'title': ''}]}, {'type': 'Text', 'title': '建筑类别', 'width': 100}, {'type': 'dropdown', 'title': '最小设计流量(L/s)', 'width': 100, 'source': [{'id': 10, 'name': '15', 'group': '耐火一、二级 | 工业建筑', 'title': '厂房 | 甲、乙、丙 | 建筑体积V<=3000'}, {'id': 11, 'name': '20', 'group': '耐火一、二级 | 工业建筑', 'title': '厂房 | 甲、乙、丙 | 建筑体积3000<V<=5000'}, {'id': 12, 'name': '25', 'group': '耐火一、二级 | 工业建筑', 'title': '厂房 | 甲、乙、丙 | 建筑体积5000<V<=20000'}, {'id': 13, 'name': '30', 'group': '耐火一、二级 | 工业建筑', 'title': '厂房 | 甲、乙、丙 | 建筑体积20000<V<=50000'}, {'id': 14, 'name': '35', 'group': '耐火一、二级 | 工业建筑', 'title': '厂房 | 甲、乙 | 建筑体积V>50000'}, {'id': 15, 'name': '40', 'group': '耐火一、二级 | 工业建筑', 'title': '厂房 | 丙 | 建筑体积V>50000'}, {'id': 16, 'name': '15', 'group': '耐火一、二级 | 工业建筑', 'title': '厂房 | 丁、戊 | 建筑体积V<=50000'}, {'id': 17, 'name': '20', 'group': '耐火一、二级 | 工业建筑', 'title': '厂房 | 丁、戊 | 建筑体积V>50000'}, {'id': 18, 'name': '15', 'group': '耐火一、二级 | 工业建筑', 'title': '仓库 | 甲、乙、丙 | 建筑体积V<=3000'}, {'id': 19, 'name': '25', 'group': '耐火一、二级 | 工业建筑', 'title': '仓库 | 甲、乙、丙 | 建筑体积3000<V<=20000'}, {'id': 20, 'name': '35', 'group': '耐火一、二级 | 工业建筑', 'title': '仓库 | 丙 | 建筑体积20000<V<=50000'}, {'id': 21, 'name': '45', 'group': '耐火一、二级 | 工业建筑', 'title': '仓库 | 丙 | 建筑体积V>50000'}, {'id': 22, 'name': '15', 'group': '耐火一、二级 | 工业建筑', 'title': '仓库 | 丁、戊 | 建筑体积V<=50000'}, {'id': 23, 'name': '20', 'group': '耐火一、二级 | 工业建筑', 'title': '仓库 | 丁、戊 | 建筑体积V>50000'}, {'id': 24, 'name': '15', 'group': '耐火一、二级 | 民用建筑', 'title': '住宅'}, {'id': 25, 'name': '15', 'group': '耐火一、二级 | 民用建筑', 'title': '公共建筑 | 单层及多层 | 建筑体积V<=5000'}, {'id': 26, 'name': '25', 'group': '耐火一、二级 | 民用建筑', 'title': '公共建筑 | 单层及多层 | 建筑体积5000<V<=20000'}, {'id': 27, 'name': '30', 'group': '耐火一、二级 | 民用建筑', 'title': '公共建筑 | 单层及多层 | 建筑体积20000<V<=50000'}, {'id': 28, 'name': '40', 'group': '耐火一、二级 | 民用建筑', 'title': '公共建筑 | 单层及多层 | 建筑体积V>50000'}, {'id': 29, 'name': '25', 'group': '耐火一、二级 | 民用建筑', 'title': '公共建筑 | 高层 | 建筑体积 V<=20000'}, {'id': 30, 'name': '30', 'group': '耐火一、二级 | 民用建筑', 'title': '公共建筑 | 高层 | 建筑体积 20000<V<=50000'}, {'id': 31, 'name': '40', 'group': '耐火一、二级 | 民用建筑', 'title': '公共建筑 | 高层 | 建筑体积 V>50000'}, {'id': 32, 'name': '15', 'group': '耐火一、二级 | 地下建筑（包括地铁）、平战结合的人防工程', 'title': '建筑体积V<=5000'}, {'id': 33, 'name': '20', 'group': '耐火一、二级 | 地下建筑（包括地铁）、平战结合的人防工程', 'title': '建筑体积5000<V<=20000'}, {'id': 34, 'name': '25', 'group': '耐火一、二级 | 地下建筑（包括地铁）、平战结合的人防工程', 'title': '建筑体积20000<V<=50000'}, {'id': 35, 'name': '30', 'group': '耐火一、二级 | 地下建筑（包括地铁）、平战结合的人防工程', 'title': '建筑体积V>50000'}, {'id': 36, 'name': '15', 'group': '耐火三级 | 工业建筑', 'title': '乙、丙 | 建筑体积V<=1500'}, {'id': 37, 'name': '20', 'group': '耐火三级 | 工业建筑', 'title': '乙、丙 | 建筑体积1500<V<=3000'}, {'id': 38, 'name': '30', 'group': '耐火三级 | 工业建筑', 'title': '乙、丙 | 建筑体积3000<V<=5000'}, {'id': 39, 'name': '40', 'group': '耐火三级 | 工业建筑', 'title': '乙、丙 | 建筑体积5000<V<=20000'}, {'id': 40, 'name': '45', 'group': '耐火三级 | 工业建筑', 'title': '乙、丙 | 建筑体积20000<V<=50000'}, {'id': 41, 'name': '15', 'group': '耐火三级 | 工业建筑', 'title': '丁、戊 | 建筑体积V<=5000'}, {'id': 42, 'name': '20', 'group': '耐火三级 | 工业建筑', 'title': '丁、戊 | 建筑体积5000<V<=20000'}, {'id': 43, 'name': '25', 'group': '耐火三级 | 工业建筑', 'title': '丁、戊 | 建筑体积20000<V<=50000'}, {'id': 44, 'name': '35', 'group': '耐火三级 | 工业建筑', 'title': '丁、戊 | 建筑体积V>50000'}, {'id': 45, 'name': '15', 'group': '耐火三级 | 单层及多层民用建筑', 'title': '建筑体积1500<V<=3000'}, {'id': 46, 'name': '20', 'group': '耐火三级 | 单层及多层民用建筑', 'title': '建筑体积3000<V<=5000'}, {'id': 47, 'name': '25', 'group': '耐火三级 | 单层及多层民用建筑', 'title': '建筑体积5000<V<=20000'}, {'id': 48, 'name': '30', 'group': '耐火三级 | 单层及多层民用建筑', 'title': '建筑体积20000<V<=50000'}, {'id': 49, 'name': '15', 'group': '耐火四级 | 丁、戊类工业建筑，单层及多层民用建筑', 'title': '建筑体积V<=3000'}, {'id': 50, 'name': '20', 'group': '耐火四级 | 丁、戊类工业建筑，单层及多层民用建筑', 'title': '建筑体积3000<V<=5000'}, {'id': 51, 'name': '25', 'group': '耐火四级 | 丁、戊类工业建筑，单层及多层民用建筑', 'title': '建筑体积5000<V<=20000'}]}, {'type': 'Text', 'title': '设计流量(L/s)', 'width': 100}, {'type': 'dropdown', 'title': '灭火持续时间(h)', 'width': 100, 'source': [{'id': 52, 'name': '3.0', 'group': '建筑物 | 工业建筑', 'title': '仓库 | 甲、乙、丙类仓库'}, {'id': 53, 'name': '2.0', 'group': '建筑物 | 工业建筑', 'title': '仓库 | 丁、戊类仓库'}, {'id': 54, 'name': '3.0', 'group': '建筑物 | 工业建筑', 'title': '厂房 | 甲、乙、丙类厂房'}, {'id': 55, 'name': '2.0', 'group': '建筑物 | 工业建筑', 'title': '厂房 | 丁、戊类厂房'}, {'id': 56, 'name': '3.0', 'group': '建筑物 | 民用建筑', 'title': '公共建筑 | 高层建筑中的商业楼、展览楼、综合楼，建筑高度大于50m的财贸金融楼、图书馆、书库、重要的档案楼、科研楼和高级宾馆等'}, {'id': 57, 'name': '2.0', 'group': '建筑物 | 民用建筑', 'title': '公共建筑 | 其他公共建筑'}, {'id': 58, 'name': '2.0', 'group': '建筑物 | 民用建筑', 'title': '住宅'}, {'id': 59, 'name': '1.0', 'group': '建筑物 | 人防工程', 'title': '建筑面积V<3000㎡'}, {'id': 60, 'name': '2.0', 'group': '建筑物 | 人防工程', 'title': '建筑面积V>=3000㎡'}, {'id': 61, 'name': '2.0', 'group': '建筑物 | 地下建筑、地铁车站', 'title': ''}, {'id': 62, 'name': '3.0', 'group': '构筑物 | 煤、天然气、石油及其产品的工艺设置', 'title': ''}, {'id': 63, 'name': '6.0', 'group': '构筑物 | 甲、乙、丙类可燃液体储罐', 'title': '直径大于20m的固定顶罐和直径大于20m浮盘用易熔材料制作的内浮顶罐'}, {'id': 64, 'name': '4.0', 'group': '构筑物 | 甲、乙、丙类可燃液体储罐', 'title': '其他储罐'}, {'id': 65, 'name': '4.0', 'group': '构筑物 | 甲、乙、丙类可燃液体储罐', 'title': '覆土油罐'}, {'id': 66, 'name': '6.0', 'group': '构筑物 | 液化烃储罐、沸点低于45℃甲类液体、液氨储罐', 'title': ''}, {'id': 67, 'name': '3.0', 'group': '构筑物 | 空分站，可燃液体、液化烃的火车和汽车装卸栈台', 'title': ''}, {'id': 68, 'name': '2.0', 'group': '构筑物 | 变电站', 'title': ''}, {'id': 69, 'name': '6.0', 'group': '构筑物 | 装卸油品码头', 'title': '甲、乙类可燃液体油品一级码头'}, {'id': 70, 'name': '4.0', 'group': '构筑物 | 装卸油品码头', 'title': '甲、乙类可燃液体油品二、三级码头'}, {'id': 71, 'name': '6.0', 'group': '构筑物 | 装卸油品码头', 'title': '海港油品码头'}, {'id': 72, 'name': '4.0', 'group': '构筑物 | 装卸油品码头', 'title': '河港油品码头'}, {'id': 73, 'name': '2.0', 'group': '构筑物 | 装卸油品码头', 'title': '码头装卸区'}, {'id': 74, 'name': '6.0', 'group': '构筑物 | 装卸液化石油气船码头', 'title': ''}, {'id': 75, 'name': '3.0', 'group': '构筑物 | 液化石油气加气站', 'title': '地上储气罐加气站'}, {'id': 76, 'name': '1.0', 'group': '构筑物 | 液化石油气加气站', 'title': '埋地储气罐加气站、加油和液化石油气加合建站'}, {'id': 77, 'name': '6.0', 'group': '构筑物 | 易燃、可燃材料露天、半露天堆场，可燃气体罐区', 'title': '粮食土圆囤、席穴囤'}, {'id': 78, 'name': '6.0', 'group': '构筑物 | 易燃、可燃材料露天、半露天堆场，可燃气体罐区', 'title': '棉、麻、毛、化纤百货'}, {'id': 79, 'name': '6.0', 'group': '构筑物 | 易燃、可燃材料露天、半露天堆场，可燃气体罐区', 'title': '稻草、麦秸、芦苇等'}, {'id': 80, 'name': '6.0', 'group': '构筑物 | 易燃、可燃材料露天、半露天堆场，可燃气体罐区', 'title': '木材等'}, {'id': 81, 'name': '3.0', 'group': '构筑物 | 易燃、可燃材料露天、半露天堆场，可燃气体罐区', 'title': '露天或半露天堆放煤和焦炭'}, {'id': 82, 'name': '3.0', 'group': '构筑物 | 易燃、可燃材料露天、半露天堆场，可燃气体罐区', 'title': '可燃气体储罐'}]}, {'type': 'checkbox', 'title': '是否计入一次灭火设计流量', 'width': 200}, {'type': 'text', 'title': '用水量(m³)', 'width': 190}, {'type': 'checkbox', 'title': '是否计入消防水池容积', 'width': 180}, {'type': 'text', 'title': '消防水池容积', 'width': 120}, {'type': 'text', 'title': '备注', 'width': 100}],
+                nestedHeaders: [[{'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'q(B)*t(B)*3600/1000', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}], [{'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'q(B)', 'colspan': 1}, {'title': 't(B)', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': 'V(B)', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}, {'title': '', 'colspan': 1}]],
+                wordWrap: true,
+                allowComments: true,
+                allowManualInsertRow:false,// 禁用回车创建行
+                mergeCells: {},
+                onbeforechange: beforeChange1,
+
+                contextMenu: function (obj, x, y, e) {
+                    var items = [];
+                    if (y != null) {
+                        // Insert new row
+                        if (obj.options.allowDeleteRow == true) {
+                            items.push({
+                                title: obj.options.text.deleteSelectedRows,
+                                onclick: function () {
+                                    tal = ['SUM', 'E', 'G', 'I']
+                                    if (tal.length > 0) {
+                                        len = 2
+                                    } else {
+                                        len = 1
+                                    }
+                                    if (table1.rows.length == len) {
+                                        addrow1()
+                                    }
+                                    obj.deleteRow(obj.getSelectedRows().length ? undefined : parseInt(y));
+                                }
+                            });
+                        }
+                    }
+                    return items;
+                },
+                text: {
+                    insertANewRowAfter: "插入一行",
+                    deleteSelectedRows: "删除选中行"
+                },
+                //设置合计行的readonly，删除dropdown和checkbox
+                updateTable: function(el, cell, x, y, source, value, id) {
+                    h = this.data.length - 1
+                    tal = ['SUM', 'E', 'G', 'I']  //合计字段
+                    if (y == h && tal.length > 0) {
+                        cell.classList.remove('dropdown');
+                        if(cell.children.length==1)
+                            var $child = $(cell).find("input");
+                            if($child!=undefined)
+                                $child.remove();
+                        if (source == '合计' || source == '最大值') {
+                            cell.innerHTML = source
+                        }
+                        cell.classList.add('readonly');
+                    }
+                }
+            });
+            //在合计行上方添加空行，只有一个合计行时减2
+            function addrow1() {
+                var com = [['J', '注明选择依据']] //提示字段
+                var fo = [['G', 'ROUND(D*E*3600/1000,2)'], ['I', 'ROUND(G*H,2)']] //公式字段
+                var tal = ['SUM', 'E', 'G', 'I']  //合计字段
+                var len = table1.rows.length
+                if (tal.length == 0) {//没有合计字段插入到最后
+                    table1.insertRow(1, len, true)
+                    len++
+                } else {
+                    table1.insertRow(1, len - 1, true)
+                }
+                if(1== 22 ){
+                    var flow=document.getElementById('t_flow');
+                    var v = flow.value
+                    if(table22.setValue != undefined){
+                        table22.setValue('B'+len,v);
+                    }
+                }
+                //添加提示信息
+                for (i = 0; i < com.length; i++) {
+                    table1.setComments(com[i][0] + String(len), com[i][1])
+                }
+
+                //添加公式
+                for (i = 0; i < fo.length; i++) {
+                    var id = fo[i][0] + String(len)
+                    var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + String(len)
+                                    }
+                                })
+                    table1.setValue(id, formula)
+                }
+
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table1.setValue(id, formula)
+                    }
+                }
+            }
+            //初始化表格，添加注释，添加公式，添加合计
+            function initRows1() {
+                var com = [['J', '注明选择依据']] //提示字段
+                var fo = [['G', 'ROUND(D*E*3600/1000,2)'], ['I', 'ROUND(G*H,2)']] //公式字段
+                var tal = ['SUM', 'E', 'G', 'I']  //合计字段
+                var len = table1.rows.length
+                if (tal.length > 0) {//去掉最后一行
+                    len--;
+                }
+                if (len == 0) {
+                    table1.insertRow(1, len, true)
+                    len++
+                }
+                for (l = 1; l <= len; l++) {
+                    //添加注释
+                    for (i = 0; i < com.length; i++) {
+                        table1.setComments(com[i][0] + String(l), com[i][1])
+                    }
+                    //添加公式
+                    for (i = 0; i < fo.length; i++) {
+                        var id = fo[i][0] + String(l)
+                        var formula = '=' + fo[i][1].replace(/[A-Z]+/g, function (a) {
+                                    if (a.length > 1) {
+                                        return a
+                                    } else {
+                                        return a + String(l)
+                                    }
+                                })
+                        table1.setValue(id, formula)
+                    }
+                }
+                //更新合计公式
+                if (tal.length > 0) {
+                    for (i = 1; i < tal.length; i++) {
+                        formula = '=' + tal[0] + '('
+                        id = tal[i] + String(len + 1)
+                        formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
+                        table1.setValue(id, formula)
+                    }
+                }
+            }
+            initRows1();
+
+    </script>
+
+
+
+</body></html>
