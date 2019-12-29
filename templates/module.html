@@ -51,12 +51,16 @@
                     data: txt,
                     csrfmiddlewaretoken: csrf
                 }, function (result) {
-                    $.globalMessenger().post({
-                        message: result.data,
-                        hideAfter: 6,
-                        type: result.msg,
-                        //showCloseButton: true
-                    });
+                    if (result.code == undefined) {
+                        window.location.href = '/login/'
+                    } else {
+                        $.globalMessenger().post({
+                            message: result.data,
+                            hideAfter: 6,
+                            type: result.msg,
+                            //showCloseButton: true
+                        });
+                    }
                 })
             }
             {#气体系统 根据第一张表的内容自动填充后面的表#}
