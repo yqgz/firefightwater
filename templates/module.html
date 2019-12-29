@@ -214,7 +214,7 @@
                         }
                     }
                 }
-            {% else if table.id == 3%}
+            {% elif table.id == 3 %}
                 var changed{{ table.id }} = function(instance, cell, x, y, value) {
                     let rows = table{{ table.id }}.rows.length
                     if(x==9 && y==rows-1 && table4.setValue != undefined){
@@ -284,7 +284,7 @@
                         table14.setValue('D1',p);
                     }
                 }
-                {% elif table.id == 15 || table.id == 21 %}
+                {% elif table.id == 15 or table.id == 21 %}
                 {#室内灭火系统“减压孔板计算计算-栓口动压、栓口静压”计算#}
                 var changed{{ table.id }} = function(instance, cell, x, y, value) {
                     {#栓口动压#}
@@ -608,7 +608,6 @@
                             table{{ table.id }}.setValue(cellStr,val);
                         }
                 }
-            {% endif %}
 
             table{{ table.id }} = jexcel(document.getElementById('table' + {{ table.id }}), {
                 data: {{ table.data|safe }},
