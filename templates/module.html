@@ -722,7 +722,7 @@
                         formula = '=' + tal[0] + '('
                         id = tal[i] + String(len + 1)
                         formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
-                        table{{ table.id }}.setValue(id, formula)
+                        table{{ table.id }}.setValue(id, formula, true)
                     }
                 }
             }
@@ -763,7 +763,7 @@
                         formula = '=' + tal[0] + '('
                         id = tal[i] + String(len + 1)
                         formula += tal[i] + 1 + ':' + tal[i] + String(len) + ')'
-                        table{{ table.id }}.setValue(id, formula)
+                        table{{ table.id }}.setValue(id, formula, true)
                     }
                 }
             }
@@ -850,8 +850,8 @@
 
             {% endif %}
         {% endfor %}
-        window.onbeforeunload = function(event) {
-            event.returnValue = "有数据未保存";
-        };
+{#        window.onbeforeunload = function(event) {#}
+{#            event.returnValue = "有数据未保存";#}
+{#        };#}
     </script>
 {% endblock %}
