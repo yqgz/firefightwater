@@ -504,7 +504,11 @@
                                 let cf = table30.getValue('F'+ rnum,true);//G
                                 let bs = table30.getValue('E'+ rnum,true);//F
                                 fd = 100*fa*bs/(pv*cf+fa*bs);
-                                fd = ROUND(fd,2);
+                                if (isNaN(fd)) {
+                                    fd = ''
+                                } else {
+                                    fd = ROUND(fd,2);
+                                }
                                 table34.setValue('J'+ rnum,fd);
                             }
                         }
