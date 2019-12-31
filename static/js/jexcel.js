@@ -4416,10 +4416,15 @@ var jexcel = (function(el, options) {
         // Convert formula to javascript
         try {
             var res = eval(evalstring + expression.substr(1));
+            var r2 = res.toString();
+            //zxy修改，防止表格的公式单元格报“Error: #VALUE!”
+            var s = 'Error: #VALUE!'
+            if(r2.search(s) != -1)
+                res = ''
+            //end of zxy修改
         } catch (e) {
             var res = '#ERROR';
         }
-
         return res;
     }
 
