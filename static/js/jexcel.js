@@ -783,7 +783,7 @@ var jexcel = (function(el, options) {
                         dataset[py] = [];
                     }
                     if ((''+obj.options.data[j][i]).substr(0,1) == '=') {
-                        dataset[py][px] = [obj.executeFormula(obj.options.data[j][i],i,j),obj.options.data[j][i]];
+                        dataset[py][px] = [obj.records[j][i].innerText,obj.options.data[j][i]];
                     } else {
                         dataset[py][px] = obj.options.data[j][i];
                     }

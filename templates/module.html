@@ -45,6 +45,7 @@
         {% for table in tables %}
             //提交保存
             function submit{{ table.id }}() {
+                table{{ table.id }}.formula = []
                 txt = JSON.stringify(table{{ table.id }}.getDataAndFormula(false))
                 csrf = $("input[name='csrfmiddlewaretoken']").val()
                 $.post("{% url 'excel' table.pid %}", {
