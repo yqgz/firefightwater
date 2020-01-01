@@ -5,13 +5,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 from django.contrib.admin.forms import AdminAuthenticationForm
 from .forms import *
-from firefightwater.common.response import json_response, json_error
+from firefightwater.common.response import json_response, json_error, read_file
 from .helper import *
-from django.http import HttpResponse
+from django.http import HttpResponse, StreamingHttpResponse
 from django.db.models import Q
 import json
 from urllib import parse
 import re
+from docxtpl import DocxTemplate
+import os
 
 
 # 获取项目模块
@@ -519,7 +521,32 @@ def project_save(request, pk):
             p.save()
             return json_response(data='保存成功！')
 
+# 下载项目概述
+def download_report(request, pk):
+    p = Project.objects.get(id=pk, user=request.user)
+    if p:
+        try:
+            data = {
+                'template': p.project_name,
+            }
+        except Exception as e:
+            return json_error(e)
 
+        # 删除生成的报告
+        filepath = os.getcwd() + '/templates/project'
+        filename = '项目报告.docx' # 所生成的word文档需要以.docx结尾，文档格式需要
+        # delete_docx_file(filepath)       # 收到每个请求后，会将文件当中的非模板文件删除
+        template_path = filepath + '/project_tpl.docx'
+        template = DocxTemplate(template_path)
+        template.render(context=data)
+        template.save(os.path.join(filepath, filename))
+        response = StreamingHttpResponse(read_file(os.path.join(filepath, filename), 512))
+        response['Content-Type'] = 'application/msword'
+        response['Content-Disposition'] = 'attachment;filename="{}"'.format(filename)
+        # time.sleep(10)
+        return response
+    else:
+        return json_error('项目不存在')
 # 登录
 def login(request):
     if request.POST:

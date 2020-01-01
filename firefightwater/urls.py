@@ -27,6 +27,7 @@ urlpatterns = [
     path('introduction_edit/<int:pk>/', views.introduction_edit, name='introduction_edit'),
     path('module/<int:pk>/<int:md>/', views.module, name='module'),
     path('excel/<int:pk>/', views.excel, name='excel'),
+    path('download_report/<int:pk>/', views.download_report, name='download_report'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('nestedheader/', views.nestedheader, name='nestedheader'),
