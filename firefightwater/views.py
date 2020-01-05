@@ -12,7 +12,7 @@ from django.db.models import Q
 import json
 from urllib import parse
 import re
-from docxtpl import DocxTemplate
+from docxtpl import DocxTemplate, RichText
 import os
 
 
@@ -526,9 +526,47 @@ def download_report(request, pk):
     p = Project.objects.get(id=pk, user=request.user)
     if p:
         try:
+            select_module = getselectmodule(pk, request.user)
+            rt = RichText()
+            for module in select_module:
+                rt.add(module.module_name, style='标题 2')
+                rt.add('\n')
+                tables = ProjectTable.objects.filter(project=pk, module=module)
+                for table in tables:
+                    rt.add(table.table.table_name, style='标题 3')
+                    rt.add('\a')
+                    data = Value.objects.filter(project_table=table.id).values()
+                    columns = Column.objects.filter(table=table.table)
+                    line = 1
+                    if data:
+                        vals = []
+                        for val in data:  # 遍历数据
+                            if val['line'] != line:  # 换行
+                                rt.add('\a')
+                                line = val['line']
+                            # 生成单元格内容
+                            column = columns.filter(id=val['column_id'])[0]
+                            value = column.column_name
+                            if column.parameter is not None:
+                                value += '(' + column.parameter + ')'
+                            if column.formula is not None:
+                                value += '的计算公式为' + column.formula
+                            value += '的值为' + val['value'] + ','
+                            rt.add(value, style='标题 4')
             data = {
-                'template': p.project_name,
+                'project_name': p.project_name,
+                'project_num': p.project_num,
+                'project_text': p.project_text,
+                'designer': p.designer,
+                'proofreader': p.proofreader,
+                'chief': p.chief,
+                'approver': p.approver,
+                'version': p.version,
+                'select_module': select_module,
+                'rt': rt,
             }
+
+
         except Exception as e:
             return json_error(e)
 
@@ -541,7 +579,7 @@ def download_report(request, pk):
         template.render(context=data)
         template.save(os.path.join(filepath, filename))
         response = StreamingHttpResponse(read_file(os.path.join(filepath, filename), 512))
-        response['Content-Type'] = 'application/msword'
+        response['Content-Type'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
         response['Content-Disposition'] = 'attachment;filename="{}"'.format(filename)
         # time.sleep(10)
         return response
