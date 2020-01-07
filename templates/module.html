@@ -599,7 +599,7 @@
                     }
                 }
                 {% endif %}
-                {#用下拉列表值给下一字段赋值#}
+                {#用下拉列表值给后一字段赋值#}
                 var beforeChange{{ table.id }} = function(instance, cell, x, y, value) {
                     var pos=2
                     if ({{ table.id }} == 38 || {{ table.id }} == 16 || {{ table.id }} == 26)
@@ -679,7 +679,7 @@
                     return items;
                 },
                 text: {
-                    insertANewRowAfter: "插入一行",
+                    {#insertANewRowAfter: "插入一行",#}
                     deleteSelectedRows: "删除选中行"
                 },
                 //设置合计行的readonly，删除dropdown和checkbox
