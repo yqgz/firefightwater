@@ -521,6 +521,7 @@ def project_save(request, pk):
             p.save()
             return json_response(data='保存成功！')
 
+
 # 下载项目概述
 def download_report(request, pk):
     p = Project.objects.get(id=pk, user=request.user)
@@ -529,11 +530,11 @@ def download_report(request, pk):
             select_module = getselectmodule(pk, request.user)
             rt = RichText()
             for module in select_module:
-                rt.add(module.module_name, style='标题 2')
-                rt.add('\n')
+                rt.add(module.module_name, style='header1')
+                rt.add('\a')
                 tables = ProjectTable.objects.filter(project=pk, module=module)
                 for table in tables:
-                    rt.add(table.table.table_name, style='标题 3')
+                    rt.add(table.table.table_name, style='header2')
                     rt.add('\a')
                     data = Value.objects.filter(project_table=table.id).values()
                     columns = Column.objects.filter(table=table.table)
@@ -542,16 +543,26 @@ def download_report(request, pk):
                         vals = []
                         for val in data:  # 遍历数据
                             if val['line'] != line:  # 换行
-                                rt.add('\a')
+                                rt.add('。\a')
                                 line = val['line']
                             # 生成单元格内容
                             column = columns.filter(id=val['column_id'])[0]
                             value = column.column_name
                             if column.parameter is not None:
-                                value += '(' + column.parameter + ')'
-                            if column.formula is not None:
-                                value += '的计算公式为' + column.formula
-                            value += '的值为' + val['value'] + ','
+                                value += '(参数名：' + column.parameter + ')'
+                                if column.formula is not None:
+                                    #  有参数名，又有公式的情况
+                                    value += '的计算公式为：' + column.formula + '，'
+                                    value += '计算结果是' + val['value'] + '，'
+                                else:
+                                    value += '是' + val['value'] + '，'
+                            #  没有参数名，有公式的情况
+                            elif column.formula is not None:
+                                value += '的计算公式为：' + column.formula + '，'
+                                value += '计算结果是' + val['value'] + '，'
+                            else:
+                                #  没有参数名，没有公式的情况
+                                value += '是' + val['value'] + '，'
                             rt.add(value, style='标题 4')
             data = {
                 'project_name': p.project_name,
@@ -572,7 +583,7 @@ def download_report(request, pk):
 
         # 删除生成的报告
         filepath = os.getcwd() + '/templates/project'
-        filename = '项目报告.docx' # 所生成的word文档需要以.docx结尾，文档格式需要
+        filename = '项目报告.docx'  # 所生成的word文档需要以.docx结尾，文档格式需要
         # delete_docx_file(filepath)       # 收到每个请求后，会将文件当中的非模板文件删除
         template_path = filepath + '/project_tpl.docx'
         template = DocxTemplate(template_path)
