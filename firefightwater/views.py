@@ -564,6 +564,7 @@ def download_report(request, pk):
                                 #  没有参数名，没有公式的情况
                                 value += '是' + val['value'] + '，'
                             rt.add(value, style='标题 4')
+                        rt.add('\a')
             data = {
                 'project_name': p.project_name,
                 'project_num': p.project_num,
