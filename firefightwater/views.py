@@ -654,4 +654,4 @@ def model_test(request):
 
 
 def module1(request):
-    return render(request, 'module1.html')
+    return render(request, 'module.html')
