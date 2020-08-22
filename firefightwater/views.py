@@ -548,7 +548,7 @@ def download_report(request, pk):
                                 rt.add('。\a')
                                 line = val['line']
                             separater = '，'
-                            if (key + 1 < len(data) and data[key + 1]['line'] != line ):
+                            if (key + 1 < len(data) and data[key + 1]['line'] != line  or key + 1 == len(data)):
                                 separater = ''
                             # 生成单元格内容
                             column = columns.filter(id=val['column_id'])[0]
@@ -570,6 +570,7 @@ def download_report(request, pk):
                                 value += '是' + val['value'] + separater
                             rt.add(value, style='标题 4')
                         rt.add('\a')
+
             data = {
                 'project_name': p.project_name,
                 'project_num': p.project_num,
