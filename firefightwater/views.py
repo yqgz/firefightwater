@@ -529,22 +529,27 @@ def download_report(request, pk):
         try:
             select_module = getselectmodule(pk, request.user)
             rt = RichText()
+            modules = ''
             for module in select_module:
+                modules += module.module_name + '、'
                 rt.add(module.module_name, style='header1')
                 rt.add('\a')
                 tables = ProjectTable.objects.filter(project=pk, module=module)
                 for table in tables:
                     rt.add(table.table.table_name, style='header2')
                     rt.add('\a')
-                    data = Value.objects.filter(project_table=table.id).values()
+                    data = list(Value.objects.filter(project_table=table.id).values())
                     columns = Column.objects.filter(table=table.table)
                     line = 1
                     if data:
                         vals = []
-                        for val in data:  # 遍历数据
+                        for key,val in enumerate(data):  # 遍历数据
                             if val['line'] != line:  # 换行
                                 rt.add('。\a')
                                 line = val['line']
+                            separater = '，'
+                            if (key + 1 < len(data) and data[key + 1]['line'] != line ):
+                                separater = ''
                             # 生成单元格内容
                             column = columns.filter(id=val['column_id'])[0]
                             value = column.column_name
@@ -552,17 +557,17 @@ def download_report(request, pk):
                                 value += '(参数名：' + column.parameter + ')'
                                 if column.formula is not None:
                                     #  有参数名，又有公式的情况
-                                    value += '的计算公式为：' + column.formula + '，'
-                                    value += '计算结果是' + val['value'] + '，'
+                                    value += '的计算公式为：' + column.formula + separater
+                                    value += '计算结果是' + val['value'] + separater
                                 else:
-                                    value += '是' + val['value'] + '，'
+                                    value += '是' + val['value'] + separater
                             #  没有参数名，有公式的情况
                             elif column.formula is not None:
-                                value += '的计算公式为：' + column.formula + '，'
-                                value += '计算结果是' + val['value'] + '，'
+                                value += '的计算公式为：' + column.formula + separater
+                                value += '计算结果是' + val['value'] + separater
                             else:
                                 #  没有参数名，没有公式的情况
-                                value += '是' + val['value'] + '，'
+                                value += '是' + val['value'] + separater
                             rt.add(value, style='标题 4')
                         rt.add('\a')
             data = {
@@ -574,7 +579,7 @@ def download_report(request, pk):
                 'chief': p.chief,
                 'approver': p.approver,
                 'version': p.version,
-                'select_module': select_module,
+                'select_module': modules.strip('、'),
                 'rt': rt,
             }
 
