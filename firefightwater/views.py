@@ -548,8 +548,10 @@ def download_report(request, pk):
                                 rt.add('。\a')
                                 line = val['line']
                             separater = '，'
-                            if (key + 1 < len(data) and data[key + 1]['line'] != line  or key + 1 == len(data)):
+                            if (key + 1 < len(data) and data[key + 1]['line'] != line):
                                 separater = ''
+                            elif (key + 1 == len(data)):
+                                separater = '。'
                             # 生成单元格内容
                             column = columns.filter(id=val['column_id'])[0]
                             value = column.column_name
