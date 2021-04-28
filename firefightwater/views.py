@@ -139,7 +139,7 @@ def introduction(request, pk):
         context['select_module'] = getselectmodule(pk, request.user)
         context['module_list'] = module_list
         context['p'] = p
-        return render(request, 'introduction.html', context)
+        return render(request, 'Introduction.html', context)
 
 
 # 项目编辑页面
@@ -278,14 +278,7 @@ def module(request, pk, md):
         vals = []
         have_sum = Value.objects.filter(project_table=pt.id, value='合计')  # 防止重复插入合计行
         have_max = Value.objects.filter(project_table=pt.id, value='最大值')  # 防止重复插入最大值行
-        if table.total == '合计' and not have_sum:
-            for key, column in enumerate(columns):
-                if key == 0:
-                    vals.append(table.total)
-                else:
-                    vals.append('')
-            values.append(vals)
-        elif table.total == '最大值' and not have_max:
+        if table.total == '合计' and not have_sum or table.total == '最大值' and not have_max:
             for key, column in enumerate(columns):
                 if key == 0:
                     vals.append(table.total)
@@ -312,6 +305,7 @@ def module(request, pk, md):
         nested_header = []
         com = []  # 注释字段
         fo = []  # 展示公式
+        de = []  # 默认值
         f_cnt = 0  # 是否有公式的标志
         p_cnt = 0  # 是否有参数的标志
         for key, column in enumerate(columns):
@@ -327,13 +321,13 @@ def module(request, pk, md):
                         item.group = ''
                     if item.title is None:
                         item.title = ''
-                    source.append({'id': item.id, 'name': item.name, 'group': item.group, 'title': item.title})
+                    source.append({'id': item.name, 'name': item.name, 'group': item.group, 'title': item.title})
                 col['source'] = source
             c.append(col)
             if column.c_formula is not None:
                 fo.append([num2Capital(key), getValue(column.c_formula, p)])
             if column.c_formula is None and column.defaultv is not None:  # 添加默认值
-                fo.append([num2Capital(key), getValue(column.defaultv, p)])
+                de.append([num2Capital(key), getValue(column.defaultv, p)])
             if column.prompt is not None:
                 com.append([num2Capital(key), column.prompt])
             if column.formula is None:
@@ -355,6 +349,7 @@ def module(request, pk, md):
         table.nested_header = nested_header
         table.com = com
         table.fo = fo
+        table.de = de
         tables.append(table)
         select_module = getselectmodule(pk, request.user)
         pre_module = None
